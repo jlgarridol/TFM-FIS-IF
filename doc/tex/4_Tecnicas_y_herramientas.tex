@@ -1,0 +1,16 @@
+\capitulo{4}{Técnicas y herramientas}
+
+\section{Gestión de flujo}	
+
+Uno de los puntos más esenciales de este trabajo es recoger y dirigir los \textit{streams} de vídeo que se reciben. Por tanto, escoger una correcta aplicación para la gestión de este flujo de datos es esencial.
+
+Dentro de la suite de \textit{Apache} existen varios componentes que se encargan de la gestión del flujo de datos. Con el objetivo de que el sistema fuese lo más robusto, y siguiendo las recomendaciones del estado del arte (TODO citas de esto) se combinarían las herramientas siguiente.
+
+\subsection{\textit{Apache Flume}}
+\textit{Apache Flume} es una herramienta sencilla para la recopilación y agregación de datos distribuidos. El uso más habitual es la gestión de logs, recopilándolos y almacenandolos sobre \textit{HDFS}.
+
+\subsection{\textit{Apache Kafka}}
+Esta herramienta, además de las funcionalidades que aporta \textit{Flume} trabaja sobre el patrón publicación-suscripción funcionando como un sistema de transacciones distribuidas. Incorpora para la implementación de este patrón un sistema de colas para la distribución de mensajes.
+
+\subsection{\textit{Apache Spark Streaming}}
+\textit{Spark Streaming} es la extension sobre la API de \textit{Spark} para la creación de aplicaciones sobre flujos de datos. 
