@@ -4,6 +4,110 @@
 
 \section{Planificación temporal}
 
+La planificación temporal se ha realizado adaptando la metodología \textit{Scrum}. Para poder adaptarlo a un trabajo de una sola persona para un proyecto educativo se han han considerado las siguientes indicaciones:
+
+\begin{itemize}
+	\item El desarrollo se ha basado en iteraciones o \textit{sprints} de dos semana de duración aproximadamente.
+	\item Cada uno de los \textit{sprints} contiene las tareas que se realizaron en el mismo. 
+	\item Cada tarea tiene un coste estimado dependiendo de lo que el programador estime conveniente siguiendo los parámetros de tiempo a emplear, dificultad técnica entre otros.
+	\item Una vez concluida una tarea se especifica el coste real para poder estimar de una manera más correcta tareas de \textit{sprints} siguientes.
+	\item Al finalizar cada \textit{sprint} se realiza una reunión con los tutores del proyecto.
+\end{itemize}
+
+\subsection{Sprint 0}
+
+El \textit{sprint} 0 consistió en el desarrollo de la aplicación web para la recogida de datos para el proyecto. Es el único \textit{sprint} realizado en colaboración con el alumno José Miguel Ramírez Sanz. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\otoprule
+		Diseño de la interfaz web & 3 & 3 \\
+		Creación de la plantilla maestra de toda la web & 3 & 2 \\
+		Creación de la plantilla base para el menú del paciente & 5 & 5 \\
+		Implementación del menú del terapeuta & 2 & 2 \\
+		Creación de la conexión para videollamada - Terapeuta & 1 & 1 \\
+		Creación de la conexión para videollamada - Paciente & 1 & 1 \\
+		Implementación del sistema de inicio de sesión & 2 & 3 \\
+		Creación de \textit{plugin} para la captura y emisión del vídeo del paciente & 8 & 13 \\
+		Creación de la interfaz de gestión del paciente  & 2 & 2	\\	
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} 0}
+	\label{tab:sprint0}
+\end{table}
+
+\subsection{Sprint 1}
+
+El \textit{sprint} 1 consistió en la exploración de herramientas para la creación y procesado de flujos de vídeo. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\otoprule
+		Búsqueda de herramientas para la creación de flujos de datos & 2 & 2 \\
+		Pruebas sobre \textit{Apache Flume} & 5 & 3 \\
+		Pruebas sobre \textit{Apache Kafka} & 5 & 5 \\
+		Búsqueda de herramientas para el despliegue por contenedores & 2 & 2 \\
+		Prueba de despliegue de \textit{Apache Kafka} para \textit{Docker} & 2 & 2 \\
+		Búsqueda de herramientas para el procesado de flujos de vídeo & 2 & 2 \\
+		Pruebas con \textit{Spark Streaming} con \textit{OpenCV} & 5 & 13 \\
+		
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} 1}
+	\label{tab:sprint1}
+\end{table}
+
+\subsection{Sprint 2}
+
+El \textit{sprint} 2 consistió en la implementación de una infraestructura de contenedores \textit{Docker} que conectase todos los servicios para el flujo. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\otoprule
+		Despliegue de \textit{Apache Spark} para el nodo \textit{máster} & 2 & 2\\
+		Despliegue de \textit{Apache Spark} para varios nodos \textit{slave} & 2 & 1\\
+		Despliegue de aplicación \textit{Java} para probar \textit{Spark} & 3 & 8 \\
+		Conexión de la infraestructura de \textit{Kafka} con aplicación \textit{Java} & 5 & 3 \\
+		Recogida de \textit{stream} de vídeo e ingestión en \textit{Kafka} & 8 & 8\\
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} 2}
+	\label{tab:sprint2}
+\end{table}
+
+\subsection{Sprint 3}
+
+El \textit{sprint} 3 consistió en la automatización de los procesos del \textit{sprint} 2\footnote{Pendiente de realizar}. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\otoprule
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} 3}
+	\label{tab:sprint3}
+\end{table}
+
+
+\subsection{Sprint X}
+
+El \textit{sprint} X consistió en Y\footnote{Plantilla}. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} X}
+	\label{tab:sprintx}
+\end{table}
+
+
 \section{Estudio de viabilidad}
 
 \subsection{Viabilidad económica}

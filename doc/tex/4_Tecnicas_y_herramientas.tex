@@ -11,12 +11,13 @@ Dentro de la suite de \textit{Apache} existen varios componentes que se encargan
 	\item \textit{\textbf{Apache Spark Streaming}}~\cite{noauthorsparknodate} es la extension sobre la API de \textit{Spark} para la creación de aplicaciones sobre flujos de datos. Es un consumidor nativo de \textit{Kafka}, \textit{Flume}, los sistemas de ficheros \textit{HDFS} y \textit{S3} entre otras herramientas. El funcionamiento interno es a través de crear pequeños lotes de datos para pasarlo al motor de \textit{Spark} y retornar los lotes procesados.
 \end{itemize}
 
+También se ha contemplado el uso de \textit{\textbf{Apache Flume}}~\cite{noauthorapacheflume}, herramienta de gestión de flujo diseñada para hacer una gestión distribuida de manera fiable y altamente disponible de los datos. Proporciona un servicio eficiente para la recogida, agregación y almacenamiento de los datos. Sin embargo, aunque esta herramienta pudiese suplir las necesidades de una gestión de flujo se ha descartado debido a que está optimizado para la gestión de \textit{logs}, en detrimento de datos serializados como vídeos además de que no proporciona sistemas de colas.
 
 \section{Infraestructura de bajo nivel}
 
 Otro apartado importante en el despliegue de la aplicación son las herramientas y técnicas a ser usadas para la producción. Para esto se utilizan:
 
 \begin{itemize}
-	\item \textit{\textbf{GNU/Linux}}, el sistema operativo por excelencia en el entorno de los servidores~\cite{noauthorred2018, zhang2000linux}.
-	\item \textit{\textbf{Docker}}, un software de gestión de contenedores estandarizados, semejante a los entornos \textit{chroot} que facilita la virtualización de software en un entorno seguro y ligero. Sobre este motor se ejecutarán las aplicaciones del entorno de \textit{Apache}~\cite{juez2019docker}
+	\item \textit{\textbf{GNU/Linux}}, el sistema operativo más extendido en el entorno de los servidores~\cite{noauthorred2018, zhang2000linux} además de ser el disponible en los servidores prestados para la realización de este proyecto.
+	\item \textit{\textbf{Docker}}, un software de gestión de contenedores estandarizados, semejante a los entornos \textit{chroot} que facilita la virtualización de software en un entorno seguro y ligero. Sobre este motor se ejecutarán las aplicaciones del entorno de \textit{Apache Spark}~\cite{juez2019docker}, \textit{Apache Kafka}~\cite{wurstmeister2019kafka} además de la aplicación desarrollada para el cumplimiento de los objetivos.
 \end{itemize}
