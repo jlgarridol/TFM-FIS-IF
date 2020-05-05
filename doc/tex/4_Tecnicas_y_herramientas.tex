@@ -2,22 +2,38 @@
 
 \section{Gestión de flujo}	
 
-Uno de los puntos más esenciales de este trabajo es recoger y dirigir los \textit{streams} de vídeo que se reciben. Por tanto, escoger una correcta aplicación para la gestión de este flujo de datos es esencial.
+Uno de los puntos  esenciales de este trabajo es recoger y dirigir los \textit{streams} de vídeo que se reciben. Por tanto, escoger una correcta aplicación para la gestión de este flujo de datos es una parte muy importante dentro de las herramientas.
 
-Dentro de la suite de \textit{Apache} existen varios componentes que se encargan de la gestión del flujo de datos. Con el objetivo de que el sistema fuese lo más robusto, y siguiendo las recomendaciones del estado del arte (TODO citas de esto) se combinarían las herramientas siguiente.
+Dentro de la suite de \textit{Apache} existen varios componentes que se encargan de la gestión del flujos de datos. Se necesitan dos herramientas principales, una capaz de dirigir el flujo y otra para procesarlo.
 
-\begin{itemize}
-	\item \textit{\textbf{Apache Kafka}}~\cite{noauthorapachenodate} es un proyecto de intermediación de mensajes que trabaja sobre el patrón publicación-suscripción funcionando como un sistema de transacciones distribuidas. Incorpora para la implementación de este patrón un sistema de colas para la distribución de mensajes. Aporta una API para el productor, el consumidor, el flujo y el conector y la conexión se realiza a través del protocolo de la capa de transporte \textit{TCP}.  
-	\item \textit{\textbf{Apache Spark Streaming}}~\cite{noauthorsparknodate} es la extension sobre la API de \textit{Spark} para la creación de aplicaciones sobre flujos de datos. Es un consumidor nativo de \textit{Kafka}, \textit{Flume}, los sistemas de ficheros \textit{HDFS} y \textit{S3} entre otras herramientas. El funcionamiento interno es a través de crear pequeños lotes de datos para pasarlo al motor de \textit{Spark} y retornar los lotes procesados.
-\end{itemize}
+\subsection{Herramientas para dirigir el flujo}
+La primera herramienta necesaria debe ser capaz de dirigir flujos de datos, concretamente flujos de datos serializados para soportar datos más diversos como son las imágenes. También se necesita que sea capaz de desplegar diferentes colas para discriminar fácilmente a los distintos flujos de vídeo entrante.
 
-También se ha contemplado el uso de \textit{\textbf{Apache Flume}}~\cite{noauthorapacheflume}, herramienta de gestión de flujo diseñada para hacer una gestión distribuida de manera fiable y altamente disponible de los datos. Proporciona un servicio eficiente para la recogida, agregación y almacenamiento de los datos. Sin embargo, aunque esta herramienta pudiese suplir las necesidades de una gestión de flujo se ha descartado debido a que está optimizado para la gestión de \textit{logs}, en detrimento de datos serializados como vídeos además de que no proporciona sistemas de colas.
+En la suite de \textit{Apache} existen dos herramientas que gestionan flujos de datos, son \textit{\textbf{Apache Flume}}~\cite{noauthorapacheflume} y \textit{\textbf{Apache Kafka}}~\cite{noauthorapachenodate}.
+
+\textit{\textbf{Apache Flume}} es herramienta de gestión de flujo diseñada para hacer una gestión distribuida de manera fiable y altamente disponible de los datos. Proporciona un servicio eficiente para la recogida, agregación y almacenamiento de los datos. Sin embargo, aunque esta herramienta pudiese suplir las necesidades de una gestión de flujo se ha descartado debido a que está optimizado para la gestión de \textit{logs}, concretamente datos codificados como cadenas, y no tiene un sistema de colas.
+
+\textit{\textbf{Apache Kafka}} es un proyecto de intermediación de mensajes que trabaja sobre el patrón publicación-suscripción funcionando como un sistema de transacciones distribuidas. Incorpora para la implementación de este patrón un sistema de colas para la distribución de mensajes. Aporta una API para el productor, el consumidor, el flujo y el conector y la conexión se realiza a través del protocolo de la capa de transporte \textit{TCP}. Se va a utilizar esta herramienta al aportar un sistema de colas distribuidas fiable y soportar datos serializados.
+
+\subsection{Herramientas para procesar el flujo}
+En segundo lugar se necesita una herramienta capaz de procesar flujos de datos de forma escalable. La suite de \textit{Apache} tiene dos herramientas principales para el procesado de información, son \textit{\textbf{Apache Hadoop}} y \textit{\textbf{Apache Spark}}, ambas con extensiones para el procesado de flujos.
+
+\textit{\textbf{Apache Spark Streaming}}~\cite{noauthorsparknodate} aporta una \textit{API} de consumidor nativo de \textit{Kafka}, \textit{Flume}, los sistemas de ficheros \textit{HDFS} y \textit{S3} entre otras herramientas. El funcionamiento interno consiste en crear pequeños lotes de datos para pasarlo al motor de \textit{Spark} y retornar los lotes procesados.
+
+\textit{\textbf{Apache Hadoop Streaming}}~\cite{noauthorhadoop} tiene un funcionamiento similar a \textit{Spark Streaming} pero sin aportar de manera nativa una integración con \textit{Kafka} y \textit{Flume}.
+
+Se ha escogido \textit{Spark Streaming} frente a \textit{Hadoop Streaming} por varios motivos:
+\begin{enumerate}
+	\item \textit{Spark Streaming} tiene integración con \textit{Kafka} de manera nativa.
+	\item \textit{Spark Streaming} hace un uso más intensivo de la memoria RAM, por lo que es mucho más rápido si se cuenta con una gran cantidad de esta\footnote{El programa final se ha desplegado sobre una máquina con 128 GB de RAM y se ha probado en una de 32 GB de RAM con buenos resultados.}.
+\end{enumerate}
+
 
 \section{Infraestructura de bajo nivel}
 
 Otro apartado importante en el despliegue de la aplicación son las herramientas y técnicas a ser usadas para la producción. Para esto se utilizan:
 
 \begin{itemize}
-	\item \textit{\textbf{GNU/Linux}}, el sistema operativo más extendido en el entorno de los servidores~\cite{noauthorred2018, zhang2000linux} además de ser el disponible en los servidores prestados para la realización de este proyecto.
+	\item \textit{\textbf{GNU/Linux}}, el sistema operativo más extendido en el entorno de los servidores~\cite{noauthorred2018, zhang2000linux} además de estar disponible en los servidores prestados para la realización de este proyecto\footnote{Se utilizan el servidor \textit{Alpha} del GIR ADMIRABLE para el despliegue de la herramienta de recolección de datos (Procesador \textit{Intel Core i7}-8700, 6 núcleos, 3.2GHz. 64GB de memoria RAM. 2 GPUs GTX 1080Ti y 500GB de disco duro sólido y 6 TB de disco duro magnético) y el servidor \textit{Gamma} del mismo grupo para el despliegue de las colas y el procesado de la información (TODO Datos de gamma)}.
 	\item \textit{\textbf{Docker}}, un software de gestión de contenedores estandarizados, semejante a los entornos \textit{chroot} que facilita la virtualización de software en un entorno seguro y ligero. Sobre este motor se ejecutarán las aplicaciones del entorno de \textit{Apache Spark}~\cite{juez2019docker}, \textit{Apache Kafka}~\cite{wurstmeister2019kafka} además de la aplicación desarrollada para el cumplimiento de los objetivos.
 \end{itemize}
