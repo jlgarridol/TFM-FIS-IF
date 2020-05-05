@@ -61,7 +61,30 @@ El \textit{sprint} 1 consistió en la exploración de herramientas para la creac
 
 \subsection{Sprint 2}
 
-El \textit{sprint} 2 consistió en la implementación de una infraestructura de contenedores \textit{Docker} que conectase todos los servicios para el flujo. 
+El \textit{sprint} 2 consistió en la implementación de las conexiones entre todos los elementos del flujo a nivel local. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule
+		Despliegue local de \textit{Apache Spark} & 1 & 1\\
+		Despliegue local de \textit{Apache Kafka} & 3 & 5\\
+		Simulación de servidor UDP para vídeo & 5 & 5 \\
+		Ingestor a Kafka del vídeo UDP & 3 & 5\\
+		Conectar \textit{Spark Streaming} con \textit{Kafka}& 3 & 13\\
+		Implementar un anonimizador de rostros & 3 & 2\\
+		Parametrizar todos los \textit{scripts} creados & 1 & 1	\\
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} 2}
+	\label{tab:sprint2}
+\end{table}
+
+La razón de la gran diferencia en la quinta tarea del \textit{sprint} entre predicho e invertido fue debido a que la documentación de \textit{Kafka} no estaba bien detallada para conectar con \textit{Spark Streaming}. 
+
+\subsection{Sprint 3}
+
+El \textit{sprint} 3 consistió en la implementación de una infraestructura de contenedores \textit{Docker} que conectase todos los servicios para el flujo. 
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
@@ -69,18 +92,17 @@ El \textit{sprint} 2 consistió en la implementación de una infraestructura de 
 		\otoprule
 		Despliegue de \textit{Apache Spark} para el nodo \textit{máster} & 2 & 2\\
 		Despliegue de \textit{Apache Spark} para varios nodos \textit{slave} & 2 & 1\\
-		Despliegue de aplicación \textit{Java} para probar \textit{Spark} & 3 & 8 \\
-		Conexión de la infraestructura de \textit{Kafka} con aplicación \textit{Java} & 5 & 3 \\
+		Despliegue de la aplicación \textit{openCV} & 5 & 3 \\
 		Recogida de \textit{stream} de vídeo e ingestión en \textit{Kafka} & 8 & 8\\
 		\bottomrule
 	\end{tabularx}
-	\caption{Tareas del \textit{sprint} 2}
-	\label{tab:sprint2}
+	\caption{Tareas del \textit{sprint} 3}
+	\label{tab:sprint3}
 \end{table}
 
-\subsection{Sprint 3}
+\subsection{Sprint 4}
 
-El \textit{sprint} 3 consistió en la automatización de los procesos del \textit{sprint} 2\footnote{Pendiente de realizar}. 
+El \textit{sprint} 4 consistió en la automatización de los procesos del \textit{sprint} 2\footnote{Pendiente de realizar}. 
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
@@ -88,8 +110,8 @@ El \textit{sprint} 3 consistió en la automatización de los procesos del \texti
 		\otoprule
 		\bottomrule
 	\end{tabularx}
-	\caption{Tareas del \textit{sprint} 3}
-	\label{tab:sprint3}
+	\caption{Tareas del \textit{sprint} 4}
+	\label{tab:sprint4}
 \end{table}
 
 

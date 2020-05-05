@@ -5,24 +5,31 @@ Los objetivos del proyecto se han dividido en tres apartados siendo estos los ob
 
 \begin{itemize}
 	\item Exploración de las diferentes herramientas para el procesado de vídeo en tiempo real a través de las fases de emisión, recogida, encolado, ingestión, procesado, enriquecimiento y almacenamiento.
-	\item Estudio del estado del arte en análisis de imagen para problemas de salud ante distintos escenarios tanto en aspectos físicos (iluminación, enfoque...) como en aspectos lógicos (resolución, tasa de refresco...).
+	\item Estudio del estado del arte en análisis de imagen para el diagnóstico y tratamiento de enfermedades ante distintos escenarios tanto en aspectos físicos (iluminación, enfoque...) como en aspectos lógicos (resolución, tasa de refresco...).
 	\item Implementación del software necesario para la recogida de vídeo en tiempo real sobre sistemas de videoconferencia.
 \end{itemize}
 
 \section{Objetivos técnicos}
 
 \begin{itemize}
-	\item Crear una infraestructura software basada en contenedores \textit{Docker} para ser independientes del software anfitrión.
-	\item Desplegar un \textit{pipeline} sobre herramientas de la suite de \textit{Apache} para el \textit{Big Data} que satisfagan el flujo ETL propuesto (TODO Cita al flujo).
+	\item Crear una infraestructura software basada en contenedores \textit{Docker} para ser independientes del software anfitrión y facilitar su despliegue.
+	\item Desplegar un \textit{pipeline} sobre herramientas de la suite de \textit{Apache} para el \textit{Big Data} que satisfagan el flujo ETL propuesto en la \autoref{fig:flujoetl}.
 	\item Desarrollar algoritmo sobre \textit{Spark Stream} que procese los vídeos generando los datos necesarios para los estudios posteriores. 
 \end{itemize}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{flujoETL}
+	\caption{Flujo ETL objetivo del proyecto}
+	\label{fig:flujoetl}
+\end{figure}
 
 
 \section{Objetivos personales}
 
 \begin{itemize}
-	\item Contribuir a la mejora de la calidad de vida, a través de facilitar soportes para la rehabilitación, de pacientes con enfermedad de Parkinson.
+	\item Contribuir a la mejora de la calidad de vida, a través de facilitar soportes para la telerehabilitación, de pacientes con enfermedad de Parkinson.
 	\item Conocer más profundamente las herramientas de la suite de \textit{Apache} y como estas se pueden combinar para facilitar tareas de \textit{Big Data}.
-	\item Completas mi formación durante el máster a través de la creación de una solución que utiliza gran parte de los conocimientos adquiridos durante el mismo.
+	\item Completar mi formación durante el máster a través de la creación de una solución que utiliza gran parte de los conocimientos adquiridos durante el mismo.
 \end{itemize}
 
