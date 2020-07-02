@@ -1,2 +1,23 @@
 \capitulo{7}{Conclusiones y Líneas de trabajo futuras}
 
+Para finalizar la exposición de esta memoria se comentará en este capítulo las conclusiones del 
+trabajo así como líneas futuras que se van a realizar.
+
+\section{Conclusiones}
+
+De este trabajo se han sacado diversas conclusiones:
+
+\begin{itemize}
+	\item Las herramientas que ofrece la \textit{suite} \textit{Apache} para la gestión y procesado de flujo son muy robustas y tiene el desempeño que se espera de ellas, especialmente referente a la flexibilidad y fiabilidad. Sin embargo, existen aún muchas limitaciones en la documentación que en muchas ocasiones es muy <<esotéricas>>, especialmente a la hora de enseñar a integrar las diversas tecnologías. De hecho, una de las mayores dificultades encontradas para el cumplimiento de los objetivos ha sido la integración correcta de las herramientas.
+	\item Los objetivos del proyecto han sido cumplidos al completo, habiendo conseguido tanto una aplicación sencilla para comunicar a pacientes y usuarios como también una arquitectura fundada sobre una tecnología robusta para facilitar el análisis en tiempo real. Se espera que esto conlleve una mejora continua de la calidad de vida de los pacientes de la enfermedad de \textit{Parkinson} al tener un acceso más fácil a los profesionales de la terapia ocupacional.
+\end{itemize}
+
+\section{Lineas futuras}
+
+Dentro de las lineas futuras están:
+
+\begin{itemize}
+	\item Desplegar su uso con terapeutas y pacientes reales a una mayor escala. Actualmente se tiene un único paciente y terapeuta, pero el objetivo a largo plazo es que la herramienta se pueda usar por una cantidad mayor de personas.
+	\item Automatizar el despliegue en clúster de servidores utilizando \textit{Kubernetes}~\cite{losautoresdekubernetes2020}, herramienta creada por \textit{Google} que permite la creación fácil de un clúster de máquinas virtuales \textit{Docker} lo que permetiría una mayor versatilidad sobre los \textit{scripts} creados en este trabajo.
+	\item Explorar mejores configuraciones para \textit{Kafka} y \textit{Spark Streaming} para mejorar el desempeño del flujo.
+\end{itemize}

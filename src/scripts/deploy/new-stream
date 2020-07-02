@@ -1,0 +1,8 @@
+#!/bin/bash
+
+output=$3
+
+rm -rf $output 2> /dev/null
+mkdir -p $output
+
+bash ../helpers/create_new_stream.sh "$1" "$2" $output

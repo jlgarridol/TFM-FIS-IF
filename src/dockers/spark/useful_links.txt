@@ -1,0 +1,3 @@
+https://www.writecode.es/2019-02-25-cluster_hadoop_docker/
+https://www.linode.com/docs/databases/hadoop/install-configure-run-spark-on-top-of-hadoop-yarn-cluster/
+https://jaceklaskowski.gitbooks.io/mastering-apache-spark/yarn/spark-yarn-introduction.html

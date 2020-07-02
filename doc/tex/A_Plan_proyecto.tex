@@ -2,9 +2,11 @@
 
 \section{Introducción}
 
+En este apéndice se expondrán los distintos \textit{sprints} que se han realizado y un estudio de la viabilidad del proyecto.
+
 \section{Planificación temporal}
 
-La planificación temporal se ha realizado adaptando la metodología \textit{Scrum}. Para poder adaptarlo a un trabajo de una sola persona para un proyecto educativo se han han considerado las siguientes indicaciones:
+La planificación temporal se ha realizado adaptando la metodología \textit{Scrum}. Para poder adaptarlo a un trabajo de una sola persona para un proyecto educativo se han considerado las siguientes indicaciones:
 
 \begin{itemize}
 	\item El desarrollo se ha basado en iteraciones o \textit{sprints} de dos semana de duración aproximadamente.
@@ -20,7 +22,7 @@ El \textit{sprint} 0 consistió en el desarrollo de la aplicación web para la r
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
-		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
 		\otoprule
 		Diseño de la interfaz web & 3 & 3 \\
 		Creación de la plantilla maestra de toda la web & 3 & 2 \\
@@ -37,27 +39,31 @@ El \textit{sprint} 0 consistió en el desarrollo de la aplicación web para la r
 	\label{tab:sprint0}
 \end{table}
 
+La mayor dificultad en este \textit{sprint} fue la creación del \textit{plugin} sobre \textit{Jitsi} que duplicase el flujo de vídeo y emitiese los datos del servidor al sistema de colas. Esto fue debido a la poca documentación de \textit{Jitsi} sobre la implantación de estas modificaciones. 
+
+
 \subsection{Sprint 1}
 
 El \textit{sprint} 1 consistió en la exploración de herramientas para la creación y procesado de flujos de vídeo. 
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
-		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
 		\otoprule
-		Búsqueda de herramientas para la creación de flujos de datos & 2 & 2 \\
+		Búsqueda de herramientas para la creación de flujos de datos & 3 & 3 \\
 		Pruebas sobre \textit{Apache Flume} & 5 & 3 \\
 		Pruebas sobre \textit{Apache Kafka} & 5 & 5 \\
-		Búsqueda de herramientas para el despliegue por contenedores & 2 & 2 \\
-		Prueba de despliegue de \textit{Apache Kafka} para \textit{Docker} & 2 & 2 \\
-		Búsqueda de herramientas para el procesado de flujos de vídeo & 2 & 2 \\
+		Búsqueda de herramientas para el despliegue por contenedores & 3 & 3 \\
+		Prueba de despliegue de \textit{Apache Kafka} para \textit{Docker} & 3 & 3 \\
+		Búsqueda de herramientas para el procesado de flujos de vídeo & 3 & 3 \\
 		Pruebas con \textit{Spark Streaming} con \textit{OpenCV} & 5 & 13 \\
-		
 		\bottomrule
 	\end{tabularx}
 	\caption{Tareas del \textit{sprint} 1}
 	\label{tab:sprint1}
 \end{table}
+
+El desarrollo de este \textit{sprint} fue bastante similar a lo planificado. El caso particular estuvo en la última tarea debido a la complejidad conectar y procesar de manera efectiva \textit{Spark Streaming} con la librería de OpenCV y poder garantizar que no se perdían \textit{frames.}
 
 \subsection{Sprint 2}
 
@@ -65,15 +71,15 @@ El \textit{sprint} 2 consistió en la implementación de las conexiones entre to
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
-		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
 		\toprule
-		Despliegue local de \textit{Apache Spark} & 1 & 1\\
+		Despliegue local de \textit{Apache Spark} & 2 & 2\\
 		Despliegue local de \textit{Apache Kafka} & 3 & 5\\
 		Simulación de servidor UDP para vídeo & 5 & 5 \\
 		Ingestor a Kafka del vídeo UDP & 3 & 5\\
 		Conectar \textit{Spark Streaming} con \textit{Kafka}& 3 & 13\\
 		Implementar un anonimizador de rostros & 3 & 2\\
-		Parametrizar todos los \textit{scripts} creados & 1 & 1	\\
+		Parametrizar todos los \textit{scripts} creados & 2 & 2	\\
 		\bottomrule
 	\end{tabularx}
 	\caption{Tareas del \textit{sprint} 2}
@@ -88,51 +94,167 @@ El \textit{sprint} 3 consistió en la implementación de una infraestructura de 
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
-		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
 		\otoprule
-		Despliegue de \textit{Apache Spark} para el nodo \textit{máster} & 2 & 2\\
-		Despliegue de \textit{Apache Spark} para varios nodos \textit{slave} & 2 & 1\\
-		Despliegue de la aplicación \textit{openCV} & 5 & 3 \\
-		Recogida de \textit{stream} de vídeo e ingestión en \textit{Kafka} & 8 & 8\\
+		Despliegue de \textit{Apache Spark} para el nodo \textit{master} & 2 & 2\\
+		Despliegue de \textit{Apache Spark} para varios nodos \textit{worker} & 2 & 1\\
+		Creación de imágenes \textit{Docker} para soportar las aplicaciones creadas & 8 & 8\\
+		Despliegue de la aplicación \textit{openCV} & 3 & 3 \\
+		Recogida de \textit{stream} de vídeo e ingestión en \textit{Kafka} en \textit{Docker} & 8 & 8\\
 		\bottomrule
 	\end{tabularx}
 	\caption{Tareas del \textit{sprint} 3}
 	\label{tab:sprint3}
 \end{table}
 
+Este \textit{sprint} fue más sencillo que el anterior, principalmente porque en el anterior existieron dificultades para cumplir con los plazos del mismo al complicarse la tarea de conectar dos de los componentes. Con la experiencia obtenida en ese \textit{sprint} en este algunas tareas se desarrollaron más fácilmente
+
 \subsection{Sprint 4}
 
-El \textit{sprint} 4 consistió en la automatización de los procesos del \textit{sprint} 2\footnote{Pendiente de realizar}. 
+El \textit{sprint} 4 consistió en la automatización de los procesos del \textit{sprint} 3. 
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
-		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
 		\otoprule
+		\textit{Script} para la creación de \textit{topics} de \textit{Kafka} & 1 & 1\\
+		\textit{Script} de lanzamiento de instancia del flujo & 8 & 13 \\
+		\textit{Script} de inicialización de los servicios & 2 & 2\\
+		\textit{Script} para la eliminiación de un \textit{topic} de \textit{Kafka} & 1 & 1\\
+		\textit{Script} para el cierre ordenado de un flujo & 5 & 8\\
+		\textit{Script} para el apagado completo de los servicios & 1 & 1\\
 		\bottomrule
 	\end{tabularx}
 	\caption{Tareas del \textit{sprint} 4}
 	\label{tab:sprint4}
 \end{table}
 
+La mayor dificultad de este \textit{sprint} estuvo en la creación de los \textit{scripts} que abarcasen tanto el inicio como el cierre de un flujo debido a que estaban involucrados tanto el inicio de las imágenes \textit{docker} asociadas, el control de identificadores (realizado mediante semáforos en forma de ficheros) y la ejecución ordenada. Por estos motivos las predicciones no fueron acertadas al complicarse esta implementación.
 
-\subsection{Sprint X}
+\subsection{Sprint 5}
 
-El \textit{sprint} X consistió en Y\footnote{Plantilla}. 
+El \textit{sprint} 5 consistió en la creación de experimentos para evaluar el tiempo necesitado para el procesado del flujo además de la búsqueda de un sistema de serialización y compresión adecuado para el encolado de los fotogramas. 
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
-		\toprule \textbf{Tarea} & \textbf{Estimado} & \textbf{Final}\\
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
 		\toprule
+		Diseño de los experimentos & 3 & 3\\
+		Implementación de los experimentos del flujo & 5 & 13\\
+		Implementación de los experimentos sobre las técnicas de serialización y compresión & 5 & 5\\
+		Implementación de la recogida y visualización de los resultados & 3 & 3\\
+		Análisis de los resultados & 3 & 3\\
 		\bottomrule
 	\end{tabularx}
-	\caption{Tareas del \textit{sprint} X}
-	\label{tab:sprintx}
+	\caption{Tareas del \textit{sprint} 5}
+	\label{tab:sprint5}
+\end{table}
+
+Hubo una gran dificultad a la hora de la implementación de los experimentos debido a que se quiso paralelizar la ejecución y acelerar así el proceso. Sin embargo, esto conllevó un estudio más en profundidad de las herramientas de \textit{Python} para ello.
+
+\subsection{Sprint 6}
+
+En este penúltimo \textit{sprint} se comenzó el despliegue real y la integración con el modelo de José Miguel Ramírez Sanz. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
+		\toprule
+		Implementación de la extensibilidad del flujo & 2 & 2\\
+		Instalación local del flujo completo & 3 & 3\\
+		Instalación de las librerías necesarias en el equipo \textit{Gamma} & 1 & 1\\
+		Despliegue de las máquinas \textit{docker} en \textit{Gamma} & 1 & 1\\
+		Pruebas sobre vídeos pregrabados & 2 & 2\\
+		Diseño de experimentos sobre el flujo completo & 1 & 1\\
+		Implementación de los experimentos & 8 & 5\\
+		Análisis de los resultados & 2 & 2\\
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} 6}
+	\label{tab:sprint6}
+\end{table}
+
+El \textit{sprint} se desarrolló con bastante facilidad respecto a otros debido principalmente a que gran parte del material necesario, como los \textit{scripts} de lanzamiento o experimentos similares, ya se habían creado anteriormente.
+
+\subsection{Sprint 7}
+
+Este último \textit{sprint} consistió en la creación de la documentación del trabajo realizado. 
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X r r}
+		\toprule \textbf{Tarea} & \textbf{Est.} & \textbf{Final}\\
+		\otoprule
+		Maquetación de la plantilla & 1 & 1\\
+		Escritura de la introducción & 2 & 2\\
+		Escritura de los objetivos & 3 & 3\\
+		Escritura de los conceptos teóricos & 5 & 5\\
+		Escritura de los aspectos relevantes & 13 & 13\\
+		Escritura de los trabajos relacionados & 3 & 3\\
+		Escritura de las conclusiones y lineas futuras & 2 & 2\\
+		Escritura del plan de proyecto & 2 & 2\\
+		Escritura del diseño & 5 & 5\\
+		Escritura del manual del programador & 3 & 3\\
+		Creación de la presentación & 8 & 8\\  
+		\bottomrule
+	\end{tabularx}
+	\caption{Tareas del \textit{sprint} 7}
+	\label{tab:sprint7}
 \end{table}
 
 
 \section{Estudio de viabilidad}
 
 \subsection{Viabilidad económica}
+
+\begin{table}\centering
+	\begin{tabular}[]{@{}l r@{}}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (\euro{})} \\
+		\midrule
+		Salario mensual bruto & 2.047,78~\cite{salariales} \\
+		Seguridad Social (30,04\%) & 615,15 \\
+		Retención IRPF (2\%) & 28,65 \\
+		Salario mensual neto & 1.403,97 \\\hubu
+		\textbf{Total 6 meses y dos empleados} &  24.573,36 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Costes de personal.}
+	\label{tab:costes_personal}
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabular}[]{@{}l c r@{}}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (\euro{})} & \textbf{Coste amortizado (\euro{})} \\
+		\otoprule
+		Ordenador de desarrollo (x2) & 950 &  59,37\\
+		Dispositivos pacientes (x9) & 100 & 6,25\\
+		\textit{Webcam} pacientes (x9) & 150 &9,38\\
+		\textit{MainFrame Gamma}  & 3.000 & 187,5 \\ 
+		\textit{Gamma} GPU (x3) & 1.500 &  93,75\\
+		\textit{MainFrame Alpha}  & 2.000 & 125 \\\hubu
+		\textbf{Total} & 13650 & 853,16\\
+		\bottomrule
+	\end{tabular}
+	\caption{Costes de \textit{hardware}.}
+	\label{tab:costes_hardware}.
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabular}[]{@{}l r@{}}
+		\toprule
+		\textbf{Servicio} & \textbf{Coste (\euro{})}\\
+		\otoprule
+ 		Suscripción \textit{Ngrok}  & 7,33 \\
+		Lineas \textit{Vodafone} (x4?) & ?? \\\hubu
+		\textbf{Total (por 6 meses)} & 11400\\
+		\bottomrule
+	\end{tabular}
+	\caption{Costes de servicios.}
+	\label{tab:costes_servicios}.
+\end{table}
 
 \subsection{Viabilidad legal}
 

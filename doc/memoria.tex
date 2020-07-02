@@ -12,16 +12,34 @@
 \usepackage{float}
 \usepackage{tablefootnote}
 \usepackage{longtable}
+\usepackage[hyphens]{url}
+\usepackage{eurosym} % para el euro
+\usepackage{subcaption}
+\usepackage{dirtree}
+
+
+\def\lc{\left\lceil}   
+\def\rc{\right\rceil}
+\providecommand{\ceil}[1]{\left \lceil #1 \right \rceil }
+
+
+
 
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
 \RequirePackage{multirow}
 
+\usepackage[T1]{fontenc}
+\usepackage{newpxtext,newpxmath}
+
+\usepackage{pdfpages}
+\Urlmuskip=0mu plus 1mu\relax
 % Links
 \usepackage[colorlinks]{hyperref}
 \hypersetup{
-	allcolors = {red}
+	allcolors = {blue},
+	breaklinks = true
 }
 
 % Ecuaciones
@@ -33,6 +51,7 @@
 % Párrafos
 \nonzeroparskip
 
+\newcommand{\hubu}{\hline \rule{0pt}{2.7ex}}
 
 % Imagenes
 \usepackage{graphicx}
@@ -340,7 +359,7 @@
   % Datos de alumno, curso y tutores ------------------
   \begin{center}%
   {%
-    \noindent\LARGE
+    \noindent\Large
     Presentado por \@author{}\\ 
     en Universidad de Burgos --- \@date{}\\
     Tutor: \@tutor{}\\
@@ -386,9 +405,9 @@
 
 
 
-\noindent Dr. D. Álvar Arnaiz González, profesor del departamento de Ingeniería Informática.
+\noindent Dr. D. Álvar Arnaiz González y Dr. D. José Francisco Díez-Pastor, profesores del departamento de Ingeniería Informática.
 
-\noindent Expone:
+\noindent Exponen:
 
 \noindent Que el alumno D. \nombre, con DNI 71707244Y, ha realizado el Trabajo final de Máster en Inteligencia de Negocio y Big Data en Entornos Seguros 
           titulado \thetitle. 
@@ -396,7 +415,7 @@
 \noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
 
 \begin{center} %\large
-En Burgos, {\large \today}
+En Burgos, {\normalsize \today}
 \end{center}
 
 \vfill\vfill\vfill
@@ -435,12 +454,16 @@ Dr. D. José Francisco Díez Pastor
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-En este primer apartado se hace una \textbf{breve} presentación del tema que se aborda en el proyecto.
+La población del primer mundo está cada vez más envejecida y con esto las enfermedades degenerativas como el \textit{Parkinson} afectan cada vez a una mayor parte de los ancianos. Además, los pacientes de estas enfermedades padecen limitaciones para poder desplazarse hasta los centros de salud para poder recibir la terapia ocupacional que necesitan para hacer su vida normal.
+
+Ante esta situación se desarrolla el proyecto \textit{Estudio de factibilidad y coste-efectividad del uso telemedicina con un equipo multidisciplinar para prevención de caídas en la enfermedad de Parkinson} en el cual se incorpora este trabajo.
+
+El objetivo está en desarrollar un sistema de colas que sea escalable, versátil y fiable, dentro de un entorno Big Data, que de soporte al análisis en tiempo real de los ejercicios realizados por los pacientes. Se pretende así facilitar la tarea de los terapeutas ocupacionales y aumentar su alcance.
 \end{abstract}
 
 \renewcommand*\abstractname{Descriptores}
 \begin{abstract}
-Palabras separadas por comas que identifiquen el contenido del proyecto Ej: servidor web, buscador de vuelos, android \ldots
+Enfermedad del \textit{Parkinson}, \textit{Big Data}, colas, \textit{Apache Kafka}, \textit{Apache Spark}, gestión de flujos, vídeo.
 \end{abstract}
 
 \clearpage
@@ -448,12 +471,16 @@ Palabras separadas por comas que identifiquen el contenido del proyecto Ej: serv
 % Abstract en inglés
 \renewcommand*\abstractname{Abstract}
 \begin{abstract}
-A \textbf{brief} presentation of the topic addressed in the project.
+The population of the first world is getting older and therefore degenerative diseases such as Parkinson's are affecting more and more of the elderly. In addition, patients with these diseases suffer from limitations in being able to travel to health centres in order to receive the occupational therapy they need to lead a normal life.
+
+In view of this situation, the project \textit{Feasibility and cost-effectiveness study of the use of telemedicine is being developed with a multidisciplinary team for the prevention of falls in Parkinson's disease} in which this work is incorporated.
+
+The objective is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the exercises performed by patients. This is intended to facilitate the task of occupational therapists and increase their scope.
 \end{abstract}
 
 \renewcommand*\abstractname{Keywords}
 \begin{abstract}
-keywords separated by commas.
+Parkinson's disease, Big Data, queues, Apache Kafka, Apache Spark, streaming management, video.
 \end{abstract}
 
 \clearpage
@@ -494,13 +521,19 @@ keywords separated by commas.
 \part*{Apéndices}
 
 \include{./tex/A_Plan_proyecto}
-\include{./tex/B_Requisitos}
+%\include{./tex/B_Requisitos}
 \include{./tex/C_Diseno}
 \include{./tex/D_Manual_programador}
-\include{./tex/E_Manual_usuario}
+
+%\appendix
+%\addcontentsline{toc}{part}{Anexos}
+%\part*{Anexos}
+%\include{./tex/E_Manual_usuario}
 
 
 \bibliographystyle{plain}
 \bibliography{bibliografia}
+
+\includepdf[pages=-]{Manualusuario.pdf}
 
 \end{document}

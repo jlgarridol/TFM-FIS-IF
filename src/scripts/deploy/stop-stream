@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker rm -f fis-hubu-consumer-$1
+docker rm -f fis-hubu-productor-$1
+
+rm /tmp/flush.$1
+
+docker exec kafka_kafka_1 kafka-topics --delete --zookeeper zookeeper:2181 --topic video-stream-patient-$1
+

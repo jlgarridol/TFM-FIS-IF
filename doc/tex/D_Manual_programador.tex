@@ -2,10 +2,57 @@
 
 \section{Introducción}
 
+El objetivo de esta sección es que documentar a nivel técnico los componentes del proyecto para facilitar la extensión, modificación y uso por parte de los programadores.
+
 \section{Estructura de directorios}
 
-\section{Manual del programador}
+En la carpeta \texttt{doc} se encuentra la documentación del proyecto. En \texttt{src} los códigos fuentes para el proyecto.
+
+Dentro de las fuentes están la carpeta \texttt{dockers} donde se incorporan tanto los \texttt{Dockerfile} como los \texttt{docker-compose.yml} que contienen la información de los contenedores que darán soporte a la aplicación. En \texttt{process} están las fuentes \textit{Python} para el emisor de fotogramas, el productor y el consumidor. En la carpeta \texttt{scripts} y en su subcarpetas \texttt{deploy} y \texttt{helpers} están todos los \textit{scripts} sobre \textit{Bash} necesarios para el despliegue de las imágenes \textit{docker} y las funciones que deben ejecutar, concretamente en \texttt{deploy} se encuentran los programas para la creación y cierre de imágenes y en \texttt{helpers} las órdenes sobre las aplicaciones que contienen las imágenes. Por último en \texttt{tools} se encuentran herramientas y \textit{notebooks} de \textit{jupyter} que se han desarrollado para desarrollar este trabajo.
+
+\begin{figure}
+	\dirtree{%
+		.1 /.
+		.2 doc.
+		.3 img.
+		.3 tex.
+		.2 src.
+		.3 dockers.
+		.4 fishubu. 
+		.4 kafka.
+		.4 spark.
+		.5 base.
+		.5 master.
+		.5 worker.
+		.3 process. 
+		.4 testvideos.
+		.3 scripts.
+		.4 deploy.
+		.4 helpers.
+		.3 tools.
+		.4 jupyter.
+	}
+	\caption{Árbol de directorios}
+	\label{fig:dirtree}
+\end{figure}
+
+\section{Manual del programador}\label{sec:manualpro}
+
+
+
+\subsection{\textit{Scripts} de ejecución}
+
+\subsection{\textit{Script} de despliegue}
+
 
 \section{Compilación, instalación y ejecución del proyecto}
 
-\section{Pruebas del sistema}
+Como se ha mencionado anteriormente en la carpeta \texttt{deploy} se encuentran los \textit{scripts} para instalar el proyecto y poder ejecutarlo.
+
+Para que los \textit{scripts} se ejecuten correctamente es necesario que se ejecuten sobre un sistema operativo \textit{GNU/Linux} con el servicio de \textit{Docker} y la extensión \textit{Nvidia container toolkit}~\cite{toolkitnvidiadocker} instalados. Adicionalmente se necesitará que la máquina donde se vaya a ejecutar el consumidor tenga una tarjeta gráfica \textit{Nvidia} instalada con soporte para \textit{CUDA} 10.2 para que la integración con el proyecto del compañero José Miguel Ramírez Sans sea ejecutable. Es posible que sea necesario cambiar el fichero \texttt{Dockerfile} de la carpeta \texttt{dockers/fishubu/base} para que use los \textit{drivers} de la tarjeta gráfica del equipo sobre el que se lance la imagen \textit{docker}. Además si se quisiese cambiar el algoritmo, concretamente el fichero \texttt{extraOpt.py} sería necesario cambiar el \texttt{Dockerfile} de la carpeta \texttt{dockers/fishubu/consumer} para que sustituyese el algoritmo por el deseado.
+
+El orden de ejecución de los \textit{scripts} es el siguiente:
+
+Primero se ha de ejecutar \texttt{start-server} para que los servicios de \textit{Kafka} y \textit{Spark} estén activos y den soporte a los flujos que lo necesiten. Tras esto se podrá ejecutar \texttt{new-stream} recibiendo como parámetro la fuente de vídeo junto con la configuración deseada para el proceso (sección~\ref{sec:manualpro}). Este devuelve el identificador del flujo, será necesario para pedir el cierre del flujo.
+
+Para parar la ejecución existen los \textit{scripts} \texttt{stop-stream} que recibe el identificador del flujo y \texttt{stop-server} que para los servicios de \textit{Kafka} y \textit{Spark}

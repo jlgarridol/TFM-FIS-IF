@@ -1,0 +1,14 @@
+#!/bin/bash
+
+num=$(ls /tmp/clusters.* | cut -f 2 -d".")
+
+bash ../helpers/spark-cluster-down.sh $num
+
+rm /tmp/clusters.*
+
+touch /tmp/clusters.$2 # Se guarda el número de clústers que se van a usar
+
+cd ../../dockers/kafka
+docker-compose stop
+
+docker network rm fishubu-net

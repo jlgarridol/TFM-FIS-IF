@@ -1,0 +1,48 @@
+actor Paciente
+participant FIS-HUBU
+participant Jitsi
+
+participant Ingestor
+participant Procesador
+
+Paciente ->FIS-HUBU : Comenzar videollamada
+activate FIS-HUBU
+Paciente<-FIS-HUBU : Sala de Jitsi
+deactivate FIS-HUBU
+destroysilent FIS-HUBU
+
+Paciente --> Jitsi: Iniciar videollamada
+activate Jitsi
+Jitsi -->Ingestor: Crea una nueva cola\npara el paciente
+activate Ingestor
+Ingestor -->Procesador: Crear procesador
+activate Procesador
+
+
+loop Mientras mantenga la conexión
+
+Paciente -->Jitsi : Frame del instante actual
+Jitsi -->Ingestor: Encolar frame
+note over Ingestor,Procesador: Esto es paralelo al bucle principal \nhasta que no queden frames
+Procesador --> Ingestor:Recoger siguiente frame
+Ingestor --> Procesador:Enviar frame disponible
+
+
+end
+
+destroysilent Paciente
+
+Jitsi -->Ingestor: Avisar de fin de conexión
+deactivate Jitsi
+destroysilent Jitsi
+
+
+Ingestor -->Procesador: Avisar del fin de datos
+deactivate Procesador
+destroy Procesador
+deactivate Ingestor
+destroy Ingestor
+
+
+
+

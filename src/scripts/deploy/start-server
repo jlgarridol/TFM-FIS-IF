@@ -1,0 +1,10 @@
+#!/bin/bash
+
+docker network create -d bridge fishubu-net
+
+bash ../helpers/spark-cluster-up.sh /dev/null $1 $2 $3 $4 
+
+touch /tmp/clusters.$2 # Se guarda el número de clústers que se van a usar
+
+cd ../../dockers/kafka
+docker-compose up --force-recreate -d
