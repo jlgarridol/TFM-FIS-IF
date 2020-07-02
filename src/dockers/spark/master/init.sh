@@ -5,8 +5,6 @@
 #
 # source: https://github.com/big-data-europe/docker-spark/blob/master/master/master.sh
 
-set -eu pipefail
-
 export SPARK_MASTER_HOST=$(hostname)
 export SPARK_HOME=/usr/local/spark
 

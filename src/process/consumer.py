@@ -102,7 +102,7 @@ if TOPIC is None or OUTPUT is None:
     print("Falta algún parámetro")
     help_(1)
 
-sc = SparkContext(SPARK_HOST, "ImageProcessor")
+sc = SparkContext(SPARK_HOST, "ImageProcessor_"+TOPIC)
 ssc = StreamingContext(sc, float(1/FPS))
 
 def deserializer(file):
@@ -110,7 +110,7 @@ def deserializer(file):
     return file
 
 options = {"bootstrap.servers": KAFKA_HOST, 
-           "group.id": "ImageProcessor"}
+           "group.id":TOPIC}
 
 kafkaStream = KafkaUtils.createDirectStream(ssc, [TOPIC], options, valueDecoder=deserializer)
 

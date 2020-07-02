@@ -4,7 +4,7 @@
 #
 # sources: https://github.com/HariSekhon/Dockerfiles/blob/master/spark/Dockerfile
 
-FROM alpine:latest
+FROM fishubu-env:1.0.0
 MAINTAINER Mario Juez-Gil <mariojg@ubu.es>
 
 # arguments
@@ -18,18 +18,12 @@ ENV PATH $PATH:/usr/local/spark/bin
 LABEL Description="Apache Spark standalone" \
     "Spark version"="${spark_ver}"
 
-RUN set -euxo pipefail && \
-    apk add --no-cache bash openjdk8-jre-base wget tar
-
 WORKDIR /usr/local/
 
-RUN set -euxo pipefail && \
-    apk add --no-cache wget tar && \
-    wget -t 100 --retry-connrefused -O "${tar}" "https://archive.apache.org/dist/spark/spark-${spark_ver}/${tar}" && \
+RUN wget -t 100 --retry-connrefused -O "${tar}" "https://archive.apache.org/dist/spark/spark-${spark_ver}/${tar}" && \
     tar zxf "${tar}" && \
     rm -fv "${tar}" && \
-    ln -s "spark-$spark_ver-bin-hadoop$hadoop_ver" spark && \
-    apk del wget tar
+    ln -s "spark-$spark_ver-bin-hadoop$hadoop_ver" "spark"
 
 WORKDIR /
 

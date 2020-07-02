@@ -3,7 +3,7 @@
 #
 # source: https://github.com/HariSekhon/Dockerfiles/blob/master/spark/Dockerfile
 
-FROM spark-base:2.4.5
+FROM spark-base-fis:2.4.5
 MAINTAINER Mario Juez-Gil <mariojg@ubu.es>
 
 # environment variables

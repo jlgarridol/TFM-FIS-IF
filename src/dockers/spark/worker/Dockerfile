@@ -3,12 +3,12 @@
 #
 # source: https://github.com/HariSekhon/Dockerfiles/blob/master/spark/Dockerfile
 
-FROM spark-base:2.4.5
+FROM spark-base-fis:2.4.5
 MAINTAINER Mario Juez-Gil <mariojg@ubu.es>
 
 # environment variables
 ENV SPARK_WEBUI_PORT 8081
-ENV SPARK_MASTER "spark://spark-master:7077"
+ENV SPARK_MASTER "spark://spark-master-fishubu:7077"
 ENV LOGS /logs
 
 WORKDIR /

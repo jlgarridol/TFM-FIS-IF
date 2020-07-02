@@ -27,15 +27,12 @@ bash ../helpers/create_topic.sh video-stream-patient-$aux
 docker run -dP \
   --name fis-hubu-productor-$aux \
   --cpus 1 --network fishubu-net --gpus all\
-  --link kafka_kafka_1:confluentinc/cp-kafka \
   fishubu-env:1.0.0
 
 docker run -dP \
   --name fis-hubu-consumer-$aux \
   --mount type=bind,source="$OUTPUT",target=/mnt \
   --cpus 1 --network fishubu-net --gpus all\
-  --link kafka_kafka_1:confluentinc/cp-kafka \
-  --link spark-master-fishubu:spark-master \
   fishubu-env:1.0.0
 
 bash ../helpers/launch_stream.sh $aux "$OPTIONSEMITTER" "$OPTIONSCONSUMER"

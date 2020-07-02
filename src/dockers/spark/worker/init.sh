@@ -5,8 +5,6 @@
 #
 # source: https://github.com/big-data-europe/docker-spark/blob/master/worker/worker.sh
 
-set -eu pipefail
-
 export SPARK_HOME=/usr/local/spark
 
 mkdir -p $LOGS
