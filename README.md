@@ -24,3 +24,8 @@ The population of the first world is getting older and therefore degenerative di
 In view of this situation, the project *Feasibility and cost-effectiveness study of the use of telemedicine is being developed with a multidisciplinary team for the prevention of falls in Parkinson's disease* in which this work is incorporated.
 
 The objective is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the exercises performed by patients. This is intended to facilitate the task of occupational therapists and increase their scope.
+
+## Herramientas externas
+* Clúster Spark Docker por Mario Juez Gil. Licenciado bajo GPLv3. https://github.com/mjuez/spark-cluster-docker. Modificado
+* Docker Archlinux con Cuda por walwe. Sin licencia. https://github.com/walwe/docker-archlinux-cuda. Modificado
+* Imagenes Docker CP por Confluentic Inc. Licenciado bajo Apache 2.0. https://github.com/confluentinc/cp-docker-images.
