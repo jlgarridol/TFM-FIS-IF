@@ -204,7 +204,13 @@ Este último \textit{sprint} consistió en la creación de la documentación del
 
 \section{Estudio de viabilidad}
 
+
 \subsection{Viabilidad económica}
+
+Debido a que este TFM está dentro de un proyecto donde también se encuentra el TFM de José Miguel Ramírez Sanz se ha realizado el estudio de viabilidad económica de manera conjunta
+
+
+En la \autoref{tab:costes_personal} se encuentran los costes total en salarios en jornada completa durante seis meses para dos empleados.
 
 \begin{table}\centering
 	\begin{tabular}[]{@{}l r@{}}
@@ -221,6 +227,9 @@ Este último \textit{sprint} consistió en la creación de la documentación del
 	\caption{Costes de personal.}
 	\label{tab:costes_personal}
 \end{table}
+
+La \autoref{tab:costes_hardware} están las inversiones y amortizaciones  en materia de \textit{hardware}, tanto los \textit{MainFrames} para el despliegue y el cálculo como los equipos de desarrollo.
+
 
 \begin{table}
 	\centering
@@ -241,6 +250,8 @@ Este último \textit{sprint} consistió en la creación de la documentación del
 	\label{tab:costes_hardware}.
 \end{table}
 
+Por último en la \autoref{tab:costes_servicios} se encuentran los dos servicios contratados para dar acceso a la aplicación a los pacientes.
+
 \begin{table}
 	\centering
 	\begin{tabular}[]{@{}l r@{}}
@@ -248,14 +259,78 @@ Este último \textit{sprint} consistió en la creación de la documentación del
 		\textbf{Servicio} & \textbf{Coste (\euro{})}\\
 		\otoprule
  		Suscripción \textit{Ngrok}  & 7,33 \\
-		Lineas \textit{Vodafone} (x4?) & ?? \\\hubu
-		\textbf{Total (por 6 meses)} & 11400\\
+		Lineas \textit{Vodafone} (x4) & 30 \\\hubu
+		\textbf{Total (por 6 meses)} & $763.68$\\
 		\bottomrule
 	\end{tabular}
 	\caption{Costes de servicios.}
 	\label{tab:costes_servicios}.
 \end{table}
 
+\begin{table}
+	\centering
+	\begin{tabular}[]{@{}l r@{}}
+		\toprule
+		\textbf{Servicio} & \textbf{Coste (\euro{})}\\
+		\otoprule
+		Costes de personal  & 24.573,36 \\
+		Costes de \textit{hardware} & $13650$ \\
+		Costes de servicios & $763.68$ \\\hubu
+		\textbf{Total} & 38.987,04\\
+		\bottomrule
+	\end{tabular}
+	\caption{Costes totales.}
+	\label{tab:costes_totales}.
+\end{table}
+
+
 \subsection{Viabilidad legal}
 
+Este proyecto se ha realizado con la ayuda de software de terceros con licencias propias que influyen sobre la viabilidad legal del proyecto.
+
+Dentro de las licencias de las herramientas utilizadas están:
+\begin{itemize}
+		\item \textbf{MIT}: Esta licencia permite el uso comercial del producto, la modificación del mismo, la libre distribución y el uso privado. No tiene garantías ni responsabilidad. La única condición es hacer referencia a ella. Como no obliga a mantener la licencia ni afecta a la distribución del software que use la licencia final del producto, esta puede ser cualquiera.
+		
+		\item \textbf{GPLv3}: Licencia que permite uso comercial, distribución, modificación uso privado y creación de patentes. Obliga a licenciarcualquier modificación del código o códigos que usen herramientas con esta licencia usar \textbf{GLPv3} u otras versiones.
+		
+		\item \textbf{Apache 2.0}: Licencia de las herramientas de Apache, tiene las mismas propiedades que la licencia GPLv3 con excepción de que no obliga a que las nuevas implementaciones con dependencias en Apache 2.0 sean licenciadas como código libre.
+
+		\item \textbf{BSD}: Tiene características semejantes a MIT en el contexto en el que la usamos.
+		
+		\item \textbf{BSD 3-Clause}: Tiene características semejantes a MIT en el contexto en el que la usamos.
+\end{itemize}
+
+Debido al uso de las imágenes \textit{Docker} para \textit{Spark} de Mario Juez~\cite{juez2019docker} usan \textit{GPLv3}, y ser la licencia más restrictiva del conjunto del proyecto este proyecto se licencia bajo \textit{GPLv3}
+
+\subsubsection{\textit{Copyright} de terceros}
+
+\textbf{Apache 2.0}:
+\begin{itemize}
+	\item \textit{Apache Kafka} - \textit{Apache Foundation}
+	\item \textit{Apache Zookeeper} - \textit{Apache Foundation}
+	\item \textit{Apache Spark} - \textit{Apache Foundation}
+	\item \textit{Docker CP} - \textit{Confluentic}
+	\item \textit{Jitsi Meet} - \textit{Jitsi}
+\end{itemize}
+
+\textbf{GPLv3}:
+\begin{itemize}
+	\item \textit{Clúster Spark Docker} - Mario Juez Gil
+\end{itemize}
+
+\textbf{BSD} todas sus variantes:
+\begin{itemize}
+	\item \textit{Caffe} - \textit{BVLC}
+	\item \textit{Flask} - \textit{Pallets}
+	\item \textit{Jinja} - \textit{Pallets}
+	\item \textit{OpenCV} - \textit{Intel Corporation}, \textit{Xperience AI}
+	\item \textit{Seaborn} - Michael Waskom
+\end{itemize}
+
+\textbf{MIT}
+\begin{itemize}
+	\item \textit{Bootstrap 4} - \textit{Twitter}
+	\item \textit{jQuery} - \textit{JS Foundation}
+\end{itemize}
 

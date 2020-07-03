@@ -153,9 +153,11 @@ En la figura~\ref{fig:despligueDocker} se puede observar las conexiones que se d
 	\label{fig:despligueDocker}
 \end{figure}
 
-Las máquinas \textit{fis-hubu} se han creado en exclusiva para este proyecto, funcionan sobre \textit{Arch Linux} y crean un entorno \textit{conda} para la correcta ejecución del algoritmo. Las modificaciones que fuesen necesarias para adaptar estas imágenes se encuentran en el anexo~\ref{sec:manualpro}. 
+Las máquinas \textit{fis-hubu} se han creado en exclusiva para este proyecto, funcionan sobre \textit{Ubuntu 18.04} y crean un entorno \textit{conda} para la correcta ejecución del algoritmo. Las modificaciones que fuesen necesarias para adaptar estas imágenes se encuentran en el anexo~\ref{sec:manualpro}. 
 
 El orden de instancia de cada una de las máquinas es muy importante para que pueda ofrecerse el servicio adecuadamente. Lo primero que se ha de hacer es levantar las máquinas (en este orden) de \textit{Zookeeper}, \textit{Kafka}, nodo maestro de \textit{Spark} y por último los \textit{workers} que se deseen. Es importante asegurar el uso de una red virtual para que todos los \textit{dockers} se localicen entre si o bien utilizar las conexiones con los puertos que se publiquen, aunque esta decisión no es la más acertada si el servidor puede ser usado con otros motivos.
+
+Un detalle importante a tener en cuenta es que los nodos de \textit{Spark}, tanto el maestro como los esclavos deben tener acceso de alguna manera al código de ejecución, su entorno y sus características. Por tanto se hizo una modificación sobre estas imágenes para que heredasen de la imagen de \textit{fis-hubu-consumer} y así poder ejecutar cada nodo el código de \textit{Python} correctamente.
 
 Una vez las máquinas <<servidoras>> estén disponibles se pueden lanzar tanto \textit{fis-hubu-productor} como \textit{fis-hubu-consumer} garantizando un nombre identificativo para que no coincida con otros flujos que puedan aparecer.
 

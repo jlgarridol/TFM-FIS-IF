@@ -19,6 +19,8 @@ Dentro de las fuentes están la carpeta \texttt{dockers} donde se incorporan tan
 		.2 src.
 		.3 dockers.
 		.4 fishubu. 
+		.5 base.
+		.5 enviroment.
 		.4 kafka.
 		.4 spark.
 		.5 base.
@@ -38,18 +40,132 @@ Dentro de las fuentes están la carpeta \texttt{dockers} donde se incorporan tan
 
 \section{Manual del programador}\label{sec:manualpro}
 
+\subsection{\textit{Scripts Python} }
+Se han creado tres \textit{scripts} de \textit{Python} para ofrecer el servicio del sistema de colas. Por el desarrollo que se ha llevado funcionan tanto dentro como fuera de una imagen \textit{Docker}. Si se fuesen a usar fuera a nivel local el uso sería el siguiente:
 
+\subsubsection{\textit{emitter.py}}
+\textit{Script} encargado en enviar a un servidor UDP fotogramas de vídeos. La ayuda:
 
-\subsection{\textit{Scripts} de ejecución}
+\begin{lstlisting}[language=Bash]
+Sintaxis:
+	emitter.py --ip=localhost --port=12345 --file=video.webm
+-----------------------------------------------------------
+Parámetros de comunicación
+	--ip=<IP de emisión> 
+		(Por defecto: localhost)
+	--port=<Puerto>
+	--file=<Fuente de video>
+	
+Parámetros de gestión del flujo
+    --resize=<Proporcion> 
+    	(Por defecto: 1.0)
+    -f <FPS> | --fps=<FPS> 
+    	(Por defecto: 15) tasa de frames del vídeo a emitir
+\end{lstlisting}
+
+\subsubsection{\textit{producer.py}}
+\textit{Script} encargado de la ingestión de los fotogramas a \textit{Kafka}. La ayuda:
+
+\begin{lstlisting}[language=Bash]
+Sintaxis
+	producer.py --ip=localhost --port=12345 --topic=queue 
+-----------------------------------------------------------
+Parámetros de comunicación
+	--ip=<IP de emisión> 
+		(Por defecto: localhost)
+	--port=<Puerto>
+	--kafkahost=<Dirección de kafka> 
+		(Por defecto: localhost:9092)
+	--topic=<Topic de Kafka> 
+		(Por defecto: video-stream-event)
+\end{lstlisting}
+
+\subsubsection{\textit{consumer.py}}
+\textit{Script} encargado del procesado en paralelo y tiempo real del vídeo. La ayuda:
+
+\begin{lstlisting}[language=Bash]
+Sintaxis
+	consumer.py --ip=localhost --port=12345 --topic=queue 
+-----------------------------------------------------------
+Parámetros de comunicación
+	--output==<Carpeta de salida> 
+		(Por defecto: output)
+	--sparkhost=<Dirección de spark>
+		(Por defecto: local)
+	--kafkahost=<Dirección de kafka> 
+		(Por defecto: localhost:9092)
+	--topic=<Topic de Kafka> 
+		(Por defecto: video-stream-event)
+		
+Parámetros de gestión del flujo
+	-a -> Anonimizar rostros, por defecto pixalado
+		-g <Factor> | --blur=<Factor>
+			(Por defecto: 3) Anonimizar con blur
+		-p <Factor> | --pixel=<Factor>
+			(Por defecto: 15) Anonimizar con pixelado
+	-b -> Auto ajustar brillo
+	-c -> Auto ajustar contraste
+	-f <FPS> | --fps=<FPS> 
+		(Por defecto: 15) tasa de frames del vídeo a emitir
+	--no-save -> No guardar los frames
+\end{lstlisting}
 
 \subsection{\textit{Script} de despliegue}
 
+Para el despliegue de los servicios mediante \textit{Docker} se han creado cuatro \textit{scripts} encontrados en la carpeta \texttt{src/scripts/deploy} (en adelante \texttt{deploy}).
+
+Estos códigos en \textit{Bash} son los siguientes:
+
+\subsubsection{\textit{start-server}}
+Se encarga de instanciar los diferentes servicios.
+
+\begin{lstlisting}[language=Bash]
+Sintaxis
+	start-server <N. de CPU master> <N. de workers> <N. de CPU por worker> <Memoria por worker>
+\end{lstlisting}
+
+\subsubsection{\textit{stop-server}}
+Detiene todos los servicios.
+
+\begin{lstlisting}[language=Bash]
+Sintaxis
+	stop-server
+\end{lstlisting}
+
+\subsubsection{\textit{new-stream}}
+Genera un nuevo flujo completo que se va a procesar. El funcionamiento es transparente. Recibe los parámetros para el \textit{emitter.py} y para el \textit{consumer.py}. Por seguridad es preferible solamente modificar los parámetros de gestión del flujo y no los de comunicación.
+
+\begin{lstlisting}[language=Bash]
+Sintaxis
+	new-stream "Parámetros emitter.py" "Parámetros consumer.py" <Directorio de salida>
+	# Es muy importante mantener las comillas
+\end{lstlisting}
+
+Devuelve el identificador del flujo. Es importante este valor para poder cerrarlo después.
+
+\subsubsection{\textit{stop-stream}}
+Detiene todos los procesos sobre un flujo concreto..
+
+\begin{lstlisting}[language=Bash]
+Sintaxis
+	stop-stream <ID del flujo>
+\end{lstlisting}
 
 \section{Compilación, instalación y ejecución del proyecto}
 
 Como se ha mencionado anteriormente en la carpeta \texttt{deploy} se encuentran los \textit{scripts} para instalar el proyecto y poder ejecutarlo.
 
 Para que los \textit{scripts} se ejecuten correctamente es necesario que se ejecuten sobre un sistema operativo \textit{GNU/Linux} con el servicio de \textit{Docker} y la extensión \textit{Nvidia container toolkit}~\cite{toolkitnvidiadocker} instalados. Adicionalmente se necesitará que la máquina donde se vaya a ejecutar el consumidor tenga una tarjeta gráfica \textit{Nvidia} instalada con soporte para \textit{CUDA} 10.2 para que la integración con el proyecto del compañero José Miguel Ramírez Sans sea ejecutable. Es posible que sea necesario cambiar el fichero \texttt{Dockerfile} de la carpeta \texttt{dockers/fishubu/base} para que use los \textit{drivers} de la tarjeta gráfica del equipo sobre el que se lance la imagen \textit{docker}. Además si se quisiese cambiar el algoritmo, concretamente el fichero \texttt{extraOpt.py} sería necesario cambiar el \texttt{Dockerfile} de la carpeta \texttt{dockers/fishubu/consumer} para que sustituyese el algoritmo por el deseado.
+
+Antes de lanzar los servicios es importante haber creado antes las imágenes maestras para los diferentes \textit{dockers}. Desde la carpeta \texttt{deploy}:
+
+\begin{lstlisting}[language=Bash]
+docker build -f ../../dockers/fishubu/base/Dockerfile -t fishubu-base:1.0.0 ../../
+docker build -f ../../dockers/fishubu/enviroment/Dockerfile -t fishubu-env:1.0.0 ../../
+docker build ../../dockers/spark/base -t spark-base-fis:2.4.5
+docker build ../../dockers/spark/master -t spark-master-fis:2.4.5
+docker build ../../dockers/spark/worker -t spark-worker-fis:2.4.5
+\end{lstlisting}
 
 El orden de ejecución de los \textit{scripts} es el siguiente:
 
