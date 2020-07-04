@@ -2,7 +2,9 @@
 
 docker network create -d bridge fishubu-net
 
-bash ../helpers/spark-cluster-up.sh /dev/null $1 $2 $3 $4 
+mkdir -p $1 2> /dev/null
+
+bash ../helpers/spark-cluster-up.sh $1 $2 $3 $4 $5
 
 touch /tmp/clusters.$2 # Se guarda el número de clústers que se van a usar
 

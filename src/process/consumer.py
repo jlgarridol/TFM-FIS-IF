@@ -103,7 +103,8 @@ if TOPIC is None or OUTPUT is None:
     print("Falta algún parámetro")
     help_(1)
 
-sc = SparkContext(SPARK_HOST, "ImageProcessor_"+TOPIC)
+NAME="ImageProcessor_"+TOPIC
+sc = SparkContext(SPARK_HOST, NAME)
 ssc = StreamingContext(sc, float(1/FPS))
 
 def deserializer(file):
@@ -133,7 +134,10 @@ def op(package):
 def save(img):
     try:
         if SAVE:
-            cv2.imwrite(os.path.join(OUTPUT,str(img[0])+".jpg"), img[1])
+            folder = os.path.join(OUTPUT,NAME)
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+            cv2.imwrite(os.path.join(folder,str(img[0])+".jpg"), img[1])
     except:
         traceback.print_exc()
         print("Hubo un error guardando la imagen", img[0])
