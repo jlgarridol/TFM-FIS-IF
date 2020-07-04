@@ -1,14 +1,12 @@
 FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
+RUN apt-get update -y && \
+    apt-get upgrade -y --no-install-recommends && apt-get install -y wget locales 
+
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-
-RUN apt-get update -y && \
-    apt-get upgrade -y --no-install-recommends && apt-get install -y wget
-
-
 
 # Python enviroment
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 

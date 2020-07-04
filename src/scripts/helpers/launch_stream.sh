@@ -12,8 +12,9 @@ docker exec -d fis-hubu-consumer-$ID /bin/bash -c "cd app && python consumer.py 
 echo 'Lanzado consumidor'
 docker exec -d fis-hubu-productor-$ID /bin/bash -c "cd app && python producer.py --port=12345 --kafkahost='kafka_kafka_1:9092' --topic=video-stream-patient-$ID"
 echo 'Lanzado productor'
-docker exec -d fis-hubu-productor-$ID /bin/bash -c "cd app && python emitter.py --port=12345 --file=/app/testvideos/hubu-fis-3_video_1583870430.mp4 $OPTIONSEMITTER"
+docker exec -d fis-hubu-productor-$ID /bin/bash -c "cd app && python emitter.py --port=12345 --file=/app/testvideos/sentado2-cruzado.mp4 $OPTIONSEMITTER"
 echo 'Lanzado emisor para test'
+
 
 
 
