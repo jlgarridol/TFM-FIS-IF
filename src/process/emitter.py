@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Creación de un flujo de vídeo simulado
 Por UDP

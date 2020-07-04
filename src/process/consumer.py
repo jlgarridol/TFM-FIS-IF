@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pyspark.streaming.kafka import KafkaUtils, Broker
 from pyspark import SparkContext
 from pyspark.sql import SparkSession

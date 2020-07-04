@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import cv2
 from cv2.dnn import readNet
 import numpy as np

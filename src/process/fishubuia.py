@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Clase para la posicion y comparación V 1.0
 # Autor: José Miguel Ramírez Sanz
 

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from fishubuia import Interfaz
 
 ia = Interfaz()

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys, cv2, zlib, pickle, struct, socket, traceback
 from time import sleep
 from kafka import KafkaProducer

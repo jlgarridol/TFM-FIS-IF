@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Versión 3.0 clase posición reducida
 # Autor: José Miguel Ramírez Sanz
 
