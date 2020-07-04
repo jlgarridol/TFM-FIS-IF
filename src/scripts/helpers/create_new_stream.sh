@@ -31,7 +31,6 @@ docker run -dP \
 
 docker run -dP \
   --name fis-hubu-consumer-$aux \
-  --mount type=bind,source="$OUTPUT",target=/mnt \
   --cpus 1 --network fishubu-net --gpus all\
   fishubu-env:1.0.0
 
