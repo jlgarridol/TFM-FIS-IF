@@ -4,7 +4,7 @@
 
 OPTIONSEMITTER="$1"
 OPTIONSCONSUMER="$2"
-OUTPUT=$3
+OUTPUT="/mnt/data"
 
 if [[ "$(docker images -q fishubu-base:1.0.0 2> /dev/null)" == "" ]]; then
     docker build -f ../../dockers/fishubu/base/Dockerfile -t fishubu-base:1.0.0 ../../
