@@ -4,9 +4,9 @@ En este capítulo se explicarán las partes más importantes del desarrollo del 
 
 \section{Desarrollo de la aplicación web}
 
-Para realizar la primera fase del desarrollo, la recogida de los datos, se ha desarrollado una aplicación web que facilitase las tareas de telerrehabilitación conectando al personal especializado con los pacientes con enfermedad de Parkinson y que dentro de sus funciones estuviese grabar a los mismos durante la realización de los ejercicios para ser estudiados en tiempo real. 
+Para realizar la primera fase del desarrollo, la recogida de los datos, se ha desarrollado una aplicación web que facilitase las tareas de telerrehabilitación conectando al personal especializado con los pacientes con enfermedad del \textit{Parkinson}. Esta recogida se hizo incorporando dentro de sus funciones la grabación a los mismos durante la realización de los ejercicios para ser estudiados en tiempo real. 
 
-Dentro del funcionamiento natural del flujo se incorpora una función de anonimización del rostro para mantener la intimidad de los pacientes en los estudios posteriores sobre el material grabado, además no se guardan datos identificativos de ningún paciente.
+Dentro del funcionamiento natural del flujo, se incorpora una función de anonimización del rostro para mantener la intimidad de los pacientes en los estudios posteriores sobre el material grabado, además no se guardan datos identificativos de ningún paciente.
 
 Esta aplicación se ha compuesto de dos partes. Una ha consistido en el diseño y consecuente implementación de una interfaz hombre-máquina fácil de usar y accesible mediante un mando sencillo\footnote{Concretamente un mando de la consola SNES adaptado para ser usado mediante USB.}. Esta se compone de una serie de botones de colores, directamente relacionados con los del mando~(figura~\ref{fig:help}), que permiten iniciar una comunicación mediante videoconferencia con el personal terapéutico y finalizar la reunión. Durante el proceso de la llamada, el vídeo del paciente es capturado y enviado al servidor para su procesado en tiempo real.
 
@@ -44,10 +44,6 @@ Las características del equipo donde está desplegada la aplicación del pacien
 	\item Lubuntu x86\_64 18.04.
 	\item WebCam Logitech HD Pro C920.
 \end{itemize}
-
-
-
-TODO: Quizás sería interesante explicar las valoraciones otorgadas de la aplicación si se tienen antes de la entrega del trabajo. 
 
 \subsection{Herramientas utilizadas}\label{sec:recogidadatos}
 
@@ -108,7 +104,7 @@ Para solucionar estas limitaciones se plantearon diferentes estrategias, algunas
 		\item \textit{aumentar el tiempo de vida} parametrizando en \textit{Kakfa} un tiempo de vida mayor del necesario
 		\item y \textit{garantizar un consumo en el tiempo de vida} obligando a \textit{Spark} a consumir un \textit{fotograma} antes de que se perdiese.
 	\end{itemize}
-	Ambas soluciones planteadas tienen el mismo efecto en memoria sin embargo se optó por la segunda ya que de tener el fotograma cargado lo antes posible en \textit{Spark Streaming} permitía un proceso más rápido si se aumentaban los recursos de este. Como el proceso de aumentar recursos es tan simple como crear un nuevo \textit{worker}, es preferible esta aproximación que alargar el tiempo de vida en \textit{Kafka}. Además para garantizar el comportamiento sincronizado, el flujo consumirá un fotograma según la tasa de imágenes por segundo (comúnmente llamado \textit{fps} por sus siglas en inglés).
+	Ambas soluciones planteadas tienen el mismo efecto en memoria. Sin embargo, se optó por la segunda ya que el tener el fotograma cargado lo antes posible en \textit{Spark Streaming} permitía un proceso más rápido si se aumentaban los recursos de este. Como el proceso de aumentar recursos es tan simple como crear un nuevo \textit{worker}, es preferible esta aproximación que alargar el tiempo de vida en \textit{Kafka}. Además, para garantizar el comportamiento sincronizado, el flujo consumirá un fotograma según la tasa de imágenes por segundo (comúnmente llamado \textit{fps} por sus siglas en inglés).
 	\item \textbf{Reducir tiempo de desencolado}: debido a que el problema que se intenta solucionar tiene las mismas causas que el problema de reducir el tiempo de encolado, al aplicar una compresión del fotograma y un rescaldado del mismo se reduce este tiempo.
 	\item \textbf{Evitar saturación de la memoria}: este problema depende mucho de los procesos realizados por parte de \textit{Spark}, por lo que realmente solo existe una aproximación y es tener tanta memoria RAM y VRAM como sea necesaria. Sin embargo, siempre se puede reducir el uso de memoria sacrificando algunos \textit{frames}, aunque esta opción no es la más deseable.
 	\item \textbf{Garantizar el tiempo real}: para evitar el uso excesivo del tiempo de procesado se plantean dos soluciones:
@@ -126,7 +122,7 @@ Para solucionar estas limitaciones se plantearon diferentes estrategias, algunas
 
 Algo a tener en cuenta en el proceso de despliegue han sido las carencias que ha tenido la documentación oficial, ya que la \href{https://spark.apache.org/docs/latest/streaming-kafka-integration.html}{guía de integración oficial} no cuenta con los detalles para \textit{Python} junto a \textit{Kafka} y otras fuentes que enfrentan problemas similares~\cite{amit2017kafka} trabajaban con versiones diferentes de las herramientas usadas.
 
-El principal reto en la implementación del flujo ha sido el obtener los conocimientos suficientes tras una exploración minuciosa de las herramientas para poder hacer un correcto desarrollo y alcanzar los objetivos planteados.
+El principal reto en la implementación del flujo ha sido el obtener los conocimientos suficientes, tras una exploración minuciosa de las herramientas, para poder hacer un correcto desarrollo y alcanzar los objetivos planteados.
 
 
 \section{Proceso de despliegue}
@@ -155,11 +151,11 @@ En la figura~\ref{fig:despligueDocker} se puede observar las conexiones que se d
 
 Las máquinas \textit{fis-hubu} se han creado en exclusiva para este proyecto, funcionan sobre \textit{Ubuntu 18.04} y crean un entorno \textit{conda} para la correcta ejecución del algoritmo. Las modificaciones que fuesen necesarias para adaptar estas imágenes se encuentran en el anexo~\ref{sec:manualpro}. 
 
-El orden de instancia de cada una de las máquinas es muy importante para que pueda ofrecerse el servicio adecuadamente. Lo primero que se ha de hacer es levantar las máquinas (en este orden) de \textit{Zookeeper}, \textit{Kafka}, nodo maestro de \textit{Spark} y por último los \textit{workers} que se deseen. Es importante asegurar el uso de una red virtual para que todos los \textit{dockers} se localicen entre si o bien utilizar las conexiones con los puertos que se publiquen, aunque esta decisión no es la más acertada si el servidor puede ser usado con otros motivos.
+El orden de instancia de cada una de las máquinas es muy importante para que pueda ofrecerse el servicio adecuadamente. Lo primero que se ha de hacer es levantar las máquinas (en este orden) de \textit{Zookeeper}, \textit{Kafka}, nodo maestro de \textit{Spark} y por último los \textit{workers} que se deseen. Es importante asegurar el uso de una red virtual para que todos los \textit{dockers} se localicen entre sí o bien utilizar las conexiones con los puertos que se publiquen, aunque esta decisión no es la más acertada si el servidor puede ser usado con otros motivos.
 
 Un detalle importante a tener en cuenta es que los nodos de \textit{Spark}, tanto el maestro como los esclavos deben tener acceso de alguna manera al código de ejecución, su entorno y sus características. Por tanto se hizo una modificación sobre estas imágenes para que heredasen de la imagen de \textit{fis-hubu-consumer} y así poder ejecutar cada nodo el código de \textit{Python} correctamente.
 
-Una vez las máquinas <<servidoras>> estén disponibles se pueden lanzar tanto \textit{fis-hubu-productor} como \textit{fis-hubu-consumer} garantizando un nombre identificativo para que no coincida con otros flujos que puedan aparecer.
+Una vez las máquinas <<servidoras>> estén disponibles, se pueden lanzar tanto \textit{fis-hubu-productor} como \textit{fis-hubu-consumer} garantizando un nombre identificativo para que no coincida con otros flujos que puedan aparecer.
 
 Por último se han de inicializar el \textit{topic} de \textit{Kafka} en su máquina correspondiente, lanzar el \textit{script} de procesado en el \textit{fis-hubu-consumer} y el \textit{script} de encolado en el \textit{fis-hubu-productor}.
 
@@ -170,9 +166,9 @@ El despliegue final se ha realizado utilizando una única máquina, pero el proc
 
 \section{Extensibilidad}
 
-Para que el flujo se pueda utilizar para el proceso que se quiera sobre los vídeos, se ha desarrollado una forma sencilla para que el programador pueda incrustar su código y se ejecute al final del flujo. Es importante que de utilizar algún objeto de ámbito global en esta extensión (como puede ser un modelo previamente cargado) es necesario que pueda ser serializable, en caso contrario cuando \textit{Spark} desee enviar el objeto a un nodo esclavo detendrá el flujo debido a no poder cargar el objeto.
+Para que el flujo se pueda utilizar para el proceso que se quiera sobre los vídeos, se ha desarrollado una forma sencilla para que el programador pueda incrustar su código y se ejecute al final del flujo. Es importante que de utilizar algún objeto de ámbito global en esta extensión (como puede ser un modelo previamente cargado) es necesario que pueda ser serializable. En caso contrario, cuando \textit{Spark} desee enviar el objeto a un nodo esclavo, detendrá el flujo debido a no poder cargar el objeto.
 
-A la hora de extender el algoritmo es importante conocer el tiempo de ejecución necesario para procesar un \textit{frame} y con ello elegir correctamente la cantidad de \textit{workers} de \textit{Spark} necesarios para que no se ralentice la ejecución global. Para elegir la cantidad de \textit{workers} necesarios se utiliza la fórmula~\ref{eq:fps} que depende del tiempo de procesado medio, su desviación estándar y la tasa de \textit{fps} a procesar.
+A la hora de extender el algoritmo es importante conocer el tiempo de ejecución necesario para procesar un \textit{frame} y con ello elegir correctamente la cantidad de \textit{workers} de \textit{Spark} necesarios para que no se ralentice la ejecución global. Para elegir la cantidad de \textit{workers} necesarios, se utiliza la ecuación~\ref{eq:fps} que depende del tiempo de procesado medio, su desviación estándar y la tasa de \textit{fps} a procesar.
 
 \begin{equation}\label{eq:fps}
 \ceil{\frac{(t_{mean}+2t_{std})*\textrm{fps}}{1000}}

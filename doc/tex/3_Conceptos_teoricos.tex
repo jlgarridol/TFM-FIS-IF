@@ -11,7 +11,7 @@ Es importante destacar que la computación distribuida no tiene una relación di
 
 La computación paralela no tiene por que ser distribuida ni viceversa. Sin embargo, es habitual que la computación distribuida sea paralela o el servicio se dé paralelamente a diferentes aplicaciones. Un caso típico de computación distribuida y paralela puede ser el de un servicio web. Cada conexión con el servidor es un hilo diferente de ejecución y los recursos necesarios para ofrecer el servicio (bases de datos, procesadores de información, etc.) estén distribuidos en la red.
 
-Debido a que los sistemas que procesan \textit{Big Data} necesitan una gran cantidad de almacenamiento y herramientas que lo gestionen de la manera más eficiente posible, la mayoría de estos sistemas son distribuidos y paralelos.
+Debido a que los sistemas que procesan \textit{Big Data} necesitan una gran cantidad de almacenamiento junto con herramientas que lo gestionen de la manera más eficiente posible, la mayoría de estos sistemas son distribuidos y paralelos.
 
 
 \section{Flujos de datos}\label{sec:tecstream}
@@ -26,7 +26,7 @@ Por este motivo los algoritmos que procesan flujos de datos han de tener dos car
 	\item y deben procesar los datos usando una pequeña cantidad de memoria.
 \end{enumerate}
 
-Debido a esto los algoritmos que se ejecutan sobre los flujos se suelen enfocar a soluciones aproximadas para minimizar el uso temporal y espacial. Además, si se aplican algoritmos cuyo comportamiento dependa de la evolución del flujo y el contenido del mismo cambia en sus características estadísticas el programa debe poder adaptarse a estos cambios.
+Debido a esto, los algoritmos que se ejecutan sobre los flujos se suelen enfocar a soluciones aproximadas para minimizar el uso temporal y espacial. Además, si se aplican algoritmos cuyo comportamiento dependa de la evolución del flujo y el contenido del mismo cambia en sus características estadísticas, el programa debe poder adaptarse a estos cambios.
 
 Para la adaptación de cambios existen dos aproximaciones principales: el uso de ventanas deslizantes, para que de este modo solo se tengan en cuenta los datos más recientes, y el uso de ventanas de decaimiento, en el que se dan más peso a los datos más recientes. 
 
@@ -49,7 +49,7 @@ Ejemplos de estas aplicaciones pueden ser~\cite{rodriguez2020flujos}:
 
 \section{Procesamiento de imágenes}\label{sec:teccv}
 
-A la hora de hacer procesamiento sobre vídeo el fundamento principal es el procesamiento de los fotogramas que lo componen. Por tanto es importante entender como funcionan a nivel lógico las imágenes digitales, como operar con ellas y como procesarlas para obtener los mejores resultados.
+A la hora de hacer procesamiento sobre vídeo, el fundamento principal es el procesamiento de los fotogramas que lo componen. Por tanto es importante entender como funcionan a nivel lógico las imágenes digitales, cómo operar con ellas y cómo procesarlas para obtener los mejores resultados.
 
 \subsection{Definiciones}
 

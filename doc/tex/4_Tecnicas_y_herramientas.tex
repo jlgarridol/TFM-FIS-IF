@@ -6,7 +6,7 @@ Como este trabajo es parte de un proyecto mayor, en la \autoref{sec:recogidadato
 
 \section{Gestión de flujo}\label{sec:gestionflujo}
 
-Uno de los puntos  esenciales de este trabajo es recoger y dirigir los \textit{streams} de vídeo que se reciben. Por tanto, escoger una correcta aplicación para la gestión de este flujo de datos es una parte muy importante dentro de las herramientas.
+Uno de los puntos  esenciales de este trabajo es recoger y dirigir los \textit{streams} de vídeo que se reciben. Por tanto, escoger una correcta aplicación para la gestión de este flujo de datos es una parte muy importante.
 
 Dentro de la suite de \textit{Apache} existen varios componentes que se encargan de la gestión del flujos de datos. Se necesitan dos herramientas principales, una capaz de dirigir el flujo y otra para procesarlo.
 
@@ -15,11 +15,11 @@ La primera herramienta necesaria debe ser capaz de dirigir flujos de datos, conc
 
 En la suite de \textit{Apache} existen dos herramientas que gestionan flujos de datos, son: \textit{\textbf{Apache Flume}}~\cite{noauthorapacheflume} y \textit{\textbf{Apache Kafka}}~\cite{noauthorapachenodate}.
 
-\textit{\textbf{Apache Flume}} es una herramienta de gestión de flujo diseñada para hacer una gestión distribuida de manera fiable y altamente disponible de los datos. Proporciona un servicio eficiente para la recogida, agregación y almacenamiento de los datos. Sin embargo, aunque esta herramienta pudiese suplir las necesidades de una gestión de flujo se ha descartado debido a que está optimizada para la gestión de \textit{logs}, concretamente datos codificados como cadenas, y no tiene un sistema de colas.
+\textit{\textbf{Apache Flume}} es una herramienta de gestión de flujo diseñada para hacer una gestión distribuida de manera fiable y altamente disponible de los datos. Proporciona un servicio eficiente para la recogida, agregación y almacenamiento de los datos. Sin embargo, aunque esta herramienta pudiese suplir las necesidades de una gestión de flujo, se ha descartado debido a que está optimizada para la gestión de \textit{logs}, concretamente datos codificados como cadenas, y no tiene un sistema de colas.
 
-\textit{\textbf{Apache Kafka}} es un proyecto de intermediación de mensajes que trabaja sobre el patrón publicación-suscripción, funcionando como un sistema de transacciones distribuidas. Incorpora para la implementación de este patrón un sistema de colas para la distribución de mensajes. Aporta una API para el productor, para el consumidor, para el flujo y para el conector. La conexión con \textit{Kafka} se realiza a través del protocolo de la capa de transporte \textit{TCP}. Las diferentes colas que provee \textit{Kafka} se denominan \textit{topics} y son el identificador que utilizan las \textit{APIs} de productor y consumidor para seleccionar la cola sobre la que quieren operar. Para que \textit{Kafka} pueda funcionar necesita estar conectado a un servidor de \textit{Apache Zookeeper}, encargado de la gestión de la memoria y el despliegue de \textit{Kafka}.
+\textit{\textbf{Apache Kafka}} es un proyecto de intermediación de mensajes que trabaja sobre el patrón publicación-suscripción, funcionando como un sistema de transacciones distribuidas. Incorpora, para la implementación de este patrón, un sistema de colas para la distribución de mensajes. Aporta una API para el productor, para el consumidor, para el flujo y para el conector. La conexión con \textit{Kafka} se realiza a través del protocolo de la capa de transporte \textit{TCP}. Las diferentes colas que provee \textit{Kafka} se denominan \textit{topics} y son el identificador que utilizan las \textit{APIs} de productor y consumidor para seleccionar la cola sobre la que quieren operar. Para que \textit{Kafka} pueda funcionar necesita estar conectado a un servidor de \textit{Apache Zookeeper}, encargado de la gestión de la memoria y el despliegue de \textit{Kafka}.
 
-Se elije \textit{Apache Kafka} como herramienta para la dirección del flujo al aportar un sistema de colas distribuidas fiable y soportar datos serializados.
+Se elije \textit{Apache Kafka} como herramienta para la dirección del flujo, al aportar un sistema de colas distribuidas fiable y soportar datos serializados.
 
 \subsection{Herramientas para procesar el flujo}
 En segundo lugar se necesita una herramienta capaz de procesar flujos de datos de forma escalable. La suite de \textit{Apache} tiene dos herramientas principales para el procesado de información, son: \textit{\textbf{Apache Hadoop}} y \textit{\textbf{Apache Spark}}, ambas con extensiones para el procesado de flujos.
@@ -31,24 +31,24 @@ En segundo lugar se necesita una herramienta capaz de procesar flujos de datos d
 Se ha escogido \textit{Spark Streaming} frente a \textit{Hadoop Streaming} por varios motivos:
 \begin{enumerate}
 	\item \textit{Spark Streaming} tiene integración con \textit{Kafka} de manera nativa.
-	\item \textit{Spark Streaming} hace un uso más intensivo de la memoria RAM, por lo que es mucho más rápido si se cuenta con un equipo con la suficiente memoria disponible para el trabajo deseado.\footnote{El programa final se ha desplegado sobre una máquina con 128 GB de RAM y se ha probado en una de 32 GB de RAM con buenos resultados.}.
+	\item \textit{Spark Streaming} hace un uso intensivo de la memoria RAM, por lo que es mucho más rápido si se cuenta con un equipo con la suficiente memoria disponible para el trabajo deseado.\footnote{El programa final se ha desplegado sobre una máquina con 128 GB de RAM y se ha probado en una de 32 GB de RAM con buenos resultados.}.
 \end{enumerate}
 
 
 
 \subsection{Servicio de \textit{streaming} de vídeo}
 
-Para comunicar al paciente con el terapeuta asociado y con el sistema de procesado de vídeo se ha utilizado la herramienta \textit{\textbf{Jitsi}}~\cite{tool:jitsi}. Consiste en un servicio de código abierto (Apache 2) para construir y desplegar de manera sencilla una solución de conferencias de vídeo.
+Para comunicar al paciente con el terapeuta asociado y con el sistema de procesado de vídeo, se ha utilizado la herramienta \textit{\textbf{Jitsi}}~\cite{tool:jitsi}. Consiste en un servicio de código abierto (Apache 2) para construir y desplegar de manera sencilla una solución de conferencias de vídeo.
 
 Se compone de dos partes: \textit{meet} y \textit{videobridge}. \textit{Jitsi-Meet} es la interfaz web de la aplicación y es usada para que el paciente y el terapeuta se comuniquen. \textit{Jitsi-Videobridge} es la infraestructura de recogida y emisión de vídeo y audio que conectan a ambos clientes.
 
-La razón para usar esta herramienta y no cualquier otro servicio de videoconferencia es porque \textit{Jitsi} es software de código abierto. Gracias a esto podemos desplegar en los servidores locales la herramienta y poder duplicar el vídeo del paciente y que sea dirigido al ingestor de \textit{Kafka}.
+La razón para usar esta herramienta y no cualquier otro servicio de videoconferencia, es porque \textit{Jitsi} es software de código abierto. Gracias a esto podemos desplegar en los servidores locales la herramienta y poder duplicar el vídeo del paciente y que sea dirigido al ingestor de \textit{Kafka}.
 
 \section{Herramientas para el procesado de imágenes}
 
 Para el procesado de las imágenes que componen los vídeos que se van a analizar existe \textit{OpenCV}~\cite{opencv_library}, esta biblioteca de código abierto desarrollada sobre \textit{C++} e integrada en otros muchos lenguajes como \textit{Python}. Debido a la libertad que ofrece al ser \textit{open source}, ser muy versátil, tener una gran trayectoria dentro  y tener una documentación muy completa se ha optado directamente por esta herramienta.
 
-Para la detección de rostros y su correspondiente anonimización, para poder garantizar la privacidad del paciente, se utiliza un modelo de \textit{Caffe}~\cite{jia2014caffe}, concretamente el modelo \textit{res10\_300x300\_ssd\_iter\_140000}. Consiste en una red neuronal convolucional, principal tipo de red neuronal para el análisis de matrices 2D~\cite{lawrence1997face} como son las imágenes.
+Para poder garantizar la privacidad de los pacientes, se ha realizado detección de rostros y su posterior anonimización. Para ello se utiliza modelo de \textit{Caffe}~\cite{jia2014caffe}, concretamente el modelo \textit{res10\_300x300\_ssd\_iter\_140000}. Consiste en una red neuronal convolucional, principal tipo de red neuronal para el análisis de matrices 2D~\cite{lawrence1997face} como son las imágenes.
 
 
 \subsection{Elección del sistema de compresión de fotogramas}\label{sec:sistemacompresion}
@@ -77,7 +77,7 @@ Junto con estos sistemas de serialización se han combinado los siguientes algor
 	\item \textit{Zlib}~\cite{tool:zlib}: abstracción del algoritmo de compresión \textit{DEFLATED} que usa una menor cantidad de recursos del sistema.
 \end{itemize}
 
-Para hacer la prueba se utilizaron dos videos con una duración total entre los dos de 13 minutos, con una frecuencia de 15 fotogramas por segundos, un total de 11700 fotogramas. De cada uno de estas imágenes se calculó el tiempo de compresión, el tiempo de descompresión y el tamaño en memoria que ocupaba tras la compresión. De estos resultados se obtuvo el valor medio. En las figuras~\ref{fig:heatmapmemory} y \ref{fig:resultsComp} se pueden observar tres mapas de calor con los resultados de cada experimento.
+Para hacer la prueba se utilizaron dos vídeos con una duración total entre los dos de 13 minutos, con una frecuencia de 15 fotogramas por segundos, un total de 11\,700 fotogramas. De cada uno de estas imágenes se calculó el tiempo de compresión, el tiempo de descompresión y el tamaño en memoria que ocupaba tras la compresión. De estos resultados se obtuvo el valor medio. En las figuras~\ref{fig:heatmapmemory} y \ref{fig:resultsComp} se pueden observar tres mapas de calor con los resultados de cada experimento.
 
 \begin{figure}[h]
 	\centering
@@ -105,7 +105,7 @@ Para hacer la prueba se utilizaron dos videos con una duración total entre los 
 
 Se puede observar que el algoritmo de compresión \textit{LZMA}, aunque consigue en la mayoría de las veces una muy alta compresión, requiere siempre el mayor tiempo tanto de compresión como de descompresión. De manera similar la serialización nativa mantiene siempre un uso mucho mayor de memoria que el resto de serializaciones, debido principalmente porque tanto \textit{JPG} como \textit{PNG} incorporan un compresor adicional.
 
-Respecto a los algoritmos de compresión \textit{GZip} y \textit{ZLib} las diferencias son muy sutiles tanto en memoria como en tiempo, principalmente por que están basados en el mismo algoritmos.
+Respecto a los algoritmos de compresión \textit{GZip} y \textit{ZLib} las diferencias son muy sutiles tanto en memoria como en tiempo, principalmente porque están basados en el mismo algoritmo.
 
 El uso de \textit{JPG} sobre \textit{PNG} garantiza un uso significativamente menor de memoria aunque a costa de una pérdida de información, sin embargo la pérdida en el caso de \textit{JPEG 95} es despreciable teniendo en cuenta la ventaja que tiene en espacio.
 

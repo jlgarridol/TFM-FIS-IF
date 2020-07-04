@@ -45,7 +45,8 @@
 \providecommand{\ceil}[1]{\left \lceil #1 \right \rceil }
 
 
-
+\widowpenalty10000
+\clubpenalty10000
 
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
@@ -468,24 +469,21 @@ Dr. D. José Francisco Díez Pastor
 
 \newpage\null\thispagestyle{empty}\newpage
 
-
-
-
 \frontmatter
 
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-La población del primer mundo está cada vez más envejecida y con esto las enfermedades degenerativas como el \textit{Parkinson} afectan cada vez a una mayor parte de los ancianos. Además, los pacientes de estas enfermedades padecen limitaciones para poder desplazarse hasta los centros de salud para poder recibir la terapia ocupacional que necesitan para hacer su vida normal.
+La población del primer mundo está cada vez más envejecida y con las enfermedades degenerativas, como el \textit{Parkinson}, afectan cada vez a una mayor parte de los ancianos. Además, los pacientes de estas enfermedades padecen limitaciones para poder desplazarse hasta los centros de salud para poder recibir la terapia ocupacional que necesitan para hacer su vida normal.
 
 Ante esta situación se desarrolla el proyecto \textit{Estudio de factibilidad y coste-efectividad del uso telemedicina con un equipo multidisciplinar para prevención de caídas en la enfermedad de Parkinson} en el cual se incorpora este trabajo.
 
-El objetivo está en desarrollar un sistema de colas que sea escalable, versátil y fiable, dentro de un entorno Big Data, que de soporte al análisis en tiempo real de los ejercicios realizados por los pacientes. Se pretende así facilitar la tarea de los terapeutas ocupacionales y aumentar su alcance.
+El objetivo de este TFM está en desarrollar un sistema de colas que sea escalable, versátil y fiable, dentro de un entorno Big Data, que de soporte al análisis en tiempo real de los ejercicios de rehabilitación realizados por los pacientes. Se pretende así facilitar la tarea de los terapeutas ocupacionales y aumentar su alcance y que los ejercicios se puedan realizar de manera autónoma siendo el sistema el que se encargue de comprobar si se están realizando correctamente.
 \end{abstract}
 
 \renewcommand*\abstractname{Descriptores}
 \begin{abstract}
-Enfermedad del \textit{Parkinson}, \textit{Big Data}, colas, \textit{Apache Kafka}, \textit{Apache Spark}, gestión de flujos, vídeo.
+\textit{Big Data}, colas, \textit{Apache Kafka}, \textit{Apache Spark}, gestión de flujos, vídeo, Enfermedad del \textit{Parkinson}.
 \end{abstract}
 
 \clearpage
@@ -493,11 +491,11 @@ Enfermedad del \textit{Parkinson}, \textit{Big Data}, colas, \textit{Apache Kafk
 % Abstract en inglés
 \renewcommand*\abstractname{Abstract}
 \begin{abstract}
-The population of the first world is getting older and therefore degenerative diseases such as Parkinson's are affecting more and more of the elderly. In addition, patients with these diseases suffer from limitations in being able to travel to health centres in order to receive the occupational therapy they need to lead a normal life.
+The population of the first world is getting older and therefore degenerative diseases, such as Parkinson, are affecting more and more frequently to elderly people. In addition, patients with these diseases suffer from limitations in being able to travel to health centres in order to receive the occupational therapy they need to lead a normal life.
 
 In view of this situation, the project \textit{Feasibility and cost-effectiveness study of the use of telemedicine is being developed with a multidisciplinary team for the prevention of falls in Parkinson's disease} in which this work is incorporated.
 
-The objective is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the exercises performed by patients. This is intended to facilitate the task of occupational therapists and increase their scope.
+The aim of this project is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the exercises performed by patients. This is intended to facilitate the task of occupational therapists and increase their scope and that the exercises can be carried out autonomously with the system being responsible for checking that they are being carried out correctly.
 \end{abstract}
 
 \renewcommand*\abstractname{Keywords}
