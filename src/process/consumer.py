@@ -53,57 +53,61 @@ SAVE = True
 
 BRIGHT = False
 CONTRAST = False
+NAME = ""
 
-try:
-    optlist, args = getopt(argv[1:], "habcg:p:f:", ["output=","topic=","blur=","pixel=","no-save","fps=","kafkahost=","sparkhost="])
-    for o, a in optlist:
-        if o == "-h":
-            help_()
-        elif o == "--topic":
-            TOPIC = a
-        elif o == "--output":
-            OUTPUT = a
-        elif o == "--blur" or o == "-g":
-            if a != "":                
-                ANON_FACTOR = float(a)
+def argv_reader():
+    try:
+        optlist, args = getopt(argv[1:], "habcg:p:f:", ["output=","topic=","blur=","pixel=","no-save","fps=","kafkahost=","sparkhost="])
+        for o, a in optlist:
+            if o == "-h":
+                help_()
+            elif o == "--topic":
+                TOPIC = a
+            elif o == "--output":
+                OUTPUT = a
+            elif o == "--blur" or o == "-g":
+                if a != "":                
+                    ANON_FACTOR = float(a)
+                else:
+                    ANON_FACTOR = 3
+                ANON_ALG = ip.blur
+            elif o == "--pixel" or o == "-p":
+                if a != "":
+                    ANON_FACTOR = int(a)
+                else:
+                    ANON_FACTOR = 15
+                ANON_ALG = ip.pixel
+            elif o == "--kafkahost":
+                KAFKA_HOST = a
+            elif o == "--sparkhost":
+                SPARK_HOST = a
+            elif o == "-f" or o == "--fps":
+                if a != "":
+                    FPS = int(a)
+                else:
+                    FPS = 15
+            elif o == "-a":
+                ANONIMIZE = True
+            elif o == "-b":
+                BRIGHT = True
+            elif o == "-c":
+                CONTRAST = True
+            elif o == "--no-save":
+                SAVE = False
             else:
-                ANON_FACTOR = 3
-            ANON_ALG = ip.blur
-        elif o == "--pixel" or o == "-p":
-            if a != "":
-                ANON_FACTOR = int(a)
-            else:
-                ANON_FACTOR = 15
-            ANON_ALG = ip.pixel
-        elif o == "--kafkahost":
-            KAFKA_HOST = a
-        elif o == "--sparkhost":
-            SPARK_HOST = a
-        elif o == "-f" or o == "--fps":
-            if a != "":
-                FPS = int(a)
-            else:
-                FPS = 15
-        elif o == "-a":
-            ANONIMIZE = True
-        elif o == "-b":
-            BRIGHT = True
-        elif o == "-c":
-            CONTRAST = True
-        elif o == "--no-save":
-            SAVE = False
-        else:
-            print("Parámetro",o,"no reconocido")
-            help_(1)
-except GetoptError as e:
-    print(e)
-    help_(2)
+                print("Parámetro",o,"no reconocido")
+                help_(1)
+    except GetoptError as e:
+        print(e)
+        help_(2)
+    NAME="ImageProcessor_"+TOPIC
+
+argv_reader()        
 
 if TOPIC is None or OUTPUT is None:
     print("Falta algún parámetro")
     help_(1)
 
-NAME="ImageProcessor_"+TOPIC
 sc = SparkContext(SPARK_HOST, NAME)
 ssc = StreamingContext(sc, float(1/FPS))
 
@@ -117,6 +121,7 @@ options = {"bootstrap.servers": KAFKA_HOST,
 kafkaStream = KafkaUtils.createDirectStream(ssc, [TOPIC], options, valueDecoder=deserializer)
 
 def op(package):
+    argv_reader()
     k = package[0]
     img = package[1]
     if img is not None and k is not None:
