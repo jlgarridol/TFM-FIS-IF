@@ -56,6 +56,7 @@ CONTRAST = False
 NAME = ""
 
 def argv_reader():
+    global TOPIC, OUTPUT, KAFKA_HOST, SPARK_HOST, ANONIMIZE, ANON_ALG, ANON_FACTOR, FPS, SAVE, CONTRAST, NAME
     try:
         optlist, args = getopt(argv[1:], "habcg:p:f:", ["output=","topic=","blur=","pixel=","no-save","fps=","kafkahost=","sparkhost="])
         for o, a in optlist:
