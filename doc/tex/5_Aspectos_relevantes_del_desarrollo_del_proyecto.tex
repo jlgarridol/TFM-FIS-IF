@@ -176,7 +176,7 @@ A la hora de extender el algoritmo es importante conocer el tiempo de ejecución
 
 \subsection{Análisis temporal del flujo}\label{sec:analisistemporal_flujo}
 
-Si se quiere extender el flujo es importante primero conocer el tiempo que necesita de base para tenerlo en consideración a la hora de incorporar nuevas funcionalidades al flujo y aumentar el número de \textit{workers} para mantener el \textit{status} de tiempo real.
+Si se quiere extender el flujo es importante primero conocer el tiempo que necesita de base, lo cual se debe tener en consideración a la hora de incorporar nuevas funcionalidades al flujo y aumentar el número de \textit{workers} para mantener el \textit{status} de tiempo real.
 
 Para analizar el tiempo del flujo se creó una simulación del mismo que calculase el tiempo de procesado de cada uno de los fotogramas para posteriormente calcular la media y la desviación. Concretamente se utilizaron un total de $4863$ fotogramas analizados diez veces. Además se discriminó entre sin almacenar el fotograma y almacenándolo, y se estudiaron el flujo sin procesar (únicamente la deserialización) o con el pre-procesado completo (detección y anonimización del rostro y reparación del brillo y el contraste). Las medidas se calcularon sobre la ejecución de un procesador \textit{Intel Xeon} de 10 núcleos.
 
@@ -196,9 +196,9 @@ Pero antes de pasar a la muestra de los resultados es importante destacar que el
 \end{figure}
 
 
-En la figura~\ref{fig:dist1} se pueden observar las distribuciones temporales para los casos considerados. La regla de las dos sigmas se cumple siempre con las distribuciones normales, sin embargo, aunque la distribución no es una normal si que asemeja su forma y abarca principalmente los datos temporales mayores por lo que se puede garantizar que el usar dos sigmas es suficiente rango temporal para el cálculo de \textit{workers}.
+En la figura~\ref{fig:dist1} se pueden observar las distribuciones temporales para los casos considerados. La regla de las dos sigmas se cumple siempre con las distribuciones normales, sin embargo, aunque la distribución no es una normal, sí que asemeja su forma y abarca principalmente los datos temporales mayores por lo que se puede garantizar que el usar dos sigmas es suficiente rango temporal para el cálculo de \textit{workers}.
 
-En la figura~\ref{fig:dist2} se observa la distribución estadística de los datos. Como es esperable el guardar las imágenes necesita de un tiempo considerablemente mayor. Los datos sin procesar la imagen son significativamente bajos, incluso la media sin guardar está en $17.5$ milisegundos, lo que alcanzaría un procesado de casi $60$ \textit{fps} para cada \textit{worker}. Son métricas muy buenas si se quiere extender el flujo que no necesiten la anonimización del rostro (como en cámaras de vigilizancia) o que ya vengan contrastadas. En el caso del preprocesado necesita de media $464$ milisegundos, que apenas da para procesar dos fotogramas por segundo.
+En la figura~\ref{fig:dist2} se observa la distribución estadística de los datos. Como es esperable el guardar las imágenes necesita de un tiempo considerablemente mayor. Los datos sin procesar la imagen son significativamente bajos, incluso la media sin guardar está en $17.5$ milisegundos, lo que alcanzaría un procesado de casi $60$ \textit{fps} para cada \textit{worker}. Son métricas muy buenas si se quiere extender el flujo que no necesiten la anonimización del rostro (como en cámaras de vigilancia) o que ya vengan contrastadas. En el caso del preprocesado necesita de media $464$ milisegundos, que apenas da para procesar dos fotogramas por segundo.
 
 \begin{figure}[h]
 	\begin{subfigure}[b]{\textwidth}
@@ -224,7 +224,7 @@ Con estos resultados, usando la \autoref{eq:fps}, podemos ver en la~\autoref{tab
 			\otoprule
 			\textbf{5 \textit{fps}} & 1 & 2 &1 & 3\\
 			\textbf{15 \textit{fps}} & 1 & 1 &2 & 4\\
-			\bottomrule
+			\bottomruleS
 		\end{tabular}
 	\end{center}
 	\caption{N.º de \textit{workers} necesarios según el proceso a realizar.}
@@ -234,15 +234,15 @@ Con estos resultados, usando la \autoref{eq:fps}, podemos ver en la~\autoref{tab
 
 \subsection{Integración con el modelo de detección de esqueleto del paciente}
 
-Se ha querido comprobar que la arquitectura de colas presentada en este trabajo funcionase correctamente en el proyecto que la engloba. Para ello se ha juntado con el modelo de clasificación para la detección del esqueleto y el cálculo de la diferencia entre dos estados.
+Se ha querido comprobar que la arquitectura de colas presentada en este trabajo funcionase correctamente en el proyecto que la engloba. Para ello se ha juntado con el modelo de detección del esqueleto y el cálculo de la diferencia entre dos estados.
 
 Siguiendo las indicaciones\footnote{Ver \autoref{sec:manualpro}.} para hacer extensible el algoritmo, es decir, incorporar nuevas funcionalidades se ha incluido dentro del fichero \texttt{extraOpt.py} las importaciones de las clases creadas por José Miguel Ramírez Sanz, así como la instancia de la interfaz para acceder al modelo.
 
-El primer detalle a tener en cuenta es que el modelo tenía que instanciarse en el ámbito global de la aplicación para que fuese serializado y enviado a todos los \textit{workers} de \textit{spark} ya que necesita para cargar entre 4 y 6 segundos, un tiempo excesivo que se sumaría al análisis de cada fotograma. Sin embargo, la inicialización del flujo necesita más tiempo por lo que es muy importante lanzarlo lo antes posible para cuando lleguen los primeros fotogramas esté completamente cargado.
+El primer detalle a tener en cuenta es que el modelo tenía que instanciarse en el ámbito global de la aplicación para que fuese serializado y enviado a todos los \textit{workers} de \textit{Spark}, ya que necesita para cargar entre 4 y 6 segundos, un tiempo excesivo que se sumaría al análisis de cada fotograma. Sin embargo, la inicialización del flujo necesita más tiempo por lo que es muy importante lanzarlo lo antes posible para cuando lleguen los primeros fotogramas esté completamente cargado.
 
-Junto con la dificultad temporal surgió también una dificultar en memoria, concretamente la memoria de la tarjeta gráfica. Cada instancia cargada del modelo reservaba entre 512 y 768 MiB de VRAM por lo que según la cantidad de \textit{workers} se necesita una mayor cantidad de memoria en el sistema. En el caso personal, que se contaba con una \textit{Nvidia 750 Ti} de 2 GiB de memoria solamente se podían ejecutar un \textit{worker} junto con el \textit{master}, teniendo en cuenta la ecuación~\ref{eq:fps} implicaría que solamente se podían analizar $12$ en el caso de utilizar solamente el procesado básico y una tase de $3$ en el caso del flujo completo. Teniendo en cuenta las necesidades del tiempo real este dispositivo no es adecuado.
+Junto con la dificultad temporal surgió también una dificultad en memoria, concretamente la memoria de la tarjeta gráfica. Cada instancia cargada del modelo reservaba entre 512 y 768 MiB de VRAM por lo que según la cantidad de \textit{workers} se necesita una mayor cantidad de memoria en el sistema. En el caso personal, que se contaba con una \textit{Nvidia 750 Ti} de 2 GiB de memoria, solamente se podían ejecutar un \textit{worker} junto con el \textit{master}, teniendo en cuenta la ecuación~\ref{eq:fps} implicaría que se podían analizar $12$ hilos en el caso de utilizar solamente el procesado básico y una tasa de $3$ en el caso del flujo completo. Teniendo en cuenta las necesidades del tiempo real este dispositivo no es adecuado.
 
-Al utilizar las GPU de la máquina \textit{gamma} del grupo \textit{ADMIRABLE}, que cuenta con tres \textit{Nvidia Titan Xp} de 12 GiB de memoria cada una se podían llegar a utilizar un total de 47 \textit{workers} junto con el nodo \textit{master}. Permitiendo así unas tasas de \textit{fps} de $288$ en el caso de solo usar el procesamiento básico y de $73$ con el flujo completo. Si los vídeos se mantienen con los \textit{15} fps se pueden tener $4$ flujos simultaneos y en el caso de reducir la tasa a 5 se pueden tener hasta $14$ flujos.
+Al utilizar las GPU de la máquina \textit{gamma} del grupo \textit{ADMIRABLE}, que cuenta con tres \textit{Nvidia Titan Xp} de 12 GiB de memoria cada una, se podían llegar a utilizar un total de 47 \textit{workers} junto con el nodo \textit{master}. Permitiendo así unas tasas de \textit{fps} de $288$ en el caso de solo usar el procesamiento básico y de $73$ con el flujo completo. Si los vídeos se mantienen con los \textit{15} fps se pueden tener $4$ flujos simultáneos y en el caso de reducir la tasa a 5 se pueden tener hasta $14$ flujos.
 
 
 \subsection{Análisis temporal del flujo con toda la integración}\label{sec:analisistemporal}

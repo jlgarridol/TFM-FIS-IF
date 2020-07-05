@@ -144,10 +144,14 @@ def op(package):
     img = package[1]
     if img is not None and k is not None:
         try:
+            lg.info("Procesando")
             if ANONIMIZE:
+                lg.info("Anonimizando")
                 img = ip.anonimize(img, ANON_ALG, ANON_FACTOR)
             if BRIGHT or CONTRAST:
+                lg.info("Brillo y contraste")
                 img = ip.repair_bright_and_contrast(img, BRIGHT, CONTRAST)
+            lg.info("Operación del equeleto")
             k, img = opt_(k, img)
         except:
             traceback.print_exc()
@@ -158,6 +162,7 @@ def op(package):
 def save(img):
     try:
         if SAVE:
+            lg.info("Guardando")
             folder = os.path.join(OUTPUT,NAME)
             if not os.path.exists(folder):
                 os.makedirs(folder)
