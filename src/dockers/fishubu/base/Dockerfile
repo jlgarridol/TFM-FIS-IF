@@ -8,6 +8,16 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+# Cuda enviroment
+RUN mkdir -p /nvidia/build && \
+    cd /nvidia/build/ && \
+    curl -o nvidia-install http://us.download.nvidia.com/tesla/440.33.01/NVIDIA-Linux-x86_64-440.33.01.run && \
+    chmod +x nvidia-install && \
+    /nvidia/build/nvidia-install -s -N --no-kernel-module && \
+    rm -r /nvidia/
+
+ENV PATH=/opt/cuda/bin:$PATH
+
 # Python enviroment
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
 
