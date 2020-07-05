@@ -67,7 +67,7 @@ CONTRAST = False
 NAME = ""
 REVISED = False
 
-PATH = pathlib.Path().absolute()
+PATH = str(pathlib.Path().absolute())
 
 def argv_reader():
     global TOPIC, OUTPUT, KAFKA_HOST, SPARK_HOST, ANONIMIZE, ANON_ALG, ANON_FACTOR, FPS, SAVE, CONTRAST, NAME, REVISED, BRIGHT
