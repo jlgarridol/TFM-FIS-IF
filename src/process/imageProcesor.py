@@ -4,9 +4,11 @@ import cv2
 from cv2.dnn import readNet
 import numpy as np
 import traceback
+import pathlib
 
 def anonimize(img, alg, mode=15):
-    net = cv2.dnn.readNet("model/deploy.prototxt", "model/res10_300x300_ssd_iter_140000.caffemodel")
+    net = cv2.dnn.readNet(str(pathlib.Path().absolute())+"/model/deploy.prototxt", 
+                          str(pathlib.Path().absolute())+"/model/res10_300x300_ssd_iter_140000.caffemodel")
 
     (h, w) = img.shape[:2]
 

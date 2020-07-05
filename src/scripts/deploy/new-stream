@@ -3,5 +3,5 @@
 if [ "$( docker container inspect -f '{{.State.Running}}' kafka_kafka_1 )" == "true" ]; then
     bash ../helpers/create_new_stream.sh "$1" "$2"
 else
-    print "The server is not running"
+    echo "The server is not running"
 fi
