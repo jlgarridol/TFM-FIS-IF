@@ -14,6 +14,16 @@ import zlib, lzma
 import sys
 import imageProcesor as ip
 from extraOpt import opt as opt_
+#Logging
+import logging
+lg = logging.getLogger('fishubu')
+lg.setLevel(logging.DEBUG)
+fh = logging.FileHandler('/logs/fishubu.log')
+fh.setLevel(logging.DEBUG)
+lg.addHandler(fh)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+lg.addHandler(fh)
 
 os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.4.5 pyspark-shell'
 
@@ -54,59 +64,66 @@ SAVE = True
 BRIGHT = False
 CONTRAST = False
 NAME = ""
+REVISED = False
 
 def argv_reader():
-    global TOPIC, OUTPUT, KAFKA_HOST, SPARK_HOST, ANONIMIZE, ANON_ALG, ANON_FACTOR, FPS, SAVE, CONTRAST, NAME
-    try:
-        optlist, args = getopt(argv[1:], "habcg:p:f:", ["output=","topic=","blur=","pixel=","no-save","fps=","kafkahost=","sparkhost="])
-        for o, a in optlist:
-            if o == "-h":
-                help_()
-            elif o == "--topic":
-                TOPIC = a
-            elif o == "--output":
-                OUTPUT = a
-            elif o == "--blur" or o == "-g":
-                if a != "":                
-                    ANON_FACTOR = float(a)
+    global TOPIC, OUTPUT, KAFKA_HOST, SPARK_HOST, ANONIMIZE, ANON_ALG, ANON_FACTOR, FPS, SAVE, CONTRAST, NAME, REVISED
+    lg.info("Se intenta cargar la configuración")
+    if not REVISED:
+        lg.info("La configuración se va a cargar")
+        try:
+            optlist, args = getopt(argv[1:], "habcg:p:f:", ["output=","topic=","blur=","pixel=","no-save","fps=","kafkahost=","sparkhost="])
+            for o, a in optlist:
+                if o == "-h":
+                    help_()
+                elif o == "--topic":
+                    TOPIC = a
+                elif o == "--output":
+                    OUTPUT = a
+                elif o == "--blur" or o == "-g":
+                    if a != "":                
+                        ANON_FACTOR = float(a)
+                    else:
+                        ANON_FACTOR = 3
+                    ANON_ALG = ip.blur
+                elif o == "--pixel" or o == "-p":
+                    if a != "":
+                        ANON_FACTOR = int(a)
+                    else:
+                        ANON_FACTOR = 15
+                    ANON_ALG = ip.pixel
+                elif o == "--kafkahost":
+                    KAFKA_HOST = a
+                elif o == "--sparkhost":
+                    SPARK_HOST = a
+                elif o == "-f" or o == "--fps":
+                    if a != "":
+                        FPS = int(a)
+                    else:
+                        FPS = 15
+                elif o == "-a":
+                    ANONIMIZE = True
+                elif o == "-b":
+                    BRIGHT = True
+                elif o == "-c":
+                    CONTRAST = True
+                elif o == "--no-save":
+                    SAVE = False
                 else:
-                    ANON_FACTOR = 3
-                ANON_ALG = ip.blur
-            elif o == "--pixel" or o == "-p":
-                if a != "":
-                    ANON_FACTOR = int(a)
-                else:
-                    ANON_FACTOR = 15
-                ANON_ALG = ip.pixel
-            elif o == "--kafkahost":
-                KAFKA_HOST = a
-            elif o == "--sparkhost":
-                SPARK_HOST = a
-            elif o == "-f" or o == "--fps":
-                if a != "":
-                    FPS = int(a)
-                else:
-                    FPS = 15
-            elif o == "-a":
-                ANONIMIZE = True
-            elif o == "-b":
-                BRIGHT = True
-            elif o == "-c":
-                CONTRAST = True
-            elif o == "--no-save":
-                SAVE = False
-            else:
-                print("Parámetro",o,"no reconocido")
-                help_(1)
-    except GetoptError as e:
-        print(e)
-        help_(2)
-    NAME="ImageProcessor_"+TOPIC
+                    lg.error("Parámetro "+str(o)+" no reconocido")
+                    help_(1)
+        except GetoptError as e:
+            lg.error(e)
+            help_(2)
+        NAME="ImageProcessor_"+TOPIC
+        REVISED=True
+    lg.info("La configuración es: anonimizar->"+str(ANONIMIZE)+" tipo de anonimizacion->"+str(ANON_ALG)+" factor->"+str(ANON_FACTOR)+\
+            " brillo->"+str(BRIGHT)+" contraste->"+str(CONTRAST)+" guardar->"+str(SAVE))
 
 argv_reader()        
 
 if TOPIC is None or OUTPUT is None:
-    print("Falta algún parámetro")
+    lg.error("Falta algún parámetro")
     help_(1)
 
 sc = SparkContext(SPARK_HOST, NAME)
@@ -134,7 +151,8 @@ def op(package):
             k, img = opt_(k, img)
         except:
             traceback.print_exc()
-            print("Hubo un error procesando la imagen",k)
+            log.debug(traceback.format_exc())
+            lg.error("Hubo un error procesando la imagen "+str(k))
     return k, img
 
 def save(img):
@@ -146,7 +164,8 @@ def save(img):
             cv2.imwrite(os.path.join(folder,str(img[0])+".jpg"), img[1])
     except:
         traceback.print_exc()
-        print("Hubo un error guardando la imagen", img[0])
+        log.debug(traceback.format_exc())
+        lg.error("Hubo un error guardando la imagen "+str(img[0]))
     return img
 
     
