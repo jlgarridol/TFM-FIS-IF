@@ -36,7 +36,7 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
 RUN make -j8 && make install
 
 #NVIDIA
-RUN apt install build-essential libglvnd-dev pkg-config kmod -y
+RUN apt install build-essential libglvnd-dev pkg-config curl kmod -y
 
 RUN mkdir -p /nvidia/build && \
     cd /nvidia/build/ && \
