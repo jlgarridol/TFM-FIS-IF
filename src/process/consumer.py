@@ -67,7 +67,7 @@ NAME = ""
 REVISED = False
 
 def argv_reader():
-    global TOPIC, OUTPUT, KAFKA_HOST, SPARK_HOST, ANONIMIZE, ANON_ALG, ANON_FACTOR, FPS, SAVE, CONTRAST, NAME, REVISED
+    global TOPIC, OUTPUT, KAFKA_HOST, SPARK_HOST, ANONIMIZE, ANON_ALG, ANON_FACTOR, FPS, SAVE, CONTRAST, NAME, REVISED, BRIGHT
     lg.info("Se intenta cargar la configuración")
     if not REVISED:
         lg.info("La configuración se va a cargar")
