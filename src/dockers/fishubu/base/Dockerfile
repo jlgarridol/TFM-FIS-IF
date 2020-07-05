@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.2-base-ubuntu18.04
 
 RUN apt-get update -y && \
     apt-get upgrade -y --no-install-recommends && apt-get install -y wget locales 
