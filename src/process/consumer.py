@@ -14,6 +14,7 @@ import zlib, lzma
 import sys
 import imageProcesor as ip
 from extraOpt import opt as opt_
+import pathlib
 #Logging
 import logging
 lg = logging.getLogger('fishubu')
@@ -65,6 +66,8 @@ BRIGHT = False
 CONTRAST = False
 NAME = ""
 REVISED = False
+
+PATH = pathlib.Path().absolute()
 
 def argv_reader():
     global TOPIC, OUTPUT, KAFKA_HOST, SPARK_HOST, ANONIMIZE, ANON_ALG, ANON_FACTOR, FPS, SAVE, CONTRAST, NAME, REVISED, BRIGHT
@@ -147,7 +150,7 @@ def op(package):
             lg.info("Procesando")
             if ANONIMIZE:
                 lg.info("Anonimizando")
-                img = ip.anonimize(img, ANON_ALG, ANON_FACTOR)
+                img = ip.anonimize(img, ANON_ALG, ANON_FACTOR, path=PATH)
             if BRIGHT or CONTRAST:
                 lg.info("Brillo y contraste")
                 img = ip.repair_bright_and_contrast(img, BRIGHT, CONTRAST)
