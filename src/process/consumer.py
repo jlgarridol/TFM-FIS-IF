@@ -151,7 +151,7 @@ def op(package):
             k, img = opt_(k, img)
         except:
             traceback.print_exc()
-            log.debug(traceback.format_exc())
+            lg.debug(traceback.format_exc())
             lg.error("Hubo un error procesando la imagen "+str(k))
     return k, img
 
@@ -164,7 +164,7 @@ def save(img):
             cv2.imwrite(os.path.join(folder,str(img[0])+".jpg"), img[1])
     except:
         traceback.print_exc()
-        log.debug(traceback.format_exc())
+        lg.debug(traceback.format_exc())
         lg.error("Hubo un error guardando la imagen "+str(img[0]))
     return img
 
