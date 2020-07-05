@@ -15,6 +15,8 @@ RUN bash Miniconda3-latest-Linux-x86_64.sh -b && ~/miniconda3/condabin/conda ini
 
 ENV PATH="/root/miniconda3/envs/default-conda/bin:${PATH}"
 
+RUN mkdir -p /logs
+
 # Keeping alive
 CMD tail -f /dev/null 
 # Problemas?

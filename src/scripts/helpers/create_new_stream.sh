@@ -4,7 +4,9 @@
 
 OPTIONSEMITTER="$1"
 OPTIONSCONSUMER="$2"
-OUTPUT="/mnt/data"
+OUTPUT="/tmp/fishubulogs"
+
+mkdir -p $OUTPUT
 
 if [[ "$(docker images -q fishubu-base:1.0.0 2> /dev/null)" == "" ]]; then
     docker build -f ../../dockers/fishubu/base/Dockerfile -t fishubu-base:1.0.0 ../../
@@ -32,6 +34,7 @@ docker run -dP \
 docker run -dP \
   --name fis-hubu-consumer-$aux \
   --cpus 1 --network fishubu-net --gpus all\
+  --mount type=bind,source="$OUTPUT",target=/mnt/data \
   fishubu-env:1.0.0
 
 bash ../helpers/launch_stream.sh $aux "$OPTIONSEMITTER" "$OPTIONSCONSUMER"
