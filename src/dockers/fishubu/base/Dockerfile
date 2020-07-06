@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-base-ubuntu18.04
+FROM nvidia/cuda:10.2-devel-ubuntu18.04
 
 RUN apt-get update -y && \
     apt-get upgrade -y --no-install-recommends && apt-get install -y wget locales curl
@@ -7,6 +7,26 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+
+#NVIDIA
+RUN apt install build-essential libglvnd-dev pkg-config kmod -y
+
+RUN mkdir -p /nvidia/build && \
+    cd /nvidia/build/ && \
+    curl -o nvidia-install http://es.download.nvidia.com/XFree86/Linux-x86_64/440.100/NVIDIA-Linux-x86_64-440.100.run && \
+    chmod +x nvidia-install && \
+    /nvidia/build/nvidia-install -s -N --no-kernel-module && \
+    rm -r /nvidia/
+
+#RUN apt install gcc-7 -y
+#RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 100
+#RUN apt install --fix-broken cuda -y
+#WORKDIR /
+#RUN wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run
+#RUN bash cuda_10.2.89_440.33.01_linux.run
+#ENV LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+#RUN rm cuda_10.2.89_440.33.01_linux.run
 
 # Python enviroment
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
@@ -35,21 +55,6 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
 
 RUN make -j8 && make install
 
-#NVIDIA
-RUN apt install gcc-7 -y
-RUN update-alternative --install /usr/bin/gcc gcc /usr/bin/gcc-7 100
-RUN apt install --fix-broker cuda -y
-
-ENV LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-
-RUN apt install build-essential libglvnd-dev pkg-config kmod -y
-
-RUN mkdir -p /nvidia/build && \
-    cd /nvidia/build/ && \
-    curl -o nvidia-install http://es.download.nvidia.com/XFree86/Linux-x86_64/440.100/NVIDIA-Linux-x86_64-440.100.run && \
-    chmod +x nvidia-install && \
-    /nvidia/build/nvidia-install -s -N --no-kernel-module && \
-    rm -r /nvidia/
 
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 

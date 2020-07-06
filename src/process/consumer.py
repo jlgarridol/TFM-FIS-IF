@@ -160,7 +160,7 @@ def op(package):
             traceback.print_exc()
             lg.debug(traceback.format_exc())
             lg.error("Hubo un error procesando la imagen "+str(k))
-            with open("/logs/mylog","a") as f:
+            with open("/logs/notprocesslog","a") as f:
                 f.writelines(traceback.format_exc())
     return k, img
 
