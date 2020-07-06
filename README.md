@@ -26,15 +26,8 @@ In view of this situation, the project *Feasibility and cost-effectiveness study
 The objective is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the exercises performed by patients. This is intended to facilitate the task of occupational therapists and increase their scope.
 
 ## Demo
-<p style="display: inline-block" align="center">
-  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/00.gif" width="250" height="250"/>
-  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/01.gif" width="250" height="250"/>
-  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/02.gif" width="250" height="250"/>
-</p>
-<p style="display: inline-block" align="center">
-  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/10.gif" width="250" height="250"/>
-  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/11.gif" width="250" height="250"/>
-  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/12.gif" width="250" height="250"/>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/gifdemo.gif" width="1000"/>
 </p>
 
 ## Herramientas externas
