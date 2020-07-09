@@ -25,6 +25,20 @@ In view of this situation, the project *Feasibility and cost-effectiveness study
 
 The objective is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the exercises performed by patients. This is intended to facilitate the task of occupational therapists and increase their scope.
 
+## Demo
+
+### Vídeo explicativo
+<p style="position: absolute; clip: rect(0px, 50px, 100px,50px);">
+  <a href="https://www.youtube.com/watch?v=YXnoQF7xoK8">
+    <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/video.jpeg" height="300"/>
+  </a>
+</p>
+
+### Ejemplo de salida
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jlgarridol/TFM-FIS-IF/master/doc/img/gifdemo.gif" width="1000"/>
+</p>
+
 ## Herramientas externas
 * Clúster Spark Docker por Mario Juez Gil. Licenciado bajo GPLv3. https://github.com/mjuez/spark-cluster-docker. Modificado
 * Docker Archlinux con Cuda por walwe. Sin licencia. https://github.com/walwe/docker-archlinux-cuda. Modificado
