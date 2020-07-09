@@ -98,7 +98,7 @@ El \textit{sprint} 3 consistió en la implementación de una infraestructura de 
 		\otoprule
 		Despliegue de \textit{Apache Spark} para el nodo \textit{master} & 2 & 2\\
 		Despliegue de \textit{Apache Spark} para varios nodos \textit{worker} & 2 & 1\\
-		Creación de imágenes \textit{Docker} para soportar las aplicaciones creadas & 8 & 8\\
+		Creación de imágenes \textit{Docker} para soportar las aplicaciones creadas & 8 & 21\\
 		Despliegue de la aplicación \textit{openCV} & 3 & 3 \\
 		Recogida de \textit{stream} de vídeo e ingestión en \textit{Kafka} en \textit{Docker} & 8 & 8\\
 		\bottomrule
@@ -107,7 +107,7 @@ El \textit{sprint} 3 consistió en la implementación de una infraestructura de 
 	\label{tab:sprint3}
 \end{table}
 
-Este \textit{sprint} fue más sencillo que el anterior, principalmente porque en el anterior existieron dificultades para cumplir con los plazos del mismo al complicarse la tarea de conectar dos de los componentes. Con la experiencia obtenida en ese \textit{sprint} en este algunas tareas se desarrollaron más fácilmente
+Este \textit{sprint} fue más sencillo que el anterior, principalmente porque en el anterior existieron dificultades para cumplir con los plazos del mismo al complicarse la tarea de conectar dos de los componentes. Con la experiencia obtenida en ese \textit{sprint} algunas tareas se desarrollaron más fácilmente. Por otro lado el despliegue con \textit{docker} necesitó casi un \textit{sprint} aparte ya que muchas de las operaciones, a \textit{priori} simples, resultaron tener varias capas de complejidad no previstas. Esto causó el mayor desajuste entre lo previsto y lo invertido de todo el proyecto, presumiblemente por la poca experiencia previa en el uso de contenedores \textit{docker}.
 
 \subsection{Sprint 4}
 
@@ -129,7 +129,7 @@ El \textit{sprint} 4 consistió en la automatización de los procesos del \texti
 	\label{tab:sprint4}
 \end{table}
 
-La mayor dificultad de este \textit{sprint} estuvo en la creación de los \textit{scripts} que abarcasen tanto el inicio como el cierre de un flujo debido a que estaban involucrados tanto el inicio de las imágenes \textit{docker} asociadas, el control de identificadores (realizado mediante semáforos en forma de ficheros) y la ejecución ordenada. Por estos motivos las predicciones no fueron acertadas al complicarse esta implementación.
+La mayor dificultad de este \textit{sprint} estuvo en la creación de los \textit{scripts} que abarcasen tanto el inicio como el cierre de un flujo debido a que estaban involucrados tanto el inicio de las imágenes \textit{docker} asociadas, el control de identificadores (realizado mediante semáforos en forma de ficheros) y la ejecución ordenada. Por estos motivos las predicciones no fueron acertadas al complicarse la implementación.
 
 \subsection{Sprint 5}
 
@@ -154,7 +154,7 @@ Hubo una gran dificultad a la hora de la implementación de los experimentos deb
 
 \subsection{Sprint 6}
 
-En este penúltimo \textit{sprint} se comenzó el despliegue real y la integración con el modelo de José Miguel Ramírez Sanz. 
+En este penúltimo \textit{sprint} se comenzó el despliegue real y la integración con el modelo predictivo de poses del alumno José Miguel Ramírez Sanz. 
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X r r}
@@ -165,6 +165,7 @@ En este penúltimo \textit{sprint} se comenzó el despliegue real y la integraci
 		Instalación de las librerías necesarias en el equipo \textit{Gamma} & 1 & 1\\
 		Despliegue de las máquinas \textit{docker} en \textit{Gamma} & 1 & 1\\
 		Pruebas sobre vídeos pregrabados & 2 & 2\\
+		Adaptación de los \textit{dockers} para compatibilidad con \textit{Nvidia} & 8 & 13\\
 		Diseño de experimentos sobre el flujo completo & 1 & 1\\
 		Implementación de los experimentos & 8 & 5\\
 		Análisis de los resultados & 2 & 2\\
@@ -174,7 +175,7 @@ En este penúltimo \textit{sprint} se comenzó el despliegue real y la integraci
 	\label{tab:sprint6}
 \end{table}
 
-El \textit{sprint} se desarrolló con bastante facilidad respecto a otros debido principalmente a que gran parte del material necesario, como los \textit{scripts} de lanzamiento o experimentos similares, ya se habían creado anteriormente.
+El \textit{sprint} se desarrolló con bastante facilidad respecto a otros debido principalmente a que gran parte del material necesario, como los \textit{scripts} de lanzamiento o experimentos similares, ya se habían creado anteriormente. El único problema estuvo relacionado con la adaptación de las imágenes \textit{Docker} a \textit{Nvida} ya que se requirieron muchos cambios inesperados para que funcionase adecuadamente.
 
 \subsection{Sprint 7}
 
@@ -207,21 +208,21 @@ Este último \textit{sprint} consistió en la creación de la documentación del
 
 \subsection{Viabilidad económica}
 
-Debido a que este TFM está dentro de un proyecto donde también se encuentra el TFM de José Miguel Ramírez Sanz se ha realizado el estudio de viabilidad económica de manera conjunta
+Debido a que este TFM está dentro de un proyecto donde también se encuentra el TFM de José Miguel Ramírez Sanz, se ha realizado el estudio de viabilidad económica de manera conjunta
 
 
 En la \autoref{tab:costes_personal} se encuentran los costes total en salarios en jornada completa durante seis meses para dos empleados.
 
-\begin{table}\centering
+\begin{table}[H]\centering
 	\begin{tabular}[]{@{}l r@{}}
 		\toprule
 		\textbf{Concepto} & \textbf{Coste (\euro{})} \\
 		\midrule
-		Salario mensual bruto & 2.047,78~\cite{salariales} \\
+		Salario mensual bruto~\cite{salariales} & 2\,047,78 \\
 		Seguridad Social (30,04\%) & 615,15 \\
 		Retención IRPF (2\%) & 28,65 \\
-		Salario mensual neto & 1.403,97 \\\hubu
-		\textbf{Total 6 meses y dos empleados} &  24.573,36 \\
+		Salario mensual neto & 1\,403,97 \\\hubu
+		\textbf{Total 6 meses y dos empleados} &  24\,573,36 \\
 		\bottomrule
 	\end{tabular}
 	\caption{Costes de personal.}
@@ -231,28 +232,28 @@ En la \autoref{tab:costes_personal} se encuentran los costes total en salarios e
 La \autoref{tab:costes_hardware} están las inversiones y amortizaciones  en materia de \textit{hardware}, tanto los \textit{MainFrames} para el despliegue y el cálculo como los equipos de desarrollo.
 
 
-\begin{table}
+\begin{table}[H]
 	\centering
-	\begin{tabular}[]{@{}l c r@{}}
+	\begin{tabular}[]{@{}l r r@{}}
 		\toprule
 		\textbf{Concepto} & \textbf{Coste (\euro{})} & \textbf{Coste amortizado (\euro{})} \\
 		\otoprule
 		Ordenador de desarrollo (x2) & 950 &  59,37\\
 		Dispositivos pacientes (x9) & 100 & 6,25\\
 		\textit{Webcam} pacientes (x9) & 150 &9,38\\
-		\textit{MainFrame Gamma}  & 3.000 & 187,5 \\ 
-		\textit{Gamma} GPU (x3) & 1.500 &  93,75\\
-		\textit{MainFrame Alpha}  & 2.000 & 125 \\\hubu
-		\textbf{Total} & 13650 & 853,16\\
+		\textit{MainFrame Gamma}  & 3\,000 & 187,5 \\ 
+		\textit{Gamma} GPU (x3) & 1\,500 &  93,75\\
+		\textit{MainFrame Alpha}  & 2\,000 & 125 \\\hubu
+		\textbf{Total} & 13\,650 & 853,16\\
 		\bottomrule
 	\end{tabular}
 	\caption{Costes de \textit{hardware}.}
-	\label{tab:costes_hardware}.
+	\label{tab:costes_hardware}
 \end{table}
 
 Por último en la \autoref{tab:costes_servicios} se encuentran los dos servicios contratados para dar acceso a la aplicación a los pacientes.
 
-\begin{table}
+\begin{table}[H]
 	\centering
 	\begin{tabular}[]{@{}l r@{}}
 		\toprule
@@ -264,23 +265,25 @@ Por último en la \autoref{tab:costes_servicios} se encuentran los dos servicios
 		\bottomrule
 	\end{tabular}
 	\caption{Costes de servicios.}
-	\label{tab:costes_servicios}.
+	\label{tab:costes_servicios}
 \end{table}
 
-\begin{table}
+Los costes totales se pueden observar en la \autoref{tab:costes_totales}.
+
+\begin{table}[H]
 	\centering
 	\begin{tabular}[]{@{}l r@{}}
 		\toprule
 		\textbf{Servicio} & \textbf{Coste (\euro{})}\\
 		\otoprule
-		Costes de personal  & 24.573,36 \\
-		Costes de \textit{hardware} & $13650$ \\
+		Costes de personal  & 24\,573,36 \\
+		Costes de \textit{hardware} & 13\,650 \\
 		Costes de servicios & $763.68$ \\\hubu
-		\textbf{Total} & 38.987,04\\
+		\textbf{Total} & 38\,987,04\\
 		\bottomrule
 	\end{tabular}
 	\caption{Costes totales.}
-	\label{tab:costes_totales}.
+	\label{tab:costes_totales}
 \end{table}
 
 
@@ -292,7 +295,8 @@ Dentro de las licencias de las herramientas utilizadas están:
 \begin{itemize}
 		\item \textbf{MIT}: Esta licencia permite el uso comercial del producto, la modificación del mismo, la libre distribución y el uso privado. No tiene garantías ni responsabilidad. La única condición es hacer referencia a ella. Como no obliga a mantener la licencia ni afecta a la distribución del software que use la licencia final del producto, esta puede ser cualquiera.
 		
-		\item \textbf{GPLv3}: Licencia que permite uso comercial, distribución, modificación uso privado y creación de patentes. Obliga a licenciarcualquier modificación del código o códigos que usen herramientas con esta licencia usar \textbf{GLPv3} u otras versiones.
+		\item \textbf{GPLv3}: Licencia que permite uso comercial, distribución, modificación uso privado y creación de patentes. Obliga a licenciar
+cualquier modificación del código o códigos que usen herramientas con esta licencia usar \textbf{GLPv3} u otras versiones.
 		
 		\item \textbf{Apache 2.0}: Licencia de las herramientas de Apache, tiene las mismas propiedades que la licencia GPLv3 con excepción de que no obliga a que las nuevas implementaciones con dependencias en Apache 2.0 sean licenciadas como código libre.
 
@@ -301,7 +305,7 @@ Dentro de las licencias de las herramientas utilizadas están:
 		\item \textbf{BSD 3-Clause}: Tiene características semejantes a MIT en el contexto en el que la usamos.
 \end{itemize}
 
-Debido al uso de las imágenes \textit{Docker} para \textit{Spark} de Mario Juez~\cite{juez2019docker} usan \textit{GPLv3}, y ser la licencia más restrictiva del conjunto del proyecto este proyecto se licencia bajo \textit{GPLv3}
+La licencia más restrictiva del proyecto, la \textit{GPLv3}, está asociada a las plantillas de imágenes \textit{docker} de Mario Juez Gil~\cite{juez2019docker}. Como el resto de licencias son compatibles con la \textit{GPLv3} se utiliza dicha licencia para todo el proyecto.
 
 \subsubsection{\textit{Copyright} de terceros}
 

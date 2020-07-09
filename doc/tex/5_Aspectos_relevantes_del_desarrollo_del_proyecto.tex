@@ -8,7 +8,7 @@ Para realizar la primera fase del desarrollo, la recogida de los datos, se ha de
 
 Dentro del funcionamiento natural del flujo, se incorpora una función de anonimización del rostro para mantener la intimidad de los pacientes en los estudios posteriores sobre el material grabado, además no se guardan datos identificativos de ningún paciente.
 
-Esta aplicación se ha compuesto de dos partes. Una ha consistido en el diseño y consecuente implementación de una interfaz hombre-máquina fácil de usar y accesible mediante un mando sencillo\footnote{Concretamente un mando de la consola SNES adaptado para ser usado mediante USB.}. Esta se compone de una serie de botones de colores, directamente relacionados con los del mando~(figura~\ref{fig:help}), que permiten iniciar una comunicación mediante videoconferencia con el personal terapéutico y finalizar la reunión. Durante el proceso de la llamada, el vídeo del paciente es capturado y enviado al servidor para su procesado en tiempo real.
+Esta aplicación se ha compuesto de dos partes. Una consistió en el diseño y consecuente implementación de una interfaz hombre-máquina fácil de usar y accesible mediante un mando sencillo\footnote{Concretamente un mando de la consola SNES adaptado para ser usado mediante USB.}. Esta se compone de una serie de botones de colores, directamente relacionados con los del mando~(figura~\ref{fig:help}), que permiten iniciar una comunicación mediante videoconferencia con el personal terapéutico y finalizar la reunión. Durante el proceso de la llamada, el vídeo del paciente es capturado y enviado al servidor para su procesado en tiempo real.
 
 \begin{figure}
 	\centering
@@ -69,11 +69,11 @@ El \textit{frontend} es la parte del servicio web que muestra la información al
 
 Los componentes del flujo ETL implementado (\autoref{fig:flujoetlreal}) se realizaron mediante tres \textit{scripts} de \textit{Python} según las tres etapas del flujo. Primero un emisor \textit{UDP} de vídeos que simula la entrada de los vídeos de los pacientes. El segundo \textit{script} es el ingestor en \textit{Kafka} de los fotogramas del vídeo recibido. Por último, el tercero es el procesador de los diferentes \textit{frames} mediante \textit{Spark} y \textit{OpenCV}.
 
-El \textit{script} emisor consiste en un cliente \textit{UDP} que itera sobre los fotogramas del vídeo y los comprime mediante la abstracción de \textit{DEFLATE} \textit{zlib}~\cite{tool:zlib} sobre la imagen serializada bajo el estándar \textit{JPEG/Exif}~\cite{pennebaker1992jpeg} con una calidad del 95\%. Esta compresión del fotograma permite que la velocidad de encolado se minimice. Además este \textit{script} simula la tasa de refresco de un vídeo real emitiendo a quince fotogramas por segundo, las frecuencia de los vídeos reales que se capturarán con los pacientes.
+El \textit{script} emisor consiste en un cliente \textit{UDP} que itera sobre los fotogramas del vídeo y los comprime mediante la abstracción de \textit{DEFLATE} \textit{zlib}~\cite{tool:zlib} sobre la imagen serializada bajo el estándar \textit{JPEG/Exif}~\cite{pennebaker1992jpeg} con una calidad del 95\%. Esta compresión del fotograma permite que la velocidad de encolado se minimice. Además este \textit{script} simula la tasa de refresco de un vídeo real emitiendo a quince fotogramas por segundo, las frecuencia de los vídeos reales que se capturarán con los pacientes\footnote{Esto no será necesario una vez se integre completamente con \textit{Jitsi}.}.
 
 El segundo \textit{script}, el ingestor, se divide en dos partes, una encargada de la escucha de los paquetes \textit{UDP} que se reciban por parte del emisor, y otra destinada al encolado de los fotogramas en un productor de \textit{Kafka}. El servidor \textit{UDP} se implementa  mediante un \textit{socket} de flujo (\texttt{SOCK\_STREAM}) de tal manera que no es necesario conocer el tamaño del paquete con anterioridad dando así más flexibilidad al flujo completo. Respecto a la emisión al productor de \textit{Kafka} el fotograma comprimido se envía junto a una clave que indica el número dentro de la secuencia del vídeo.
 
-El último componente es el procesador de las imágenes. Consiste en un flujo de \textit{Spark Streaming} que se conecta a un \textit{topic} de \textit{Kafka}. Este es el punto más extensible del flujo ya que la mayor dificultad está en la conexión previa que se ha de hacer. La configuración básica está en procesar cada \textit{frame} por separado mediante el sistema de \textit{microbatching} que utiliza \textit{Spark}, pero se puede configurar para hacer ventanas deslizantes con los que procesar varios fotogramas. Se incorpora un proceso sobre las imágenes para la anonimización mediante la detección del rostro usando el modelo de \textit{Caffe}~\cite{jia2014caffe} y aplicándole un filtro gaussiano o una reducción de resolución (para más información ver la sección~\ref{sec:manualpro}) Adicionalmente se ha incorporado un algoritmo de corrección del contraste y del brillo.
+El último componente es el procesador de las imágenes. Consiste en un flujo de \textit{Spark Streaming} que se conecta a un \textit{topic} de \textit{Kafka}. Este es el punto más extensible del flujo ya que la mayor dificultad está en la conexión previa que se ha de hacer. La configuración básica está en procesar cada \textit{frame} por separado mediante el sistema de \textit{microbatching} que utiliza \textit{Spark}, pero se puede configurar para hacer ventanas deslizantes con los que procesar varios fotogramas. Se incorpora un proceso sobre las imágenes para la anonimización mediante la detección del rostro usando el modelo de \textit{Caffe}~\cite{jia2014caffe} y aplicándole un filtro gaussiano o una reducción de resolución sobre la zona detectada (para más información ver la sección~\ref{sec:manualpro}). Adicionalmente se ha incorporado un algoritmo de corrección del contraste y del brillo.
 
 Debido al funcionamiento de \textit{Spark Streaming} se pueden acoplar más funciones. Aunque cuantas más sean, más se realentizará el proceso y con ello se puede perder el factor de <<tiempo real>> en el análisis del flujo. El objetivo con esto es que el trabajo del compañero José Miguel Ramírez Sanz se pueda incluir como el último paso en el procesado del vídeo.
 
@@ -81,11 +81,11 @@ Debido al funcionamiento de \textit{Spark Streaming} se pueden acoplar más func
 
 Debido a la naturaleza de las herramientas utilizadas existen algunas limitaciones importantes a mencionar.
 
-La principal limitación está en el tiempo sobre las acciones alrededor de \textit{Apache Kafka}, ya que existen tres momentos temporales que poseen máximos técnicos. El primero es el tiempo de encolado, si un paquete tarda mucho en ser insertado al \textit{topic} correspondiente este es rechazado, la velocidad de este proceso está fuertemente ligado al tamaño del paquete emitido. El segundo tiempo es el tiempo de vida del paquete dentro de la cola y si un paquete está más tiempo en la cola que este tiempo es automáticamente rechazado. Por último está el tiempo de desencolado, nuevamente un tiempo ligado al tamaño del paquete, sin embargo, aunque un tiempo excesivo no elimina al paquete, si que ralentizará los pasos posteriores, además este tiempo es el único que no se puede parametrizar en la configuración de \textit{Kafka}.
+La principal limitación está en el tiempo sobre las acciones alrededor de \textit{Apache Kafka}, ya que existen tres momentos temporales que poseen máximos técnicos. El primero es el tiempo de encolado, si un paquete tarda mucho en ser insertado al \textit{topic} correspondiente este es rechazado, la velocidad de este proceso está fuertemente ligada al tamaño del paquete emitido. El segundo tiempo es el tiempo de vida del paquete dentro de la cola y si un paquete está más tiempo en la cola que este tiempo es automáticamente rechazado. Por último está el tiempo de desencolado, nuevamente un tiempo ligado al tamaño del paquete, sin embargo, aunque un tiempo excesivo no elimina al paquete, sí que ralentizará los pasos posteriores, además este tiempo es el único que no se puede parametrizar en la configuración de \textit{Kafka}.
 
 Otra de las limitaciones es la memoria, tanto memoria \textit{RAM} como \textit{VRAM}\footnote{Memoria RAM para vídeo.}. Cada uno de los paquetes emitidos se deben almacenar en RAM hasta su procesamiento final por lo que en caso de tener una cantidad disponible menor disponible de la necesaria el flujo fallará y los paquetes afectados serán perdidos.
 
-Por último está la limitación temporal en las operaciones de \textit{Apache Spark Streaming}. Una vez los \textit{frames} son consumidos por \textit{Spark} desde la cola de \textit{Kafka} estos paquetes no se pierden, sin embargo, si el proceso consume más tiempo del disponible (considerando tiempo disponible como el intervalo entre dos \textit{frames} en la secuencia original del vídeo) entonces se acumulan las \textit{imágenes} a procesar, se consume por tanto una mayor cantidad de memoria y se pierde el tiempo real.
+Por último está la limitación temporal en las operaciones de \textit{Apache Spark Streaming}. Una vez los \textit{frames} son consumidos por \textit{Spark} desde la cola de \textit{Kafka} estos paquetes permanecerán en la memoria mientras se procesan, sin embargo, si el proceso consume más tiempo del disponible (considerando tiempo disponible como el intervalo entre dos \textit{frames} en la secuencia original del vídeo) entonces se acumulan las \textit{imágenes} a procesar. Se consume por tanto una mayor cantidad de memoria y se pierde el tiempo real.
 
 \subsection{Soluciones frente a las limitaciones}
 
@@ -97,7 +97,7 @@ Para solucionar estas limitaciones se plantearon diferentes estrategias, algunas
 		\item \textit{compresión del fotograma} utilizando el algoritmo previamente mencionado \textit{zlib}~\cite{tool:zlib}
 		\item y \textit{rescalado del fotograma} reduciendo un porcentaje su tamaño manteniendo la proporción de aspecto.
 	\end{itemize}
-	Combinando ambas aproximaciones se garantizó que siempre se encolaban los \textit{frames}. Respecto al tamaño se utilizó como altura de cada fotograma 480 \textit{píxeles} ya que así funcionaba de la manera deseada
+	Combinando ambas aproximaciones se garantizó que siempre se encolasen los \textit{frames}. Respecto al tamaño, se utilizó como altura de cada fotograma 480 \textit{píxeles}, ya que así funcionaba de la manera deseada
 	el modelo de inteligencia artificial que se iba a integrar al final. También se comprobó que si el fotograma ocupaba un máximo de 800 \textit{kilobytes} se encolaba siempre sin problemas, de tener más no había garantías.
 	\item \textbf{No superar el tiempo de vida en \textit{Kafka}}: para evitar pérdidas de fotogramas se siguieron dos estrategias:
 	\begin{itemize}
@@ -127,9 +127,9 @@ El principal reto en la implementación del flujo ha sido el obtener los conocim
 
 \section{Proceso de despliegue}
 
-Para el despliegue del flujo se crearon varias imágenes \textit{docker} junto a una serie de \textit{scripts} en \textit{bash} para gestionarlas.
+Para el despliegue del flujo se crearon varias imágenes \textit{docker} junto a una serie de \textit{scripts} en \textit{bash} que las gestionen.
 
-Se utilizan un total de seis imágenes, algunas de ellas con varias instancias, para el total del flujo. Esta son:
+Se utilizan un total de seis contenedores, algunas de ellos con varias instancias, para el total del flujo. Esta son:
 
 \begin{itemize}
 	\item \textit{confluentic/cp-zookeeper}~\cite{confluentic2020docker} encargada de crear un servidor \textit{Apache ZooKeper} necesario para el funcionamiento de \textit{Apache Kafka}.
@@ -145,11 +145,11 @@ En la figura~\ref{fig:despligueDocker} se puede observar las conexiones que se d
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{img/DespliegueDocker.png}
-	\caption[Máquinas virtuales \textit{Docker} que implementan el flujo.]{Máquinas virtuales \textit{Docker} que implementan el flujo. Se muestra además la conexión con el servicio \textit{Jitsi} que recibe los datos y como se incorporan a \textit{fis-hubu-consumer}. Las máquinas \textit{fis-hubu-productor} y \textit{fis-hubu-consumer} son únicas para cada flujo, pero el resto son comunes a todos los flujos paralelos. La cantidad de \textit{workers} que se quisieran lanzar depende de la~\autoref{eq:fps}.}
+	\caption[Máquinas virtuales \textit{Docker} que implementan el flujo.]{Máquinas virtuales \textit{Docker} que implementan el flujo. Se muestra además la conexión con el servicio \textit{Jitsi} que recibe los datos y cómo se incorporan a \textit{fis-hubu-consumer}. Las máquinas \textit{fis-hubu-productor} y \textit{fis-hubu-consumer} son únicas para cada flujo, pero el resto son comunes a todos los flujos paralelos. La cantidad de \textit{workers} que se quisieran lanzar depende de la~\autoref{eq:fps}.}
 	\label{fig:despligueDocker}
 \end{figure}
 
-Las máquinas \textit{fis-hubu} se han creado en exclusiva para este proyecto, funcionan sobre \textit{Ubuntu 18.04} y crean un entorno \textit{conda} para la correcta ejecución del algoritmo. Las modificaciones que fuesen necesarias para adaptar estas imágenes se encuentran en el anexo~\ref{sec:manualpro}. 
+Las máquinas \textit{fis-hubu} se han creado en exclusiva para este proyecto, funcionan sobre \textit{Ubuntu 18.04} y crean un entorno \textit{conda} para la correcta ejecución del algoritmo. Las modificaciones que fuesen necesarias para adaptar estos contenedores se encuentran en el anexo~\ref{sec:manualpro}. 
 
 El orden de instancia de cada una de las máquinas es muy importante para que pueda ofrecerse el servicio adecuadamente. Lo primero que se ha de hacer es levantar las máquinas (en este orden) de \textit{Zookeeper}, \textit{Kafka}, nodo maestro de \textit{Spark} y por último los \textit{workers} que se deseen. Es importante asegurar el uso de una red virtual para que todos los \textit{dockers} se localicen entre sí o bien utilizar las conexiones con los puertos que se publiquen, aunque esta decisión no es la más acertada si el servidor puede ser usado con otros motivos.
 
@@ -157,7 +157,7 @@ Un detalle importante a tener en cuenta es que los nodos de \textit{Spark}, tant
 
 Una vez las máquinas <<servidoras>> estén disponibles, se pueden lanzar tanto \textit{fis-hubu-productor} como \textit{fis-hubu-consumer} garantizando un nombre identificativo para que no coincida con otros flujos que puedan aparecer.
 
-Por último se han de inicializar el \textit{topic} de \textit{Kafka} en su máquina correspondiente, lanzar el \textit{script} de procesado en el \textit{fis-hubu-consumer} y el \textit{script} de encolado en el \textit{fis-hubu-productor}.
+Por último se ha de inicializar el \textit{topic} de \textit{Kafka} en su máquina correspondiente, lanzar el \textit{script} de procesado en el \textit{fis-hubu-consumer} y el \textit{script} de encolado en el \textit{fis-hubu-productor}.
 
 Para facilitar este proceso se han incorporado varios \textit{scripts} sobre \textit{bash} para automatizar la inicialización de las imágenes \textit{docker} y el lanzamiento de los \textit{scripts} de \textit{Python} necesarios.
 
@@ -166,7 +166,7 @@ El despliegue final se ha realizado utilizando una única máquina, pero el proc
 
 \section{Extensibilidad}
 
-Para que el flujo se pueda utilizar para el proceso que se quiera sobre los vídeos, se ha desarrollado una forma sencilla para que el programador pueda incrustar su código y se ejecute al final del flujo. Es importante que de utilizar algún objeto de ámbito global en esta extensión (como puede ser un modelo previamente cargado) es necesario que pueda ser serializable. En caso contrario, cuando \textit{Spark} desee enviar el objeto a un nodo esclavo, detendrá el flujo debido a no poder cargar el objeto.
+Para que el flujo se pueda utilizar para el proceso que se desee sobre los vídeos, se ha desarrollado una forma sencilla para que el programador pueda incrustar su código y se ejecute al final del flujo. Es importante que de utilizar algún objeto de ámbito global en esta extensión (como puede ser un modelo previamente cargado) es necesario que pueda ser serializable. En caso contrario, cuando \textit{Spark} desee enviar el objeto a un nodo esclavo, detendrá el flujo debido a no poder cargar el objeto.
 
 A la hora de extender el algoritmo es importante conocer el tiempo de ejecución necesario para procesar un \textit{frame} y con ello elegir correctamente la cantidad de \textit{workers} de \textit{Spark} necesarios para que no se ralentice la ejecución global. Para elegir la cantidad de \textit{workers} necesarios, se utiliza la ecuación~\ref{eq:fps} que depende del tiempo de procesado medio, su desviación estándar y la tasa de \textit{fps} a procesar.
 
@@ -178,9 +178,9 @@ A la hora de extender el algoritmo es importante conocer el tiempo de ejecución
 
 Si se quiere extender el flujo es importante primero conocer el tiempo que necesita de base, lo cual se debe tener en consideración a la hora de incorporar nuevas funcionalidades al flujo y aumentar el número de \textit{workers} para mantener el \textit{status} de tiempo real.
 
-Para analizar el tiempo del flujo se creó una simulación del mismo que calculase el tiempo de procesado de cada uno de los fotogramas para posteriormente calcular la media y la desviación. Concretamente se utilizaron un total de $4863$ fotogramas analizados diez veces. Además se discriminó entre sin almacenar el fotograma y almacenándolo, y se estudiaron el flujo sin procesar (únicamente la deserialización) o con el pre-procesado completo (detección y anonimización del rostro y reparación del brillo y el contraste). Las medidas se calcularon sobre la ejecución de un procesador \textit{Intel Xeon} de 10 núcleos.
+Para analizar el tiempo del flujo, se creó una simulación del mismo que calculase el tiempo de procesado de cada uno de los fotogramas para, posteriormente, calcular la media y la desviación. Concretamente se utilizaron un total de $4863$\footnote{Del conjunto de vídeos grabados para pruebas por parte de José Miguel Ramírez Sanz.} fotogramas analizados diez veces. Además se discriminó entre sin almacenar el fotograma y almacenándolo, y se estudiaron el flujo sin procesar (únicamente la deserialización) o con el pre-procesado completo (detección y anonimización del rostro y reparación del brillo y el contraste). Las medidas se calcularon sobre la ejecución de un procesador \textit{Intel Xeon} de 10 núcleos.
 
-Pero antes de pasar a la muestra de los resultados es importante destacar que el uso de dos desviaciones típicas abarca la suficiente muestra de los datos como para considerarlo un dato adecuado. 
+Pero antes de pasar a la muestra de los resultados, es importante destacar que el uso de dos desviaciones típicas abarca la suficiente muestra de los datos como para considerarlo un dato adecuado. 
 
 \begin{figure}
 	\begin{subfigure}[b]{\textwidth}
@@ -198,7 +198,7 @@ Pero antes de pasar a la muestra de los resultados es importante destacar que el
 
 En la figura~\ref{fig:dist1} se pueden observar las distribuciones temporales para los casos considerados. La regla de las dos sigmas se cumple siempre con las distribuciones normales, sin embargo, aunque la distribución no es una normal, sí que asemeja su forma y abarca principalmente los datos temporales mayores por lo que se puede garantizar que el usar dos sigmas es suficiente rango temporal para el cálculo de \textit{workers}.
 
-En la figura~\ref{fig:dist2} se observa la distribución estadística de los datos. Como es esperable el guardar las imágenes necesita de un tiempo considerablemente mayor. Los datos sin procesar la imagen son significativamente bajos, incluso la media sin guardar está en $17.5$ milisegundos, lo que alcanzaría un procesado de casi $60$ \textit{fps} para cada \textit{worker}. Son métricas muy buenas si se quiere extender el flujo que no necesiten la anonimización del rostro (como en cámaras de vigilancia) o que ya vengan contrastadas. En el caso del preprocesado necesita de media $464$ milisegundos, que apenas da para procesar dos fotogramas por segundo.
+En la figura~\ref{fig:dist2} se observa la distribución estadística de los datos. Como es esperable el guardar las imágenes necesita de un tiempo considerablemente mayor. Los datos sin procesar la imagen son significativamente bajos, incluso la media sin guardar está en $17.5$ milisegundos, lo que alcanzaría un procesado de casi $60$ \textit{fps} para cada \textit{worker}. Son métricas muy buenas si se quiere extender el flujo que no necesite la anonimización del rostro (como en cámaras de vigilancia) o que ya vengan contrastadas. En el caso del preprocesado necesita de media $464$ milisegundos, que apenas da para procesar dos fotogramas por segundo.
 
 \begin{figure}[h]
 	\begin{subfigure}[b]{\textwidth}
@@ -224,7 +224,7 @@ Con estos resultados, usando la \autoref{eq:fps}, podemos ver en la~\autoref{tab
 			\otoprule
 			\textbf{5 \textit{fps}} & 1 & 2 &1 & 3\\
 			\textbf{15 \textit{fps}} & 1 & 1 &2 & 4\\
-			\bottomruleS
+			\bottomrule
 		\end{tabular}
 	\end{center}
 	\caption{N.º de \textit{workers} necesarios según el proceso a realizar.}
@@ -238,9 +238,9 @@ Se ha querido comprobar que la arquitectura de colas presentada en este trabajo 
 
 Siguiendo las indicaciones\footnote{Ver \autoref{sec:manualpro}.} para hacer extensible el algoritmo, es decir, incorporar nuevas funcionalidades se ha incluido dentro del fichero \texttt{extraOpt.py} las importaciones de las clases creadas por José Miguel Ramírez Sanz, así como la instancia de la interfaz para acceder al modelo.
 
-El primer detalle a tener en cuenta es que el modelo tenía que instanciarse en el ámbito global de la aplicación para que fuese serializado y enviado a todos los \textit{workers} de \textit{Spark}, ya que necesita para cargar entre 4 y 6 segundos, un tiempo excesivo que se sumaría al análisis de cada fotograma. Sin embargo, la inicialización del flujo necesita más tiempo por lo que es muy importante lanzarlo lo antes posible para cuando lleguen los primeros fotogramas esté completamente cargado.
+El primer detalle a tener en cuenta es que el modelo tenía que instanciarse en el ámbito global de la aplicación para que fuese serializado y enviado a todos los \textit{workers} de \textit{Spark}, ya que necesita para cargar entre 4 y 6 segundos, un tiempo excesivo que se sumaría al análisis de cada fotograma. Sin embargo, la inicialización del flujo necesita más tiempo, por lo que es muy importante lanzarlo lo antes posible para que cuando lleguen los primeros fotogramas esté completamente cargado.
 
-Junto con la dificultad temporal surgió también una dificultad en memoria, concretamente la memoria de la tarjeta gráfica. Cada instancia cargada del modelo reservaba entre 512 y 768 MiB de VRAM por lo que según la cantidad de \textit{workers} se necesita una mayor cantidad de memoria en el sistema. En el caso personal, que se contaba con una \textit{Nvidia 750 Ti} de 2 GiB de memoria, solamente se podían ejecutar un \textit{worker} junto con el \textit{master}, teniendo en cuenta la ecuación~\ref{eq:fps} implicaría que se podían analizar $12$ hilos en el caso de utilizar solamente el procesado básico y una tasa de $3$ en el caso del flujo completo. Teniendo en cuenta las necesidades del tiempo real este dispositivo no es adecuado.
+Junto con la dificultad temporal surgió también una dificultad en memoria, concretamente la memoria de la tarjeta gráfica. Cada instancia cargada del modelo reservaba entre 512 y 768 MiB de VRAM por lo que según la cantidad de \textit{workers} se necesita una mayor cantidad de memoria en el sistema. En el caso del equipo personal, que se contaba con una \textit{Nvidia 750 Ti} de 2 GiB de memoria, solamente se podían ejecutar un \textit{worker} junto con el \textit{master}, teniendo en cuenta la ecuación~\ref{eq:fps} implicaría que se podían analizar $12$ \textit{fps} en el caso de utilizar el procesado básico y $3$ \textit{fps} en el caso de ejecutar el flujo completo. Teniendo en cuenta las necesidades del tiempo real este dispositivo no es adecuado.
 
 Al utilizar las GPU de la máquina \textit{gamma} del grupo \textit{ADMIRABLE}, que cuenta con tres \textit{Nvidia Titan Xp} de 12 GiB de memoria cada una, se podían llegar a utilizar un total de 47 \textit{workers} junto con el nodo \textit{master}. Permitiendo así unas tasas de \textit{fps} de $288$ en el caso de solo usar el procesamiento básico y de $73$ con el flujo completo. Si los vídeos se mantienen con los \textit{15} fps se pueden tener $4$ flujos simultáneos y en el caso de reducir la tasa a 5 se pueden tener hasta $14$ flujos.
 

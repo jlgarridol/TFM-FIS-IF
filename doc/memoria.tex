@@ -45,8 +45,8 @@
 \providecommand{\ceil}[1]{\left \lceil #1 \right \rceil }
 
 
-\widowpenalty10000
-\clubpenalty10000
+\widowpenalty1000000
+\clubpenalty1000000
 
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
@@ -70,6 +70,24 @@
 
 % Rutas de fichero / paquete
 \newcommand{\ruta}[1]{{\sffamily #1}}
+
+\begingroup
+\catcode`\.=\active
+\gdef\redefineperiod{\def.{\normalperiod\allowbreak}}%%
+\endgroup
+
+\newcommand\aepath[1]{%%
+	\bgroup 
+	\let\normalperiod=.%%
+	\catcode`\.=\active
+	\redefineperiod
+	\everyeof{\noexpand}%%
+	\endlinechar=-1%%
+	\ttfamily\scantokens{#1}%%
+	\egroup}
+
+\let\oldtexttt\texttt
+\let\texttt\aepath
 
 % Párrafos
 \nonzeroparskip
@@ -474,16 +492,16 @@ Dr. D. José Francisco Díez Pastor
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-La población del primer mundo está cada vez más envejecida y con las enfermedades degenerativas, como el \textit{Parkinson}, afectan cada vez a una mayor parte de los ancianos. Además, los pacientes de estas enfermedades padecen limitaciones para poder desplazarse hasta los centros de salud para poder recibir la terapia ocupacional que necesitan para hacer su vida normal.
+La población del primer mundo está paulatinamente más envejecida y las enfermedades degenerativas, como el \textit{Parkinson}, afectan cada vez a una mayor parte de los ancianos. Además, los pacientes de estas enfermedades tienen frecuentemente limitaciones para poder desplazarse hasta los centros de salud donde poder recibir la terapia ocupacional que necesitan para hacer su vida normal.
 
 Ante esta situación se desarrolla el proyecto \textit{Estudio de factibilidad y coste-efectividad del uso telemedicina con un equipo multidisciplinar para prevención de caídas en la enfermedad de Parkinson} en el cual se incorpora este trabajo.
 
-El objetivo de este TFM está en desarrollar un sistema de colas que sea escalable, versátil y fiable, dentro de un entorno Big Data, que de soporte al análisis en tiempo real de los ejercicios de rehabilitación realizados por los pacientes. Se pretende así facilitar la tarea de los terapeutas ocupacionales y aumentar su alcance y que los ejercicios se puedan realizar de manera autónoma siendo el sistema el que se encargue de comprobar si se están realizando correctamente.
+El objetivo de este TFM está en desarrollar un sistema de colas que sea escalable, versátil y fiable, dentro de un entorno Big Data, que dé soporte al análisis en tiempo real de los ejercicios de rehabilitación realizados por los pacientes. Se pretende así facilitar la tarea de los terapeutas ocupacionales, aumentar su alcance y que los ejercicios se puedan realizar de manera autónoma, siendo el sistema el que se encargue de comprobar si se están realizando correctamente.
 \end{abstract}
 
 \renewcommand*\abstractname{Descriptores}
 \begin{abstract}
-\textit{Big Data}, colas, \textit{Apache Kafka}, \textit{Apache Spark}, gestión de flujos, vídeo, Enfermedad del \textit{Parkinson}.
+\textit{Big Data}, colas, \textit{Apache Kafka}, \textit{Apache Spark}, gestión de flujos, \textit{Docker} vídeo, Enfermedad del \textit{Parkinson}.
 \end{abstract}
 
 \clearpage
@@ -495,12 +513,12 @@ The population of the first world is getting older and therefore degenerative di
 
 In view of this situation, the project \textit{Feasibility and cost-effectiveness study of the use of telemedicine is being developed with a multidisciplinary team for the prevention of falls in Parkinson's disease} in which this work is incorporated.
 
-The aim of this project is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the exercises performed by patients. This is intended to facilitate the task of occupational therapists and increase their scope and that the exercises can be carried out autonomously with the system being responsible for checking that they are being carried out correctly.
+The aim of this project is to develop a queuing system that is scalable, versatile and reliable, within a Big Data environment, which supports real-time analysis of the rehabilitation exercises performed by patients. This is intended to facilitate the task of occupational therapists, increase their scope and that the exercises can be carried out autonomously with the system being responsible for checking that they are being carried out correctly.
 \end{abstract}
 
 \renewcommand*\abstractname{Keywords}
 \begin{abstract}
-Parkinson's disease, Big Data, queues, Apache Kafka, Apache Spark, streaming management, video.
+Big Data, queues, Apache Kafka, Apache Spark, streaming management, Docker, video, Parkinson's disease.
 \end{abstract}
 
 \clearpage
@@ -518,6 +536,7 @@ Parkinson's disease, Big Data, queues, Apache Kafka, Apache Spark, streaming man
 \clearpage
 
 \mainmatter
+\nouppercaseheads
 
 \addcontentsline{toc}{part}{Memoria}
 \part*{Memoria}

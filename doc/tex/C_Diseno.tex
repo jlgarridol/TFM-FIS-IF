@@ -2,9 +2,9 @@
 
 \section{Introducción}
 
-El sistema completo funciona con la unión de dos subsistemas. El subsistema web que lo forman el servidor que identifica al usuario y la plataforma \textit{Jitsi} para realizar la videollamada y el subsistema de colas, que da nombre a este trabajo, que encola los \textit{frames} del vídeo y los procesa. 
+El sistema completo funciona con la unión de dos subsistemas. El subsistema web, que lo forman el servidor que identifica al usuario, y la plataforma \textit{Jitsi}, para realizar la videollamada y el subsistema de colas, que da nombre a este trabajo, que encola los \textit{frames} del vídeo y los procesa. 
 
-En este apartado se explica como se ha diseñado el sistema completo, la comunicación entre todas sus partes, el flujo del trabajo y la composición de cada elemento.
+En este apartado se explica cómo se ha diseñado el sistema completo, la comunicación entre todas sus partes, el flujo del trabajo y la composición de cada elemento.
 
 \section{Diseño procedimental}
 
@@ -23,7 +23,7 @@ El procedimiento para el procesado de los vídeos (\autoref{fig:secuencias}) par
 
 La parte más esencial de este trabajo es la creación del \textit{pipeline} que procesa en tiempo real los \textit{frames} de la comunicación del paciente. Todo ello se ha desarrollado, utilizando las herramientas de la suite de \textit{Apache}, \textit{Apache Kafka} para el \textit{ingestor}, \textit{Apache Spark Streaming} para el \textit{procesador}. En la \autoref{fig:flujoetlreal} se puede observar el funcionamiento completo del flujo y las partes que lo componen.
 
-Para que esta arquitectura sea ajena al entorno se encapsulan sobre máquinas virtuales \textit{Docker} de tal forma que se pueda desplegar en cualquier sitio. Concretamente habría cuatro tipos de imágenes \textit{Docker}. La primera se encarga de la serialización de los frames y lanzan el \textit{script} de \textit{Python} de encolado, esta máquina se crea y destruye a voluntad de las conexiones de los pacientes. La segunda y tercera imagen es el servicio de \textit{Zookeeper} y de \textit{Kafka}. Estas imágenes no se duplican en caso de cambios en las conexiones, unicamente se crean o borran colas. Por último, la cuarta imagen es la transformación del flujo. Se crean o se destruyen según las conexiones de los pacientes y se parametrizan para que consuman un flujo concreto y hagan un procesamiento concreto de tal forma que diferentes pacientes se podrían configurar para tener diferentes procesados permitiendo una mayor flexibilidad en el procesamiento.
+Para que esta arquitectura sea ajena al entorno, se encapsulan sobre máquinas virtuales \textit{Docker} de tal forma que se pueda desplegar en cualquier sitio. Concretamente hay cuatro tipos de imágenes \textit{Docker}. La primera se encarga de la serialización de los frames y lanzan el \textit{script} de \textit{Python} de encolado, esta máquina se crea y destruye a voluntad de las conexiones de los pacientes. La segunda y tercera imágenes son el servicio de \textit{Zookeeper} y de \textit{Kafka}. Estas imágenes no se duplican en caso de cambios en las conexiones, únicamente se crean o borran colas. Por último, la cuarta imagen es la transformación del flujo. Se crean o se destruyen según las conexiones de los pacientes y se parametrizan para que consuman un flujo concreto y hagan un procesamiento concreto. De esta manera, diferentes pacientes se podrían configurar para tener diferentes procesados permitiendo una mayor flexibilidad en el procesamiento.
 
 \begin{figure}[H]
 	\centering
@@ -32,5 +32,12 @@ Para que esta arquitectura sea ajena al entorno se encapsulan sobre máquinas vi
 	\label{fig:flujoetlreal}
 \end{figure}
 
+El diagrama de despliegue de las máquinas virtuales \textit{docker} se puede observar en la \autoref{fig:despligueDocker2}.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]{img/DespliegueDocker.png}
+	\caption{Diagrama de despliegue de las máquinas virtuales \textit{docker}.}
+	\label{fig:despligueDocker2}
+\end{figure}
 

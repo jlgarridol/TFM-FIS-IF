@@ -2,13 +2,13 @@
 
 \section{Introducción}
 
-El objetivo de esta sección es que documentar a nivel técnico los componentes del proyecto para facilitar la extensión, modificación y uso por parte de los programadores.
+El objetivo de esta sección es documentar a nivel técnico los componentes del proyecto para facilitar la extensión, modificación y uso por parte de los programadores.
 
 \section{Estructura de directorios}
 
 En la carpeta \texttt{doc} se encuentra la documentación del proyecto. En \texttt{src} los códigos fuentes para el proyecto.
 
-Dentro de las fuentes están la carpeta \texttt{dockers} donde se incorporan tanto los \texttt{Dockerfile} como los \texttt{docker-compose.yml} que contienen la información de los contenedores que darán soporte a la aplicación. En \texttt{process} están las fuentes \textit{Python} para el emisor de fotogramas, el productor y el consumidor. En la carpeta \texttt{scripts} y en su subcarpetas \texttt{deploy} y \texttt{helpers} están todos los \textit{scripts} sobre \textit{Bash} necesarios para el despliegue de las imágenes \textit{docker} y las funciones que deben ejecutar, concretamente en \texttt{deploy} se encuentran los programas para la creación y cierre de imágenes y en \texttt{helpers} las órdenes sobre las aplicaciones que contienen las imágenes. Por último en \texttt{tools} se encuentran herramientas y \textit{notebooks} de \textit{jupyter} que se han desarrollado para desarrollar este trabajo.
+Dentro de los fuentes están la carpeta \texttt{dockers} donde se incorporan tanto los \texttt{Dockerfile} como los \texttt{docker-compose.yml} que contienen la información de los contenedores que darán soporte a la aplicación. En \texttt{process} están los fuentes \textit{Python} para el emisor de fotogramas, el productor y el consumidor. En la carpeta \texttt{scripts} y en su subcarpetas \texttt{deploy} y \texttt{helpers} están todos los \textit{scripts} sobre \textit{Bash} necesarios para el despliegue de las imágenes \textit{docker} y las funciones que deben ejecutar, concretamente en \texttt{deploy} se encuentran los programas para la creación y cierre de imágenes y en \texttt{helpers} las órdenes sobre las aplicaciones que contienen las imágenes. Por último en \texttt{tools} se encuentran herramientas y \textit{notebooks} de \textit{jupyter} que se han desarrollado para desarrollar este trabajo.
 
 \begin{figure}
 	\dirtree{%
@@ -41,7 +41,7 @@ Dentro de las fuentes están la carpeta \texttt{dockers} donde se incorporan tan
 \section{Manual del programador}\label{sec:manualpro}
 
 \subsection{\textit{Scripts Python} }
-Se han creado tres \textit{scripts} de \textit{Python} para ofrecer el servicio del sistema de colas. Por el desarrollo que se ha llevado funcionan tanto dentro como fuera de una imagen \textit{Docker}. Si se fuesen a usar fuera a nivel local el uso sería el siguiente:
+Se han creado tres \textit{scripts} de \textit{Python} para ofrecer el servicio del sistema de colas. Por el desarrollo que se ha llevado, funcionan tanto dentro como fuera de una imagen \textit{Docker}. Si se fuesen a usar fuera a nivel local, el uso sería el siguiente:
 
 \subsubsection{\textit{emitter.py}}
 \textit{Script} encargado en enviar a un servidor UDP fotogramas de vídeos. La ayuda:
@@ -121,9 +121,9 @@ Se encarga de instanciar los diferentes servicios.
 
 \begin{lstlisting}[language=Bash]
 Sintaxis
-	start-server <N. de CPU master> <N. de workers> <N. de CPU por worker> <Memoria por worker>
+	start-server <Carpeta de salida> <N. de CPU master> <N. de workers> <N. de CPU por worker> <Memoria por worker>
 \end{lstlisting}
-
+\newpage
 \subsubsection{\textit{stop-server}}
 Detiene todos los servicios.
 
@@ -132,19 +132,19 @@ Sintaxis
 	stop-server
 \end{lstlisting}
 
-\subsubsection{\textit{new-stream}}
+\subsubsection{\textit{new-stream}}\label{sec:newstream}
 Genera un nuevo flujo completo que se va a procesar. El funcionamiento es transparente. Recibe los parámetros para el \textit{emitter.py} y para el \textit{consumer.py}. Por seguridad es preferible solamente modificar los parámetros de gestión del flujo y no los de comunicación.
 
 \begin{lstlisting}[language=Bash]
 Sintaxis
-	new-stream "Parámetros emitter.py" "Parámetros consumer.py" <Directorio de salida>
+	new-stream "Parámetros emitter.py" "Parámetros consumer.py"
 	# Es muy importante mantener las comillas
 \end{lstlisting}
 
 Devuelve el identificador del flujo. Es importante este valor para poder cerrarlo después.
 
 \subsubsection{\textit{stop-stream}}
-Detiene todos los procesos sobre un flujo concreto..
+Detiene todos los procesos sobre un flujo concreto.
 
 \begin{lstlisting}[language=Bash]
 Sintaxis
@@ -153,11 +153,11 @@ Sintaxis
 
 \section{Compilación, instalación y ejecución del proyecto}
 
-Como se ha mencionado anteriormente en la carpeta \texttt{deploy} se encuentran los \textit{scripts} para instalar el proyecto y poder ejecutarlo.
+Como se ha mencionado anteriormente, en la carpeta \texttt{deploy} se encuentran los \textit{scripts} para instalar el proyecto y poder ejecutarlo.
 
-Para que los \textit{scripts} se ejecuten correctamente es necesario que se ejecuten sobre un sistema operativo \textit{GNU/Linux} con el servicio de \textit{Docker} y la extensión \textit{Nvidia container toolkit}~\cite{toolkitnvidiadocker} instalados. Adicionalmente se necesitará que la máquina donde se vaya a ejecutar el consumidor tenga una tarjeta gráfica \textit{Nvidia} instalada con soporte para \textit{CUDA} 10.2 para que la integración con el proyecto del compañero José Miguel Ramírez Sans sea ejecutable. Es posible que sea necesario cambiar el fichero \texttt{Dockerfile} de la carpeta \texttt{dockers/fishubu/base} para que use los \textit{drivers} de la tarjeta gráfica del equipo sobre el que se lance la imagen \textit{docker}. Además si se quisiese cambiar el algoritmo, concretamente el fichero \texttt{extraOpt.py} sería necesario cambiar el \texttt{Dockerfile} de la carpeta \texttt{dockers/fishubu/consumer} para que sustituyese el algoritmo por el deseado.
+Para que los \textit{scripts} se ejecuten correctamente es necesario que se ejecuten sobre un sistema operativo \textit{GNU/Linux} con el servicio de \textit{Docker} y la extensión \textit{Nvidia container toolkit}~\cite{toolkitnvidiadocker} instalados. Adicionalmente se necesitará que la máquina donde se vayan a ejecutar los \textit{workers} disponga una tarjeta gráfica \textit{Nvidia} instalada con soporte para \textit{CUDA} 10.2 (para que la integración con el proyecto del compañero José Miguel Ramírez Sanz sea ejecutable). Es posible que sea necesario cambiar el fichero \texttt{Dockerfile} de la carpeta \texttt{dockers/fishubu/base} para que use los \textit{drivers} de la tarjeta gráfica del equipo sobre el que se lance la imagen \textit{docker}. 
 
-Antes de lanzar los servicios es importante haber creado antes las imágenes maestras para los diferentes \textit{dockers}. Desde la carpeta \texttt{deploy}:
+Antes de lanzar los servicios es importante haber creado previamente las imágenes maestras para los diferentes \textit{dockers}. Desde la carpeta \texttt{deploy}:
 
 \begin{lstlisting}[language=Bash]
 docker build -f ../../dockers/fishubu/base/Dockerfile -t fishubu-base:1.0.0 ../../
@@ -169,6 +169,37 @@ docker build ../../dockers/spark/worker -t spark-worker-fis:2.4.5
 
 El orden de ejecución de los \textit{scripts} es el siguiente:
 
-Primero se ha de ejecutar \texttt{start-server} para que los servicios de \textit{Kafka} y \textit{Spark} estén activos y den soporte a los flujos que lo necesiten. Tras esto se podrá ejecutar \texttt{new-stream} recibiendo como parámetro la fuente de vídeo junto con la configuración deseada para el proceso (sección~\ref{sec:manualpro}). Este devuelve el identificador del flujo, será necesario para pedir el cierre del flujo.
+\begin{enumerate}
+	\item \textbf{Ejecutar \texttt{start-server}} para que los servicios de \textit{Kafka} y \textit{Spark} estén activos y den soporte a los flujos que lo necesiten.
+	\item \textbf{Ejecutar \texttt{new-stream}} recibiendo como parámetros la configuración deseada para el emisor y para el consumidor (\autoref{sec:newstream}).  Este devuelve el identificador del flujo, será necesario para pedir el cierre del flujo.
+\end{enumerate}
 
-Para parar la ejecución existen los \textit{scripts} \texttt{stop-stream} que recibe el identificador del flujo y \texttt{stop-server} que para los servicios de \textit{Kafka} y \textit{Spark}
+Para detener el flujo los pasos son los siguientes:
+\begin{enumerate}
+	\item \textbf{Ejecutar \texttt{stop-stream}} para cada flujo arrancado.
+	\item \textbf{Ejecutar \texttt{stop-server}} y se detendrán todos los servicios.
+\end{enumerate}
+
+\section{Fallos y soluciones}
+
+Los fallos que puedan ocurrir durante la ejecución de los \textit{scripts} dejan varios ficheros de log en la carpeta \texttt{/tmp/fishubulogs} así como en la carpeta \texttt{logs} de cada máquina \textit{docker} ejecutada. En caso de fallo del flujo es importante revisar los ficheros para conocer los posibles orígenes. Los fallos más comunes y sus correspondientes soluciones son:
+
+\subsection{Fallo de memoria}
+Si la caída del flujo deja una excepción del tipo <<\texttt{Caused by: java.io.EOFException}>> implica que los datos que debe procesar el flujo son mayores que los que caben en memoria.
+
+Para solucionar esto es necesario dar más memoria a cada \textit{worker}. El valor recomendado es de 2 GiB por cada núcleo de \textit{worker}.
+
+\subsection{Los fotogramas no se procesan}
+Si los fotogramas no se procesan y observa la existencia del fichero de \textit{log} <<\textit{notprocesslog}>> en los \textit{workers}, significa que ha existido un error mientras se procesaba el fotograma. En el mismo \textit{log} se encuentra el origen del fallo y probablemente se deberá a que el fichero de \texttt{extraOpt.py} incluye información errónea o una ruta incorrecta.
+
+Para solucionar esto se debe volver a cargar el fichero \texttt{extraOpt.py} y por tanto se han de volver a construir (orden \texttt{build}) las imágenes desde la \textit{fishubu-env}. En el caso de que el error persista, usar el flag \texttt{-{-}no-cache} a la hora de reconstruir las imágenes.
+
+\subsection{Error de versión de \textit{Nvidia}}
+Si a la hora de ejecutar el flujo, en el arranque ocurre una excepción del tipo <<\texttt{forward compatibility was attempted}>> indica que la versión instalada de \textit{Nvidia} sobre \textit{docker} no es compatible con la versión instalada en el equipo.
+
+Para solucionarlo es necesario cambiar el fichero \texttt{Dockerfile} de la carpeta \texttt{src/dockers/fishubu/base} y cambiar la versión que se instala por la que se tiene en el equipo. Es necesario que al menos sea la versión~440.
+
+\subsection{Error con la conexión a \textit{Nvidia}}
+Si el flujo al iniciar da el error <<\texttt{could not select device driver}>> significa que la extensión de \textit{docker} para la compatibilidad con \textit{Nvidia} no está instalada o no se ha reiniciado el servicio de \textit{docker} desde que se instaló.
+
+Se soluciona instalando la extensión de \textit{docker} <<\textit{docker-nvidia}>> y reiniciando el servicio.

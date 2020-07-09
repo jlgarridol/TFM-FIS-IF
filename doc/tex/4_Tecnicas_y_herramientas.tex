@@ -11,27 +11,27 @@ Uno de los puntos  esenciales de este trabajo es recoger y dirigir los \textit{s
 Dentro de la suite de \textit{Apache} existen varios componentes que se encargan de la gestión del flujos de datos. Se necesitan dos herramientas principales, una capaz de dirigir el flujo y otra para procesarlo.
 
 \subsection{Herramientas para dirigir el flujo}
-La primera herramienta necesaria debe ser capaz de dirigir flujos de datos, concretamente flujos de datos serializados para soportar datos más diversos como son las imágenes. También se necesita que sea capaz de desplegar diferentes colas para discriminar fácilmente a los distintos flujos de vídeo entrante.
+La primera herramienta necesaria debe ser capaz de dirigir flujos de datos, concretamente flujos de datos serializados para soportar tipos de datos más diversos como son las imágenes. También se necesita que sea capaz de desplegar diferentes colas para discriminar fácilmente a los distintos flujos de vídeo entrante.
 
 En la suite de \textit{Apache} existen dos herramientas que gestionan flujos de datos, son: \textit{\textbf{Apache Flume}}~\cite{noauthorapacheflume} y \textit{\textbf{Apache Kafka}}~\cite{noauthorapachenodate}.
 
 \textit{\textbf{Apache Flume}} es una herramienta de gestión de flujo diseñada para hacer una gestión distribuida de manera fiable y altamente disponible de los datos. Proporciona un servicio eficiente para la recogida, agregación y almacenamiento de los datos. Sin embargo, aunque esta herramienta pudiese suplir las necesidades de una gestión de flujo, se ha descartado debido a que está optimizada para la gestión de \textit{logs}, concretamente datos codificados como cadenas, y no tiene un sistema de colas.
 
-\textit{\textbf{Apache Kafka}} es un proyecto de intermediación de mensajes que trabaja sobre el patrón publicación-suscripción, funcionando como un sistema de transacciones distribuidas. Incorpora, para la implementación de este patrón, un sistema de colas para la distribución de mensajes. Aporta una API para el productor, para el consumidor, para el flujo y para el conector. La conexión con \textit{Kafka} se realiza a través del protocolo de la capa de transporte \textit{TCP}. Las diferentes colas que provee \textit{Kafka} se denominan \textit{topics} y son el identificador que utilizan las \textit{APIs} de productor y consumidor para seleccionar la cola sobre la que quieren operar. Para que \textit{Kafka} pueda funcionar necesita estar conectado a un servidor de \textit{Apache Zookeeper}, encargado de la gestión de la memoria y el despliegue de \textit{Kafka}.
+\textit{\textbf{Apache Kafka}} es un proyecto de intermediación de mensajes que trabaja sobre el patrón publicación-suscripción, funcionando como un sistema de transacciones distribuidas. Incorpora, para la implementación de este patrón, un sistema de colas para la distribución de mensajes. Aporta una API para el productor, para el consumidor, para el flujo y para el conector. La conexión con \textit{Kafka} se realiza a través del protocolo de la capa de transporte \textit{TCP}. Las diferentes colas que provee \textit{Kafka} se denominan \textit{topics} y son el identificador que utilizan las \textit{APIs} de productor y consumidor para seleccionar la cola sobre la que quieren operar. Para que \textit{Kafka} pueda funcionar, necesita estar conectado a un servidor de \textit{Apache Zookeeper}, encargado de la gestión de la memoria y el despliegue de \textit{Kafka}.
 
 Se elije \textit{Apache Kafka} como herramienta para la dirección del flujo, al aportar un sistema de colas distribuidas fiable y soportar datos serializados.
 
 \subsection{Herramientas para procesar el flujo}
 En segundo lugar se necesita una herramienta capaz de procesar flujos de datos de forma escalable. La suite de \textit{Apache} tiene dos herramientas principales para el procesado de información, son: \textit{\textbf{Apache Hadoop}} y \textit{\textbf{Apache Spark}}, ambas con extensiones para el procesado de flujos.
 
-\textit{\textbf{Apache Spark Streaming}}~\cite{noauthorsparknodate} incluye nativamente una \textit{API} de consumidor de \textit{Kafka} y \textit{Flume}, e integración con los sistemas de ficheros \textit{HDFS} y \textit{S3} entre otras. El funcionamiento interno consiste en crear pequeños lotes de datos para pasarlo al motor de \textit{Spark} y retornar los lotes procesados.
+\textit{\textbf{Apache Spark Streaming}}~\cite{noauthorsparknodate} incluye nativamente una \textit{API} de consumidor de \textit{Kafka} y \textit{Flume}, e integración con los sistemas de ficheros \textit{HDFS} y \textit{S3} entre otros. El funcionamiento interno consiste en crear pequeños lotes de datos para pasarlo al motor de \textit{Spark} y retornar los lotes procesados.
 
 \textit{\textbf{Apache Hadoop Streaming}}~\cite{noauthorhadoop} tiene un funcionamiento similar a \textit{Spark Streaming} pero sin aportar de manera nativa una integración con \textit{Kafka} y \textit{Flume}.
 
 Se ha escogido \textit{Spark Streaming} frente a \textit{Hadoop Streaming} por varios motivos:
 \begin{enumerate}
 	\item \textit{Spark Streaming} tiene integración con \textit{Kafka} de manera nativa.
-	\item \textit{Spark Streaming} hace un uso intensivo de la memoria RAM, por lo que es mucho más rápido si se cuenta con un equipo con la suficiente memoria disponible para el trabajo deseado.\footnote{El programa final se ha desplegado sobre una máquina con 128 GB de RAM y se ha probado en una de 32 GB de RAM con buenos resultados.}.
+	\item \textit{Spark Streaming} hace un uso intensivo de la memoria RAM, por lo que es mucho más rápido si se cuenta con un equipo con la suficiente memoria disponible para el trabajo deseado\footnote{El programa final se ha desplegado sobre una máquina con 128 GB de RAM y se ha probado en una de 32 GB de RAM con buenos resultados.}.
 \end{enumerate}
 
 
@@ -46,18 +46,18 @@ La razón para usar esta herramienta y no cualquier otro servicio de videoconfer
 
 \section{Herramientas para el procesado de imágenes}
 
-Para el procesado de las imágenes que componen los vídeos que se van a analizar existe \textit{OpenCV}~\cite{opencv_library}, esta biblioteca de código abierto desarrollada sobre \textit{C++} e integrada en otros muchos lenguajes como \textit{Python}. Debido a la libertad que ofrece al ser \textit{open source}, ser muy versátil, tener una gran trayectoria dentro  y tener una documentación muy completa se ha optado directamente por esta herramienta.
+Para el procesado de las imágenes que componen los vídeos que se van a analizar existe \textit{OpenCV}~\cite{opencv_library}, una biblioteca de código abierto desarrollada sobre \textit{C++} e integrada en otros muchos lenguajes como \textit{Python}. Debido a la libertad que ofrece al ser \textit{open source}, ser muy versátil, tener muchos años de trayectoria, con la consecuente mejora continua de la herramienta, y tener una documentación muy completa, se ha optado directamente por esta herramienta.
 
-Para poder garantizar la privacidad de los pacientes, se ha realizado detección de rostros y su posterior anonimización. Para ello se utiliza modelo de \textit{Caffe}~\cite{jia2014caffe}, concretamente el modelo \textit{res10\_300x300\_ssd\_iter\_140000}. Consiste en una red neuronal convolucional, principal tipo de red neuronal para el análisis de matrices 2D~\cite{lawrence1997face} como son las imágenes.
+Para poder garantizar la privacidad de los pacientes, se ha realizado detección de rostros y su posterior anonimización. Para ello se utiliza un modelo de \textit{Caffe}, biblioteca de visión por computador con una gran variedad de modelos de clasificación y detección~\cite{jia2014caffe}. Se usa concretamente el modelo \texttt{res10\_300x300\_ssd\_iter\_140000}. Consiste en una red neuronal convolucional, principal tipo de red neuronal para el análisis de matrices 2D~\cite{lawrence1997face} como son las imágenes.
 
 
 \subsection{Elección del sistema de compresión de fotogramas}\label{sec:sistemacompresion}
 
-Las principales limitaciones dentro procesamiento de flujos son mantener un uso bajo de memoria dentro de un periodo de tiempo pequeño que garantice poder atender a cada componente del flujo.
+La principal limitación dentro procesamiento de flujos es mantener un uso bajo de memoria dentro de un periodo de tiempo pequeño que garantice poder atender a cada componente del flujo.
 
-Una de las técnicas para garantizar un menor uso de memoria es la compresión de los \textit{bytes} que se ingestan en el sistema de colas aunque esto tiene una mayor carga temporal. Además de la compresión para poder introducir datos en un flujo y luego recuperarlos hace falta serializarlos, es decir, convertirlo en una serie de bytes.
+Una de las técnicas para garantizar un menor uso de memoria es la compresión de los \textit{bytes} que se ingestan en el sistema de colas, aunque esto tiene una mayor carga temporal. Además de la compresión para poder introducir datos en un flujo y luego recuperarlos hace falta serializarlos, es decir, convertirlo en una serie de bytes.
 
-Existen multitud de técnicas de serialización y de compresión de secuencias de \textit{bytes}. Para poder decidir que combinación de estas dos técnicas se van a utilizar se ha buscado que minimicen el tamaño en memoria y utilicen la menor cantidad de tiempo posible.
+Existen multitud de técnicas de serialización y de compresión de secuencias de \textit{bytes}. Para poder decidir qué combinación de estas dos técnicas se van a utilizar, se ha buscado que minimicen el tamaño en memoria y realicen la ejecución en la menor cantidad de tiempo posible.
 
 Para ello se han explorado las siguientes técnicas de serialización:
 
@@ -77,11 +77,11 @@ Junto con estos sistemas de serialización se han combinado los siguientes algor
 	\item \textit{Zlib}~\cite{tool:zlib}: abstracción del algoritmo de compresión \textit{DEFLATED} que usa una menor cantidad de recursos del sistema.
 \end{itemize}
 
-Para hacer la prueba se utilizaron dos vídeos con una duración total entre los dos de 13 minutos, con una frecuencia de 15 fotogramas por segundos, un total de 11\,700 fotogramas. De cada uno de estas imágenes se calculó el tiempo de compresión, el tiempo de descompresión y el tamaño en memoria que ocupaba tras la compresión. De estos resultados se obtuvo el valor medio. En las figuras~\ref{fig:heatmapmemory} y \ref{fig:resultsComp} se pueden observar tres mapas de calor con los resultados de cada experimento.
+Para hacer la prueba se utilizaron dos vídeos con una duración total entre los dos de 13 minutos, con una frecuencia de 15 fotogramas por segundos, un total de 11\,700 fotogramas\footnote{De una batería de vídeos grabados con las cámaras de los pacientes.}. De cada uno de estas imágenes se calculó el tiempo de compresión, el tiempo de descompresión y el tamaño en memoria que ocupaba tras la compresión. De estos resultados se obtuvo el valor medio. En las figuras~\ref{fig:heatmapmemory} y \ref{fig:resultsComp} se pueden observar tres mapas de calor con los resultados de cada experimento.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{img/MemoriaMedia.eps}
+	\includegraphics[width=\textwidth]{img/MemoriaMediaLog.eps}
 	\caption{Mapa de calor de la media de espacio consumido (en kilobytes) por fotograma.}
 	\label{fig:heatmapmemory}
 \end{figure}
@@ -90,12 +90,12 @@ Para hacer la prueba se utilizaron dos vídeos con una duración total entre los
 	\centering
 	
 	\begin{subfigure}[b]{0.9\textwidth}
-		\includegraphics[width=\textwidth]{img/TiempoMedioComp.eps}
+		\includegraphics[width=\textwidth]{img/TiempoMedioCompLog.eps}
 		\caption{Media del tiempo necesitado para comprimir fotogramas.}
 		\label{fig:heatmaptini}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.9\textwidth}
-		\includegraphics[width=\textwidth]{img/TiempoMedioDes.eps}
+		\includegraphics[width=\textwidth]{img/TiempoMedioDesLog.eps}
 		\caption{Media del tiempo necesitado para descomprimir fotogramas.}
 		\label{fig:heatmaptfin}
 	\end{subfigure}
@@ -103,9 +103,9 @@ Para hacer la prueba se utilizaron dos vídeos con una duración total entre los
 	\label{fig:resultsComp}
 \end{figure}
 
-Se puede observar que el algoritmo de compresión \textit{LZMA}, aunque consigue en la mayoría de las veces una muy alta compresión, requiere siempre el mayor tiempo tanto de compresión como de descompresión. De manera similar la serialización nativa mantiene siempre un uso mucho mayor de memoria que el resto de serializaciones, debido principalmente porque tanto \textit{JPG} como \textit{PNG} incorporan un compresor adicional.
+Se puede observar que el algoritmo de compresión \textit{LZMA}, aunque consigue en la mayoría de las veces una muy alta compresión, requiere siempre el mayor tiempo tanto de compresión como de descompresión. De manera similar, la serialización nativa mantiene siempre un uso mucho mayor de memoria que el resto de serializaciones, debido principalmente porque tanto \textit{JPG} como \textit{PNG} incorporan un compresor adicional.
 
-Respecto a los algoritmos de compresión \textit{GZip} y \textit{ZLib} las diferencias son muy sutiles tanto en memoria como en tiempo, principalmente porque están basados en el mismo algoritmo.
+Respecto a los algoritmos de compresión \textit{GZip} y \textit{ZLib}, las diferencias son muy sutiles tanto en memoria como en tiempo, principalmente porque están basados en el mismo algoritmo.
 
 El uso de \textit{JPG} sobre \textit{PNG} garantiza un uso significativamente menor de memoria aunque a costa de una pérdida de información, sin embargo la pérdida en el caso de \textit{JPEG 95} es despreciable teniendo en cuenta la ventaja que tiene en espacio.
 
@@ -117,7 +117,7 @@ Para este proyecto se utilizarán \textit{JPEG 95} debido a que garantiza una me
 Otro apartado importante en el despliegue de la aplicación son las herramientas y técnicas a ser usadas para la producción. Para esto se utilizan:
 
 \begin{itemize}
-	\item \textit{\textbf{GNU/Linux}}, el sistema operativo más extendido en el entorno de los servidores~\cite{noauthorred2018, zhang2000linux} además de estar disponible en los servidores prestados para la realización de este proyecto\footnote{Se utilizan el servidor \textit{Alpha} del GIR \href{https://admirable-ubu.es/}{ADMIRABLE} para el despliegue de la herramienta de recolección de datos (Procesador \textit{Intel Core i7}-8700, 6 núcleos, 3.2GHz. 64GB de memoria RAM. 2 GPUs GTX 1080Ti y 500GB de disco duro sólido y 6 TB de disco duro magnético) y el servidor \textit{Gamma} del mismo grupo para el despliegue de las colas y el procesado de la información (Procesador Intel Xeon, 10 núcleos. 128 GB de memoria RAM. 3 GPU Nvidia Titan Xp)}.
+	\item \textit{\textbf{GNU/Linux}}, el sistema operativo más extendido en el entorno de los servidores~\cite{noauthorred2018, zhang2000linux} además de estar disponible en los servidores prestados para la realización de este proyecto\footnote{Se utilizan el servidor \textit{Alpha} del GIR \href{https://admirable-ubu.es/}{ADMIRABLE} para el despliegue de la herramienta de recolección de datos (Procesador \textit{Intel Core i7}-8700, 6 núcleos, 3.2GHz. 64GB de memoria RAM. 2 GPUs GTX 1080Ti y 500GB de disco duro sólido y 6 TB de disco duro magnético) y el servidor \textit{Gamma} del mismo grupo para el despliegue de las colas y el procesado de la información (Procesador Intel Xeon, 10 núcleos. 128 GB de memoria RAM. 3 GPU Nvidia Titan Xp).}.
 	\item \textit{\textbf{Docker}}, un software de gestión de contenedores estandarizados, semejante a los entornos \textit{chroot} que facilita la virtualización de software en un entorno seguro y ligero. Sobre este motor se ejecutarán las aplicaciones del entorno de \textit{Apache Spark}~\cite{juez2019docker}, \textit{Apache Kafka}~\cite{confluentic2020docker} además de la aplicación desarrollada para el cumplimiento de los objetivos.
 	\item \textit{\textbf{Ngrok}}, software que ofrece un tunel TCP y HTTP sobre un servicio que no tiene acceso al exterior. Es usado para poder acceder al servicio web desde fuera de la universidad.
 \end{itemize}
