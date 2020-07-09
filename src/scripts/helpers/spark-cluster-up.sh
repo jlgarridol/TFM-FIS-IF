@@ -27,9 +27,10 @@ docker run -dP --mount type=bind,source="$HOST_DATA_DIR",target=/mnt/data \
 i=1
 while [ $i -le $NUM_WORKERS ]
 do
+  let dv=i%3
   docker run -dP --mount type=bind,source="$HOST_DATA_DIR",target=/mnt/data \
     --name spark-worker-fishubu-$i -h spark-worker-$i --cpus $WORKER_CPUS \
-    -m $WORKER_MEMORY --network fishubu-net --gpus all\
+    -m $WORKER_MEMORY --network fishubu-net --gpus device=$dv\
     --env PYTHONPATH="/app"\
     spark-worker-fis:2.4.5
 
