@@ -131,6 +131,7 @@ if TOPIC is None or OUTPUT is None:
 
 sc = SparkContext(SPARK_HOST, NAME)
 ssc = StreamingContext(sc, float(1/FPS))
+FOLDER = os.path.join(OUTPUT,NAME)
 
 def deserializer(file):
     file = cv2.imdecode(np.frombuffer(zlib.decompress(file), dtype=np.uint8), 1)
@@ -155,7 +156,7 @@ def op(package):
                 lg.info("Brillo y contraste")
                 img = ip.repair_bright_and_contrast(img, BRIGHT, CONTRAST)
             lg.info("Operación del equeleto")
-            k, img = opt_(k, img)
+            k, img = opt_(k, img, FOLDER)
         except:
             traceback.print_exc()
             lg.debug(traceback.format_exc())
@@ -168,10 +169,9 @@ def save(img):
     try:
         if SAVE:
             lg.info("Guardando")
-            folder = os.path.join(OUTPUT,NAME)
-            if not os.path.exists(folder):
-                os.makedirs(folder)
-            cv2.imwrite(os.path.join(folder,str(img[0])+".jpg"), img[1])
+            if not os.path.exists(FOLDER):
+                os.makedirs(FOLDER)
+            cv2.imwrite(os.path.join(FOLDER,str(img[0])+".jpg"), img[1])
     except:
         traceback.print_exc()
         lg.debug(traceback.format_exc())

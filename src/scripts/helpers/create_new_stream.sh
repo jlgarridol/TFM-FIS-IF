@@ -29,6 +29,7 @@ bash ../helpers/create_topic.sh video-stream-patient-$aux
 docker run -dP \
   --name fis-hubu-productor-$aux \
   --cpus 1 --network fishubu-net --gpus all\
+  --expose 12345\
   fishubu-env:1.0.0
 
 docker run -dP \
